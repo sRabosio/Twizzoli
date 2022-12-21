@@ -10,7 +10,7 @@ public class UserRepo {
     private ArraySet<User> userList = new ArraySet<>();
 
     public void write(User user, AsyncResult result){
-        if(userList.contains(userList))
+        if(userList.contains(user))
             result.success(userList);
 
         try {

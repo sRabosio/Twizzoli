@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.ArraySet;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,10 @@ import android.widget.EditText;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
+
+import it.itsar.twizzoli.data.AsyncResult;
+import it.itsar.twizzoli.data.UserRepo;
+import it.itsar.twizzoli.models.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,23 +40,40 @@ public class MainActivity extends AppCompatActivity {
         usernameinput = findViewById(R.id.usernameinput);
         passwordinput = findViewById(R.id.passwordinput);
 
-        login.setOnClickListener(new View.OnClickListener() {
+        User user = new User();
+        user.nome = "nome";
+
+        new UserRepo().write(user, new AsyncResult() {
             @Override
-            public void onClick(View v) {
-                us = usernameinput.getText().toString();
-                ps = passwordinput.getText().toString();
-                Log.d(TAG, us);
-                Log.d(TAG, ps);
-                if(Objects.equals(us, "user")){
-                    if(Objects.equals(ps, "pass")){
-                        Intent intent = new Intent(MainActivity.this,Homepage.class);
-                        intent.putExtra("nome","lorenzo");
-                        startActivity(intent);
-                    }
+            public <T> void success(ArraySet<T> result) {
+
+            }
+
+            @Override
+            public void failed(Exception e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void error(int code) {
+
+            }
+        });
+
+        login.setOnClickListener(v -> {
+            us = usernameinput.getText().toString();
+            ps = passwordinput.getText().toString();
+            Log.d(TAG, us);
+            Log.d(TAG, ps);
+            if(Objects.equals(us, "user")){
+                if(Objects.equals(ps, "pass")){
+                    Intent intent = new Intent(MainActivity.this,Homepage.class);
+                    intent.putExtra("nome","lorenzo");
+                    startActivity(intent);
                 }
-                else{
-                    //messaggio di errore
-                }
+            }
+            else{
+                //messaggio di errore
             }
         });
 
