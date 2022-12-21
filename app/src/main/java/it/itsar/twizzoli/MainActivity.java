@@ -40,25 +40,6 @@ public class MainActivity extends AppCompatActivity {
         usernameinput = findViewById(R.id.usernameinput);
         passwordinput = findViewById(R.id.passwordinput);
 
-        User user = new User();
-        user.nome = "nome";
-
-        new UserRepo().write(user, new AsyncResult() {
-            @Override
-            public <T> void success(ArraySet<T> result) {
-
-            }
-
-            @Override
-            public void failed(Exception e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void error(int code) {
-
-            }
-        });
 
         login.setOnClickListener(v -> {
             us = usernameinput.getText().toString();

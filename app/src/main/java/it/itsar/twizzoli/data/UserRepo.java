@@ -21,4 +21,13 @@ public class UserRepo {
             result.failed(e);
         }
     }
+
+    public void read(AsyncResult result){
+        try {
+            User user = (User) AppController.getInstance().read(fileName);
+            result.success(user);
+        } catch (Exception e) {
+            result.failed(e);
+        }
+    }
 }
