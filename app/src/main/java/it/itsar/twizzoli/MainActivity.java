@@ -3,6 +3,7 @@ package it.itsar.twizzoli;
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,29 +19,55 @@ import java.util.Objects;
 
 import it.itsar.twizzoli.data.AsyncResult;
 import it.itsar.twizzoli.data.UserRepo;
+import it.itsar.twizzoli.databinding.ActivityMainBinding;
 import it.itsar.twizzoli.models.User;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    private String username ="user";
-    private String password="pass";
+    private String username = "user";
+    private String password = "pass";
     private Button login;
     private Button registrati;
     private EditText usernameinput;
     private EditText passwordinput;
     private String us;
     private String ps;
+    private ActivityMainBinding binding;
+
+    //TODO: change text type of password
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        login = findViewById(R.id.loginbutton);
-        registrati = findViewById(R.id.button);
-        usernameinput = findViewById(R.id.usernameinput);
-        passwordinput = findViewById(R.id.passwordinput);
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        login = binding.loginbutton;
+        registrati = binding.button;
+        usernameinput = binding.usernameinput;
+        passwordinput = binding.passwordinput;
 
 
+        initLogin();
+        initRegistration();
+
+    }
+
+    private void initRegistration() {
+        registrati.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this,Registrazione.class);
+                intent.putExtra("nome","lorenzo");
+                startActivity(intent);
+
+            }
+        });
+    }
+
+    private void initLogin() {
         login.setOnClickListener(v -> {
             us = usernameinput.getText().toString();
             ps = passwordinput.getText().toString();
@@ -57,18 +84,6 @@ public class MainActivity extends AppCompatActivity {
                 //messaggio di errore
             }
         });
-
-        registrati.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(MainActivity.this,Registrazione.class);
-                intent.putExtra("nome","lorenzo");
-                startActivity(intent);
-
-            }
-        });
-
     }
 
 }
