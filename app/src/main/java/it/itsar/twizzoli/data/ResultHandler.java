@@ -1,10 +1,6 @@
 package it.itsar.twizzoli.data;
 
-import android.util.ArraySet;
-
-import java.util.ArrayList;
-
-public interface AsyncResult {
+public interface ResultHandler {
     <T> void success(T result);
     void failed(Exception e);
     void error(int code);

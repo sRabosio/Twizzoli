@@ -7,17 +7,13 @@ import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.ArraySet;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.material.textfield.TextInputEditText;
-
 import java.util.Objects;
 
-import it.itsar.twizzoli.data.AsyncResult;
+import it.itsar.twizzoli.data.ResultHandler;
 import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.databinding.ActivityMainBinding;
 import it.itsar.twizzoli.models.User;
@@ -67,15 +63,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void writeReadTest() {
+
         UserRepo userRepo = new UserRepo();
         User user = new User();
+
+
+        ResultHandler resultHandler = new ResultHandler() {
+            @Override
+            public <T> void success(T result) {
+                Log.d("RESULT", result.toString());
+            }
+
+            @Override
+            public void failed(Exception e) {
+
+            }
+
+            @Override
+            public void error(int code) {
+
+            }
+        };
+
         user.id = 0;
         user.nome = "Marco";
         userRepo.write(user);
         user.nome = "Pollo";
+        user.id = 1;
         userRepo.write(user);
-        user = userRepo.getElementById(user.id);
-        user = userRepo.getElementById(2);
+        userRepo.getElementById(0, resultHandler);
+        userRepo.getElementById(1, resultHandler);
     }
 
     private void initLogin() {

@@ -11,6 +11,6 @@ import it.itsar.twizzoli.models.User;
 
 public class UserRepo extends Repo<User>{
     public UserRepo() {
-        super("user_list");
+        super("table_comments");
     }
 }
