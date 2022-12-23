@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         user.id = 0;
         user.nome = "Marco";
         userRepo.write(user);
+        user.nome = "Pollo";
+        userRepo.write(user);
         user = userRepo.getElementById(user.id);
         user = userRepo.getElementById(2);
     }

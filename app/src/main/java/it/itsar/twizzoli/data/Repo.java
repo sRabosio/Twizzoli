@@ -2,32 +2,36 @@ package it.itsar.twizzoli.data;
 
 import android.util.Log;
 
-import androidx.databinding.ObservableArrayList;
-
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.models.Model;
 
 public abstract class Repo<T extends Model> {
     protected String fileName;
-    protected final ObservableArrayList<T> data = new ObservableArrayList<>();
+    protected final HashMap<Integer, T> data = new HashMap<>();
     protected final AppController controller = AppController.getInstance();
 
     public Repo(String fileName) {
         this.fileName = fileName;
     }
 
-    public boolean write(T element){
-        if(data.contains(element))
+    public boolean write(T toWrite){
+        if(data.containsKey(toWrite.id)) {
+            data.replace(toWrite.id, toWrite);
             return true;
+        }
 
         try{
-            controller.write(element, fileName);
-            data.add(element);
+            controller.write(toWrite, fileName);
+            data.put(toWrite.id, toWrite);
             return true;
-        }catch (Exception e){
-            logException("WRITING ERROR", e);
+        }catch (Exception exception){
+            logException("WRITING ERROR", exception);
             return false;
         }
     }
@@ -40,9 +44,8 @@ public abstract class Repo<T extends Model> {
     protected boolean fetch(){
         try{
             //TODO: get data from server
-            T[] result = (T[]) controller.read(fileName);
-            data.addAll(
-                    Arrays.asList(result));
+            Set<T> result = (Set<T>) controller.read(fileName);
+            result.forEach(e->data.put(e.id, e));
             return true;
         }catch (Exception e){
             logException("FETCHING ERROR", e);
@@ -50,16 +53,14 @@ public abstract class Repo<T extends Model> {
         }
     }
 
-    //bho, da fare meglio
-    //si spera
+    //non lo so
     public T getElementById(int id){
         boolean hasNotFetched = true;
 
         while(true){
-            for(int i = data.size()-1; i >= 0; i--){
-                T result = data.get(i);
-                if(result.id == id) return result;
-            }
+            T result = data.get(id);
+            if(result != null) return result;
+
             if(hasNotFetched){
                 fetch();
                 hasNotFetched = false;
