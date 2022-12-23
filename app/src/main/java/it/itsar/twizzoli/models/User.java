@@ -2,8 +2,7 @@ package it.itsar.twizzoli.models;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
-    public int id;
+public class User extends Model implements Serializable {
     public String nome;
     public String cognome;
     public String email;

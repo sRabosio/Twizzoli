@@ -3,6 +3,11 @@ plugins {
 }
 
 android {
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     namespace 'it.itsar.twizzoli'
     compileSdk 32
 

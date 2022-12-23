@@ -15,12 +15,7 @@ public class Homepage extends AppCompatActivity {
         String nome = getIntent().getStringExtra("nome");
         back = findViewById(R.id.back);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        back.setOnClickListener(v -> finish());
     }
 
 }

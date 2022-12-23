@@ -52,19 +52,28 @@ public class MainActivity extends AppCompatActivity {
         initLogin();
         initRegistration();
 
+
+        writeReadTest();
     }
 
     private void initRegistration() {
-        registrati.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        registrati.setOnClickListener(v -> {
 
-                Intent intent = new Intent(MainActivity.this,Registrazione.class);
-                intent.putExtra("nome","lorenzo");
-                startActivity(intent);
+            Intent intent = new Intent(MainActivity.this,Registrazione.class);
+            intent.putExtra("nome","lorenzo");
+            startActivity(intent);
 
-            }
         });
+    }
+
+    private void writeReadTest() {
+        UserRepo userRepo = new UserRepo();
+        User user = new User();
+        user.id = 0;
+        user.nome = "Marco";
+        userRepo.write(user);
+        user = userRepo.getElementById(user.id);
+        user = userRepo.getElementById(2);
     }
 
     private void initLogin() {

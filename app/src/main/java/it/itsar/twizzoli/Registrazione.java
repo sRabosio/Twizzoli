@@ -14,12 +14,7 @@ public class Registrazione extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrazione);
         login = findViewById(R.id.loginbutton);
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        login.setOnClickListener(v -> finish());
     }
 
 
