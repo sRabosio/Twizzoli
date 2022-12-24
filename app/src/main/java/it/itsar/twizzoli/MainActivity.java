@@ -20,8 +20,8 @@ import it.itsar.twizzoli.models.User;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String username = "user";
-    private String password = "pass";
+    private final String username = "user";
+    private final String password = "pass";
     private Button login;
     private Button registrati;
     private EditText usernameinput;
@@ -44,10 +44,32 @@ public class MainActivity extends AppCompatActivity {
         usernameinput = binding.usernameinput;
         passwordinput = binding.passwordinput;
 
-
         initLogin();
         initRegistration();
+
+        testData();
     }
+
+    private void testData() {
+        User user = new User(
+                "Pollone",
+                "pollone@gmail.com",
+                "pollone",
+                "2131231"
+        );
+        UserRepo userRepo = new UserRepo();
+        userRepo.write(user);
+        user = new User(
+                "Pollone",
+                "pollone@gmail.com",
+                "pollone",
+                "2131231"
+        );
+        userRepo.write(user);
+    }
+
+    //TODO: check 4 local logging data -> do auto-login
+
 
     private void initRegistration() {
         registrati.setOnClickListener(v -> {
