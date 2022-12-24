@@ -9,7 +9,7 @@ public class UserRepo extends Repo<User>{
         super("table_comments");
     }
 
-    public ArrayList<User> seachByName(String searchKey){
+    public ArrayList<User> searchByName(String searchKey){
         ArrayList<User> result = (ArrayList<User>) data.values();
         result.removeIf(e->e.nickname.contains(searchKey));
         return result;

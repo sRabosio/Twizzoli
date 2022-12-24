@@ -47,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
         initLogin();
         initRegistration();
-
-
-        writeReadTest();
     }
 
     private void initRegistration() {
@@ -62,38 +59,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void writeReadTest() {
-
-        UserRepo userRepo = new UserRepo();
-        User user = new User();
-
-
-        ResultHandler resultHandler = new ResultHandler() {
-            @Override
-            public <T> void success(T result) {
-                Log.d("RESULT", result.toString());
-            }
-
-            @Override
-            public void failed(Exception e) {
-
-            }
-
-            @Override
-            public void error(int code) {
-
-            }
-        };
-
-        user.id = 0;
-        user.nome = "Marco";
-        userRepo.write(user);
-        user.nome = "Pollo";
-        user.id = 1;
-        userRepo.write(user);
-        userRepo.getElementById(0, resultHandler);
-        userRepo.getElementById(1, resultHandler);
-    }
 
     private void initLogin() {
         login.setOnClickListener(v -> {
