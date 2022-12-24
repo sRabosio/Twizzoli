@@ -20,11 +20,14 @@ public abstract class Repo<T extends Model> {
         fetch();
         if(data.containsKey(toWrite.id)) {
             data.replace(toWrite.id, toWrite);
-            return true;
+        }else{
+            //Assign id in absence of db
+            if(data.containsValue(toWrite)) return false;
+            toWrite.id = data.size();
+            data.put(toWrite.id, toWrite);
         }
 
         try{
-            data.put(toWrite.id, toWrite);
             controller.write(data, fileName);
             return true;
         }catch (Exception exception){
