@@ -8,9 +8,9 @@ public abstract class Content extends Model{
    @NotNull
    public String text;
    @NotNull
-   public User creator;
+   public int creator;
 
-   public Content(@NotNull String text, @NotNull User creator) {
+   public Content(@NotNull String text, @NotNull int creator) {
       this.text = text;
       this.creator = creator;
    }

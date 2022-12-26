@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import it.itsar.twizzoli.models.Comment;
 import it.itsar.twizzoli.models.Content;
+import it.itsar.twizzoli.models.User;
 
 public class CommentRepo extends Repo<Comment>{
 
@@ -20,6 +21,12 @@ public class CommentRepo extends Repo<Comment>{
     public ArrayList<Comment> searchByText(String key){
         ArrayList<Comment> comments = (ArrayList<Comment>) data.values();
         comments.removeIf(comment -> !comment.text.contains(key));
+        return comments;
+    }
+
+    public ArrayList<Comment> searchByUser(int userId){
+        ArrayList<Comment> comments = (ArrayList<Comment>) data.values();
+        comments.removeIf(comment -> comment.creator != userId);
         return comments;
     }
 }

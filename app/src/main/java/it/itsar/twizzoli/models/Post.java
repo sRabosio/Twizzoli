@@ -9,7 +9,7 @@ public class Post extends Content{
     public String title;
     public int[] images;
 
-    public Post(@NotNull String title, @NotNull String text, @NotNull User creator) {
+    public Post(@NotNull String title, @NotNull String text, @NotNull int creator) {
         super(text, creator);
         this.title = title;
     }

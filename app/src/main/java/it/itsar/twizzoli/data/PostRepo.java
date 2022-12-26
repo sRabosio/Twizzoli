@@ -16,7 +16,7 @@ public class PostRepo extends Repo<Post>{
 
     public ArrayList<Post> searchByUser(int id){
         ArrayList<Post> posts = (ArrayList<Post>) data.values();
-        posts.removeIf(post -> post.creator.id != id);
+        posts.removeIf(post -> post.creator != id);
         return posts;
     }
 }
