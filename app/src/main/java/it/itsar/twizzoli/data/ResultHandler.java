@@ -1,7 +1,8 @@
 package it.itsar.twizzoli.data;
 
+import it.itsar.twizzoli.models.User;
+
 public interface ResultHandler {
     <T> void success(T result);
-    void failed(Exception e);
-    void error(int code);
+    void failed(int code, String message);
 }

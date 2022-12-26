@@ -21,8 +21,6 @@ public abstract class Repo<T extends Model> {
         if(data.containsKey(toWrite.id)) {
             data.replace(toWrite.id, toWrite);
         }else{
-            //funziona ma è una schifezza
-            if(data.containsValue(toWrite)) return false;
             //Assign id in absence of db
             toWrite.id = data.size();
             data.put(toWrite.id, toWrite);
@@ -74,7 +72,7 @@ public abstract class Repo<T extends Model> {
                 fetch();
                 hasNotFetched = false;
             } else {
-                callback.error(1);
+                callback.failed(1, null);
                 return;
             }
         }
