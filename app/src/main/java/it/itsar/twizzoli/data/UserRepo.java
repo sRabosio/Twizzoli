@@ -17,6 +17,7 @@ public class UserRepo extends Repo<User>{
     }
 
 
+    //salva un nuovo utente nel db
     public void userRegistration(User toRegister, ResultHandler handler){
         ArrayList<User> users = (ArrayList<User>) data.values();
         users.forEach(user -> {
@@ -33,6 +34,7 @@ public class UserRepo extends Repo<User>{
                 //warning inutile al cazzo
                 return;
             }
+            write(toRegister);
         });
 
         if(write(toRegister))

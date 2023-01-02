@@ -82,13 +82,10 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(v -> {
             us = usernameinput.getText().toString();
             ps = passwordinput.getText().toString();
-            Log.d(TAG, us);
-            Log.d(TAG, ps);
             userRepo.userLogin(usernameinput.getText().toString(), passwordinput.getText().toString(), new ResultHandler() {
                 @Override
                 public <T> void success(T result) {
                     User user = (User) result;
-
                     Log.d("LOGIN SUCCESS", "LOGGATOOOOOOOOOOOOOOOO");
 
                     //a homepage
