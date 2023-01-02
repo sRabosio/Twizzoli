@@ -9,13 +9,13 @@ public class PostRepo extends Repo<Post>{
     }
 
     public ArrayList<Post> searchByKey(String key){
-        ArrayList<Post> posts = (ArrayList<Post>) data.values();
+        ArrayList<Post> posts = new ArrayList<>(data.values());
         posts.removeIf(post -> !(post.title.contains(key) || post.text.contains(key)));
         return posts;
     }
 
     public ArrayList<Post> searchByUser(int id){
-        ArrayList<Post> posts = (ArrayList<Post>) data.values();
+        ArrayList<Post> posts = new ArrayList<>(data.values());
         posts.removeIf(post -> post.creator != id);
         return posts;
     }

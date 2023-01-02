@@ -1,6 +1,5 @@
 package it.itsar.twizzoli.data;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import it.itsar.twizzoli.models.User;
@@ -9,6 +8,7 @@ public class UserRepo extends Repo<User>{
     public UserRepo() {
         super("table_comments");
     }
+
 
     public ArrayList<User> searchByName(String searchKey){
         ArrayList<User> result = (ArrayList<User>) data.values();
@@ -30,12 +30,13 @@ public class UserRepo extends Repo<User>{
             }
             if(user.nickname.equals(toRegister.nickname)){
                 handler.failed(0, "nickname already in use");
+                //warning inutile al cazzo
                 return;
             }
         });
 
         if(write(toRegister))
-            handler.success(toRegister);
+            handler.success(null);
         else
             handler.failed(0, "registration failed");
     }
@@ -44,7 +45,7 @@ public class UserRepo extends Repo<User>{
     //TODO: handle error codes
     //Validates user using email & password
     public void userLogin(String email, String password, ResultHandler handler){
-        ArrayList<User> dataArray = (ArrayList<User>) data.values();
+        ArrayList<User> dataArray = new ArrayList<>(data.values());
         User fromData = null;
         //looking 4 user
         for(User u:dataArray){
@@ -61,6 +62,7 @@ public class UserRepo extends Repo<User>{
         }
         if(fromData.password.equals(password)){
             handler.success(fromData);
+            controller.setLoggedUser(fromData);
             return;
         }
 

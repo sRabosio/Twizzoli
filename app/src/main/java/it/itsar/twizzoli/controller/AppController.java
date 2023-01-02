@@ -1,6 +1,7 @@
 package it.itsar.twizzoli.controller;
 
 import android.app.Application;
+import android.database.Observable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,8 +9,13 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import it.itsar.twizzoli.models.User;
+
 public class AppController extends Application {
     private static AppController instance;
+    private User loggedUser = null;
+    private String session_file = "table_session";
+
 
     public static synchronized AppController getInstance() {
         return instance;
@@ -19,6 +25,10 @@ public class AppController extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+    }
+
+    public void setLoggedUser(User loggedUser) {
+        this.loggedUser = loggedUser;
     }
 
     public <T> void write(T object, String fileName) throws Exception{

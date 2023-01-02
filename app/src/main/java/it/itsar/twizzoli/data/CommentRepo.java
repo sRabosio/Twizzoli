@@ -13,19 +13,19 @@ public class CommentRepo extends Repo<Comment>{
     }
 
     public ArrayList<Comment> getContentChildren(Content content){
-        ArrayList<Comment> comments = (ArrayList<Comment>) data.values();
+        ArrayList<Comment> comments = new ArrayList<>(data.values());
         comments.removeIf(comment ->!comment.father.equals(content));
         return comments;
     }
 
     public ArrayList<Comment> searchByText(String key){
-        ArrayList<Comment> comments = (ArrayList<Comment>) data.values();
+        ArrayList<Comment> comments = new ArrayList<>(data.values());
         comments.removeIf(comment -> !comment.text.contains(key));
         return comments;
     }
 
     public ArrayList<Comment> searchByUser(int userId){
-        ArrayList<Comment> comments = (ArrayList<Comment>) data.values();
+        ArrayList<Comment> comments = new ArrayList<>(data.values());
         comments.removeIf(comment -> comment.creator != userId);
         return comments;
     }
