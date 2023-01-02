@@ -11,7 +11,7 @@ public class CommentRepo extends Repo<Comment>{
     public CommentRepo() {
         super("table_comments");
     }
-
+//prova
     public ArrayList<Comment> getContentChildren(Content content){
         ArrayList<Comment> comments = (ArrayList<Comment>) data.values();
         comments.removeIf(comment ->!comment.father.equals(content));
