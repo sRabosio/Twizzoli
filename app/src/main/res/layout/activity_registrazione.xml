@@ -67,6 +67,7 @@
             android:inputType="textPassword" />
 
         <TextView
+            android:id="@+id/password_conf_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="conferma password" />

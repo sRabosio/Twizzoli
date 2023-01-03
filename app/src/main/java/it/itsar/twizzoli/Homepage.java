@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.models.User;
 
 public class Homepage extends AppCompatActivity {
@@ -21,6 +22,7 @@ public class Homepage extends AppCompatActivity {
 
         loggedUserChecks();
 
+        userSample();
 
         String nome = getIntent().getStringExtra("nome");
         back = findViewById(R.id.back);
@@ -32,6 +34,17 @@ public class Homepage extends AppCompatActivity {
         if(loggedUser != null) return;
         Intent intent = new Intent(Homepage.this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    public void userSample(){
+        User u = new User(
+                "user",
+                "email@email.com",
+                "pass",
+                "a"
+        );
+        u.id = 0;
+        new UserRepo().write(u);
     }
 
 }

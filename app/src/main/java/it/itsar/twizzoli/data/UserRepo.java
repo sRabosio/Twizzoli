@@ -11,34 +11,34 @@ public class UserRepo extends Repo<User>{
 
 
     public ArrayList<User> searchByName(String searchKey){
-        ArrayList<User> result = (ArrayList<User>) data.values();
-        result.removeIf(e->e.nickname.contains(searchKey));
+        ArrayList<User> result = new ArrayList<>(data.values());
+        result.removeIf(e->!e.nickname.contains(searchKey));
         return result;
     }
 
 
     //salva un nuovo utente nel db
     public void userRegistration(User toRegister, ResultHandler handler){
-        ArrayList<User> users = (ArrayList<User>) data.values();
-        users.forEach(user -> {
-            if(user.email.equals(toRegister.email)){
+        fetch();
+        ArrayList<User> users = new ArrayList<>(data.values());
+
+        for (User user : users) {
+            if (user.email.equals(toRegister.email)) {
                 handler.failed(0, "email already in use");
                 return;
             }
-            if(user.phone.equals(toRegister.phone)){
+            if (user.phone.equals(toRegister.phone)) {
                 handler.failed(0, "phone number already in use");
                 return;
             }
-            if(user.nickname.equals(toRegister.nickname)){
+            if (user.nickname.equals(toRegister.nickname)) {
                 handler.failed(0, "nickname already in use");
-                //warning inutile al cazzo
                 return;
             }
-            write(toRegister);
-        });
+        }
 
         if(write(toRegister))
-            handler.success(null);
+            handler.success(toRegister);
         else
             handler.failed(0, "registration failed");
     }

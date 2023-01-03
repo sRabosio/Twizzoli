@@ -2,10 +2,14 @@ package it.itsar.twizzoli;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.Observable;
 import androidx.databinding.ViewDataBinding;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,40 +24,107 @@ public class Registrazione extends AppCompatActivity {
 
     private UserRepo userRepo = new UserRepo();
     private ActivityRegistrazioneBinding binding;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrazione);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_registrazione);
-        binding.loginbutton.setOnClickListener(v -> finish());
+
+        binding.buttonReg.setEnabled(isInputOk());
+
+        passwordCheck();
         regButton();
+        logButton();
+    }
+
+    private void logButton(){
+        binding.loginbutton.setOnClickListener(v->{
+            Intent intent = new Intent(Registrazione.this, LoginActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        binding.buttonReg.setEnabled(isInputOk());
     }
 
     private void regButton(){
         binding.buttonReg.setOnClickListener(v -> {
             //TODO: get params from form & create user
+            User toRegister = new User(
+                    binding.username.getText().toString(),
+                    binding.email.getText().toString(),
+                    binding.password.getText().toString(),
+                    binding.phone.getText().toString()
+            );
 
-            userRepo.userRegistration(null, new ResultHandler() {
+
+            userRepo.userRegistration(toRegister, new ResultHandler() {
                 @Override
                 public <T> void success(T result) {
 
-                   Snackbar.make(v, "Registrato con successo", 1000)
-                           .show();
                     Intent intent = new Intent(Registrazione.this, LoginActivity.class);
+                    intent.putExtra("snackMessage", "registration completed");
                     startActivity(intent);
 
                 }
 
                 @Override
                 public void failed(int code, String message) {
-                    Snackbar.make(v, message, 1000).show();
+                    Snackbar.make(v, message, 3000).show();
                 }
             });
-
         });
     }
 
 
+    private void passwordCheck(){
+        binding.passwordConf.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String passConfText = binding.passwordConf.toString();
+
+                if(passConfText.isEmpty() || isPasswordOK()){
+                    binding.passwordConfLabel.setTextColor(getColor(android.R.color.black));
+                    return;
+                }
+                binding.passwordConfLabel.setTextColor(getColor(android.R.color.holo_red_light));
+            }
+        });
+    }
+
+    private boolean isPasswordOK(){
+        String passwordText = binding.password.getText().toString();
+        String passConfText = binding.passwordConf.getText().toString();
+        return passConfText.equals(passwordText) && !(passConfText.isEmpty() || passwordText.isEmpty());
+    }
+
+    private boolean isInputOk(){
+        return isPasswordOK() && !isInputEmpty();
+    }
+
+    private boolean isInputEmpty(){
+        String email = binding.email.getText().toString();
+        String passwordConf = binding.passwordConf.getText().toString();
+        String password = binding.password.getText().toString();
+        String phone = binding.phone.getText().toString();
+        String username = binding.username.getText().toString();
+
+        return email.isEmpty() || passwordConf.isEmpty() || password.isEmpty() || phone.isEmpty() || username.isEmpty();
+    }
 
 
 }

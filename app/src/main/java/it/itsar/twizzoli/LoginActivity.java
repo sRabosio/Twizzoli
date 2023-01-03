@@ -2,14 +2,19 @@ package it.itsar.twizzoli;
 
 import static android.content.ContentValues.TAG;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
@@ -37,31 +42,28 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        userSample();
-
+        snackbar();
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         login = binding.loginbutton;
-        registrati = binding.button;
+        registrati = binding.registration;
         usernameinput = binding.usernameinput;
         passwordinput = binding.passwordinput;
 
-        if(loggedUser == null){
-            initLogin();
-            return;
-        }
+        initLogin();
+        initRegistration();
 
     }
 
-    public void userSample(){
-        User u = new User(
-                "user",
-                "email@email.com",
-                "pass",
-                "a"
-        );
-        userRepo.write(u);
+    private void snackbar(){
+        String snackMessage = getIntent().getStringExtra("snackMessage");
+        if(snackMessage == null || snackMessage.isEmpty()) return;
+        View view = getWindow().getDecorView().findViewById(android.R.id.content);
+        Snackbar.make(view, snackMessage, 2000)
+                .show();
     }
+
+
 
 
     //TODO: check 4 local logging data -> do auto-login
@@ -71,7 +73,6 @@ public class LoginActivity extends AppCompatActivity {
         registrati.setOnClickListener(v -> {
 
             Intent intent = new Intent(LoginActivity.this,Registrazione.class);
-            intent.putExtra("nome","lorenzo");
             startActivity(intent);
 
         });
