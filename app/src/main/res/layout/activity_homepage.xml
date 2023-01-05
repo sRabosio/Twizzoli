@@ -6,22 +6,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="10dp"
         tools:context=".Homepage">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Homepage"
-            tools:layout_editor_absoluteX="335dp"
-            tools:layout_editor_absoluteY="162dp" />
-
-        <Button
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            tools:layout_editor_absoluteX="176dp"
-            tools:layout_editor_absoluteY="327dp" />
+            android:id="@+id/post_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

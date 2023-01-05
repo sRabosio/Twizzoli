@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 
 public class Post extends Fragment {
 
+    private Post post;
 
     public Post() {
         // Required empty public constructor
