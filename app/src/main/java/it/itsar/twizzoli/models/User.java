@@ -1,6 +1,7 @@
 package it.itsar.twizzoli.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class User extends Model implements Serializable {
@@ -8,6 +9,7 @@ public class User extends Model implements Serializable {
     public String email;
     public String password;
     public String phone;
+    public ArrayList<Integer> following;
     public int iconId;
 
     public User(String nickname, String email, String password, String phone) {

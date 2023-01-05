@@ -45,4 +45,8 @@ public class AppController extends Application {
         reader.close();
         return result;
     }
+
+    public User getLoggedUser() {
+        return loggedUser;
+    }
 }

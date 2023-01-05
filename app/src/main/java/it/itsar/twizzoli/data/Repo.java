@@ -14,6 +14,7 @@ public abstract class Repo<T extends Model> {
 
     public Repo(String fileName) {
         this.fileName = fileName;
+        fetch();
     }
 
     public boolean write(T toWrite){
@@ -27,6 +28,7 @@ public abstract class Repo<T extends Model> {
         }
         try{
             controller.write(data, fileName);
+
             return true;
         }catch (Exception exception){
             logException("WRITING ERROR", exception);
