@@ -18,7 +18,7 @@ import it.itsar.twizzoli.models.User;
 
 public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostListViewHolder> {
 
-    private UserRepo userRepo;
+    private final UserRepo userRepo = new UserRepo();
     private Post[] postList;
 
     public PostListAdapter(Post[] postList) {
@@ -81,7 +81,13 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
         public void bind(Post post, User creator){
             title.setText(post.title);
             username.setText(creator.nickname);
-            textContent.setText(post.text);
+
+
+            textContent.setText(
+                    post.text.length() > 50 ?
+                            post.text.substring(0,50).concat("...") :
+                            post.text
+            );
         }
     }
 }

@@ -68,10 +68,10 @@ public class Feed extends Fragment {
 
     private Post[] sample(){
         return new Post[]{
-            new Post("title", getString(android.R.string.autofill), 0),
-                new Post("title", getString(android.R.string.autofill), 0),
-                new Post("title", getString(android.R.string.autofill), 0),
-                new Post("title", getString(android.R.string.autofill), 0),
+            new Post("title", "contenuto", 0),
+                new Post("title", "contenuto", 0),
+                new Post("title", "contenuto", 0),
+                new Post("title", "contenuto", 0),
         };
     }
 

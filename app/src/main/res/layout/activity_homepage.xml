@@ -8,15 +8,27 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="10dp"
+
         tools:context=".Homepage">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container"
+            android:layout_marginHorizontal="10dp"
+            android:name="it.itsar.twizzoli.fragments.Feed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="it.itsar.twizzoli.fragments.Feed"
-            tools:layout="@layout/fragment_feed" />
+            tools:layout="@layout/fragment_feed"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
 
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="BottomAppBar">
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
