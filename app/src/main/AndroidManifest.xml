@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Twizzoli"
+        android:theme="@style/Theme.Twizzoli.Base"
         tools:targetApi="31">
         <activity
             android:name=".Registrazione"
@@ -22,6 +22,7 @@
         </activity>
         <activity
             android:name=".Homepage"
+            android:theme="@style/Theme.Twizzoli.Base"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
@@ -35,7 +36,6 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true">
-
 
             <meta-data
                 android:name="android.app.lib_name"
