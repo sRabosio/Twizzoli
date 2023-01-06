@@ -22,6 +22,7 @@ import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.data.ResultHandler;
 import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.databinding.ActivityMainBinding;
+import it.itsar.twizzoli.models.Model;
 import it.itsar.twizzoli.models.User;
 
 public class LoginActivity extends AppCompatActivity {

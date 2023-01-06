@@ -91,7 +91,9 @@ public class Homepage extends AppCompatActivity {
         });
     }
 
-    private void moveNewPost(){
+
+
+    public void moveNewPost(){
         CardView newpostCard = binding.homepageNewpostCard;
         float translationYValue = 0;
 

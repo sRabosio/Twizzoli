@@ -3,11 +3,13 @@ package it.itsar.twizzoli.fragments;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
-public class Post extends Fragment {
+import it.itsar.twizzoli.models.Post;
+
+public class PostFragment extends Fragment {
 
     private Post post;
 
-    public Post() {
+    public PostFragment() {
         // Required empty public constructor
     }
 
