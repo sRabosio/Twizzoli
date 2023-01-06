@@ -4,66 +4,49 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
         tools:context=".Homepage">
 
+
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container"
-            android:layout_marginHorizontal="10dp"
             android:name="it.itsar.twizzoli.fragments.Feed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"
             tools:layout="@layout/fragment_feed"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
 
 
-        <com.google.android.material.bottomappbar.BottomAppBar
+        <androidx.cardview.widget.CardView
+            android:id="@+id/homepage_newpost_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/homepage_newpost"
+                tools:layout="@layout/fragment_new_post" />
+
+
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottombar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="BottomAppBar">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp">
-                <ImageView
-                    android:id="@+id/bottombar_homepage"
-                    android:layout_width="48dp"
-                    android:src="@drawable/icon_home_fill_2"
-                    android:layout_height="48dp"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
-
-                <ImageView
-                    android:id="@+id/bottombar_newpost"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_plus_outline"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/bottombar_profile"
-                    app:layout_constraintStart_toEndOf="@id/bottombar_homepage"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/bottombar_profile"
-                    android:layout_width="48dp"
-                    android:src="@drawable/icon_user_outline"
-                    android:layout_height="48dp"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.bottomappbar.BottomAppBar>
+            app:menu="@menu/homepage_bottom_menu"
+            tools:ignore="BottomAppBar" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

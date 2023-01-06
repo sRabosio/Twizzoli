@@ -62,11 +62,11 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
 
     static class PostListViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView title;
-        private TextView username;
-        private ImageView userIcon;
-        private TextView date;
-        private TextView textContent;
+        private final TextView title;
+        private final TextView username;
+        private final ImageView userIcon;
+        private final TextView date;
+        private final TextView textContent;
 
         public PostListViewHolder(@NonNull View itemView) {
             super(itemView);
