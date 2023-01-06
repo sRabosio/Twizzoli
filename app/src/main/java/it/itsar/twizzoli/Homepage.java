@@ -22,6 +22,7 @@ import it.itsar.twizzoli.data.PostRepo;
 import it.itsar.twizzoli.databinding.ActivityHomepageBinding;
 import it.itsar.twizzoli.fragments.Feed;
 import it.itsar.twizzoli.fragments.NewPost;
+import it.itsar.twizzoli.fragments.Profilo;
 import it.itsar.twizzoli.models.User;
 
 //TODO: implement new post fragment
@@ -81,6 +82,7 @@ public class Homepage extends AppCompatActivity {
                     break;
 
                 case user:
+                    switchFragment(Profilo.class);
                     break;
                 default:
                     Log.d("ERROR IN BOTTOM NAV", "ITEM DOESN'T EXISTS");

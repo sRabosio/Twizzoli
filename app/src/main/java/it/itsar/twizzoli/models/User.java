@@ -11,7 +11,7 @@ public class User extends Model implements Serializable {
     public String email;
     public String password;
     public String phone;
-    public ArrayList<Integer> following;
+    public ArrayList<Integer> following = new ArrayList<>();
     public int iconId = R.drawable.ic_launcher_background;
 
     public User(String nickname, String email, String password, String phone) {
