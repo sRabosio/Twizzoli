@@ -16,6 +16,8 @@ import it.itsar.twizzoli.fragments.Feed;
 import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;
 
+//TODO: implement new post fragment
+//TODO: implement bottom bar
 
 public class Homepage extends AppCompatActivity {
 
