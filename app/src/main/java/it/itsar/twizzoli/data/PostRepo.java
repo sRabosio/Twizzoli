@@ -2,6 +2,7 @@ package it.itsar.twizzoli.data;
 
 import java.util.ArrayList;
 import it.itsar.twizzoli.models.Post;
+import it.itsar.twizzoli.models.User;
 
 public class PostRepo extends Repo<Post>{
     public PostRepo() {
@@ -17,6 +18,15 @@ public class PostRepo extends Repo<Post>{
     public ArrayList<Post> searchByUser(int id){
         ArrayList<Post> posts = new ArrayList<>(data.values());
         posts.removeIf(post -> post.creator != id);
+        return posts;
+    }
+
+    public ArrayList<Post> userFeed(User user){
+        //TODO: sort by creation date
+        ArrayList<Post> posts = new ArrayList<>(data.values());
+        posts.removeIf(post -> !user.following.contains(post.creator));
+        if(posts.size() > 50)
+            posts = new ArrayList<>(posts.subList(0,50));
         return posts;
     }
 }

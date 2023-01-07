@@ -18,9 +18,11 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
+import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.data.ResultHandler;
 import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.databinding.ActivityMainBinding;
+import it.itsar.twizzoli.models.Model;
 import it.itsar.twizzoli.models.User;
 
 public class LoginActivity extends AppCompatActivity {
@@ -34,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private String ps;
     private ActivityMainBinding binding;
     private User loggedUser = null;
+    private AppController appController = AppController.getInstance();
 
     //TODO: change text type of password
 
@@ -58,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     private void snackbar(){
         String snackMessage = getIntent().getStringExtra("snackMessage");
         if(snackMessage == null || snackMessage.isEmpty()) return;
-        View view = getWindow().getDecorView().findViewById(android.R.id.content);
+        View view = getView();
         Snackbar.make(view, snackMessage, 2000)
                 .show();
     }
@@ -88,16 +91,21 @@ public class LoginActivity extends AppCompatActivity {
                 public <T> void success(T result) {
                     User user = (User) result;
                     Log.d("LOGIN SUCCESS", "LOGGATOOOOOOOOOOOOOOOO");
-
-                    //a homepage
+                    appController.setLoggedUser(user);
+                    Intent intent = new Intent(LoginActivity.this, Homepage.class);
+                    startActivity(intent);
                 }
 
                 @Override
                 public void failed(int code, String message) {
-
+                    Snackbar.make(getView(), message, 1000).show();
                 }
             });
         });
+    }
+
+    private View getView(){
+        return getWindow().getDecorView().findViewById(android.R.id.content);
     }
 
 }

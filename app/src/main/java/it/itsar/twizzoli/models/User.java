@@ -1,14 +1,18 @@
 package it.itsar.twizzoli.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
+
+import it.itsar.twizzoli.R;
 
 public class User extends Model implements Serializable {
     public String nickname;
     public String email;
     public String password;
     public String phone;
-    public int iconId;
+    public ArrayList<Integer> following = new ArrayList<>();
+    public int iconId = R.drawable.ic_launcher_background;
 
     public User(String nickname, String email, String password, String phone) {
         this.nickname = nickname;

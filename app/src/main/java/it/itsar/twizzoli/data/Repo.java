@@ -7,13 +7,14 @@ import java.util.HashMap;
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.models.Model;
 
-public abstract class Repo<T extends Model> {
+public abstract class Repo<T extends Model>{
     protected String fileName;
     protected final HashMap<Integer, T> data = new HashMap<>();
     protected final AppController controller = AppController.getInstance();
 
     public Repo(String fileName) {
         this.fileName = fileName;
+        fetch();
     }
 
     public boolean write(T toWrite){
@@ -27,6 +28,7 @@ public abstract class Repo<T extends Model> {
         }
         try{
             controller.write(data, fileName);
+
             return true;
         }catch (Exception exception){
             logException("WRITING ERROR", exception);

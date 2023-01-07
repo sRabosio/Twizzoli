@@ -21,19 +21,11 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/info_container"
-                    tools:text="Titolo" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/info_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
 
@@ -41,10 +33,11 @@
                         android:id="@+id/username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp"
+                        android:layout_marginStart="2dp"
                         android:textSize="10dp"
-                        app:layout_constraintEnd_toStartOf="@+id/user_icon_container"
+                        app:layout_constraintStart_toEndOf="@+id/user_icon_container"
                         app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         tools:text="Username" />
 
                     <androidx.cardview.widget.CardView
@@ -52,7 +45,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:cardCornerRadius="20dp"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
@@ -63,14 +56,6 @@
                             tools:src="@drawable/ic_launcher_background" />
                     </androidx.cardview.widget.CardView>
 
-                    <TextView
-                        android:id="@+id/date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="10dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="date" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -81,6 +66,15 @@
                 android:layout_height="wrap_content"
                 tools:text="contenuto" />
 
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:layout_margin="5dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="date" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.cardview.widget.CardView>

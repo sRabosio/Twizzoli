@@ -3,25 +3,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/container_main"
         tools:context=".Homepage">
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Homepage"
-            tools:layout_editor_absoluteX="335dp"
-            tools:layout_editor_absoluteY="162dp" />
 
-        <Button
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_container"
+            android:name="it.itsar.twizzoli.fragments.Feed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"
+            tools:layout="@layout/fragment_feed" />
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button"
-            tools:layout_editor_absoluteX="176dp"
-            tools:layout_editor_absoluteY="327dp" />
+            android:layout_margin="30dp"
+            android:translationY="400dp"
+            android:id="@+id/homepage_newpost_card"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottombar"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/homepage_newpost"
+                android:name="it.itsar.twizzoli.fragments.NewPost"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout="@layout/fragment_new_post"
+
+                tools:layout="@layout/fragment_new_post" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottombar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/homepage_bottom_menu"
+            tools:ignore="BottomAppBar" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
