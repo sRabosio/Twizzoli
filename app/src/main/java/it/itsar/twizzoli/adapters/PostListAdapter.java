@@ -1,15 +1,19 @@
 package it.itsar.twizzoli.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import it.itsar.twizzoli.PostActivity;
 import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.data.ResultHandler;
 import it.itsar.twizzoli.data.UserRepo;
@@ -49,6 +53,14 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
                 Log.d(String.valueOf(code), message);
             }
         });
+
+        //Listener 4 item, goes to post activity
+        holder.itemView.setOnClickListener(view->{
+            Context context = view.getContext();
+            Intent intent = new Intent(context, PostActivity.class);
+            intent. putExtra("post", post);
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -60,7 +72,7 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
         this.postList = postList;
     }
 
-    static class PostListViewHolder extends RecyclerView.ViewHolder{
+    static class PostListViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView title;
         private final TextView username;
@@ -78,16 +90,18 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
 
         }
 
-        public void bind(Post post, User creator){
+        public void bind(Post post, User creator) {
             title.setText(post.title);
             username.setText(creator.nickname);
 
 
             textContent.setText(
                     post.text.length() > 50 ?
-                            post.text.substring(0,50).concat("...") :
+                            post.text.substring(0, 50).concat("...") :
                             post.text
             );
         }
+
+
     }
 }

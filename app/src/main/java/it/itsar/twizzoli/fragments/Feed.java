@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -75,6 +76,7 @@ public class Feed extends Fragment {
         };
     }
 
+    //TODO: use this
     private it.itsar.twizzoli.models.Post[] getFeed() {
         if(loggedUser == null) return null;
         return postRepo.userFeed(controller.getLoggedUser()).toArray(new Post[0]);
