@@ -1,295 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F1EDED"
+    tools:context="fragments.Profilo"
+    android:orientation="horizontal">
 
-    <data>
-
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <androidx.core.widget.NestedScrollView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:overScrollMode="never"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
+            android:layout_height="180dp"
+            android:background="@color/purple_500">
+        </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="120dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="100dp">
 
-                <ImageButton
-                    android:id="@+id/closeProfileScreen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="18dp"
-                    android:background="@null"
-                    android:minWidth="48dp"
-                    android:minHeight="48dp"
-
-                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayout"
+                <ImageView
+                    android:id="@+id/avatarIv"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/purple_200"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_action_name"></ImageView>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="8dp"
-
-                    android:elevation="10dp">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/setDynamicColorOfProfile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-
-                        app:cardCornerRadius="100dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:layout_margin="3dp"
-                            app:cardCornerRadius="100dp"
-                            app:cardElevation="0dp">
-
-                            <ImageView
-                                android:id="@+id/setUserImage"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop" />
-                        </androidx.cardview.widget.CardView>
-                    </androidx.cardview.widget.CardView>
-
+                    android:orientation="vertical">
                     <TextView
-                        android:id="@+id/putUserName"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/nameprofile"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:gravity="center"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-
-                        app:layout_constraintStart_toEndOf="@+id/setDynamicColorOfProfile"
-                        app:layout_constraintTop_toTopOf="parent" />
-
+                        android:text="Nome"
+                        android:textSize="25dp"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/white"
+                        android:layout_marginStart="5dp">
+                    </TextView>
                     <TextView
-                        android:id="@+id/putUserBio"
-                        android:layout_width="0dp"
+                        android:id="@+id/followerprofile"
+                        android:layout_width="167dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
-                        android:gravity="center"
-                        android:textSize="14sp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Follower:15"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"></TextView>
 
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHeight_max="wrap"
-                        app:layout_constraintStart_toEndOf="@+id/setDynamicColorOfProfile"
-                        app:layout_constraintTop_toBottomOf="@+id/putUserName" />
-
-                    <ImageView
-                        android:id="@+id/location"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:visibility="visible"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/setDynamicColorOfProfile" />
-
-                    <TextView
-                        android:id="@+id/putUserLocation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="15dp"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginTop="16dp"
-                        android:ellipsize="marquee"
-                        android:fadingEdge="horizontal"
-                        android:gravity="center"
-                        android:inputType="textUri"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:scrollHorizontally="true"
-                        android:singleLine="true"
-                        android:textAlignment="center"
-                        android:textColor="#3F51B5"
-                        android:visibility="visible"
-                        app:layout_constraintStart_toEndOf="@+id/location"
-                        app:layout_constraintTop_toBottomOf="@+id/setDynamicColorOfProfile"
-                        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-
-                    <ImageView
-                        android:id="@+id/web"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:visibility="visible"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/location" />
-
-                    <TextView
-                        android:id="@+id/putUserWebsite"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginTop="8dp"
-                        android:ellipsize="marquee"
-                        android:fadingEdge="horizontal"
-                        android:gravity="center"
-                        android:inputType="textUri"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:maxLength="25"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:scrollHorizontally="true"
-                        android:singleLine="true"
-                        android:textAlignment="center"
-                        android:textSize="12sp"
-
-                        app:layout_constraintStart_toEndOf="@+id/web"
-                        app:layout_constraintTop_toBottomOf="@+id/location"
-                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-                    <ImageView
-                        android:id="@+id/dob"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:visibility="visible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/putUserWebsite" />
-
-                    <TextView
-                        android:id="@+id/putUserDOB"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="2dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:ellipsize="marquee"
-                        android:fadingEdge="horizontal"
-                        android:gravity="center"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:scrollHorizontally="true"
-                        android:singleLine="true"
-                        android:textAlignment="center"
-                        android:textColor="#000000"
-                        android:textSize="12sp"
-                        android:visibility="visible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/dob"
-                        app:layout_constraintTop_toBottomOf="@+id/putUserWebsite" />
-
-                    <LinearLayout
-                        android:id="@+id/Follower"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginBottom="4dp"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/putUserBio">
-
-                        <TextView
-                            android:id="@+id/FollowerCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="0"
-                            android:textSize="24sp" />
-
-                        <TextView
-                            android:id="@+id/followerHardText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0"
-                            android:text="Follower" />
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/divider"
-                        android:layout_width="1dp"
-                        android:layout_height="50dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:background="?android:attr/listDivider"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/Follower"
-                        app:layout_constraintTop_toTopOf="@+id/Following" />
-
-                    <LinearLayout
-                        android:id="@+id/Following"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="4dp"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/divider"
-                        app:layout_constraintTop_toBottomOf="@+id/putUserBio">
-
-                        <TextView
-                            android:id="@+id/FollowingCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text="0"
-                            android:textSize="24sp" />
-
-                        <TextView
-                            android:id="@+id/followingHardText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Following" />
-                    </LinearLayout>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/setUser_pip_data"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginRight="5dp"
-                    android:elevation="10dp"
-                    android:overScrollMode="never" />
+                </LinearLayout>
 
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
 
-        <ProgressBar
-            android:id="@+id/progressBar3"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="20dp"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="Profile"
+        android:textAlignment="center"
+        android:textSize="30sp" />
+</LinearLayout>
