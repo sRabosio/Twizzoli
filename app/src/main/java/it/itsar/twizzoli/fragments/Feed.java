@@ -1,21 +1,18 @@
 package it.itsar.twizzoli.fragments;
 
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import it.itsar.twizzoli.R;
-import it.itsar.twizzoli.adapters.PostListAdapter;
+import it.itsar.twizzoli.adapters.AdapterPostList;
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.data.PostRepo;
 import it.itsar.twizzoli.models.Post;
@@ -64,7 +61,7 @@ public class Feed extends Fragment {
 
     public void refresh(){
         //TODO: use feed instead of sample
-        postList.setAdapter(new PostListAdapter(sample()));
+        postList.setAdapter(new AdapterPostList(sample()));
     }
 
     private Post[] sample(){

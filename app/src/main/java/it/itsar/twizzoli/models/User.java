@@ -1,5 +1,7 @@
 package it.itsar.twizzoli.models;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -11,6 +13,9 @@ public class User extends Model implements Serializable {
     public String email;
     public String password;
     public String phone;
+    @NotNull
+    public ArrayList<Integer> followers = new ArrayList<>();
+    @NotNull
     public ArrayList<Integer> following = new ArrayList<>();
     public int iconId = R.drawable.ic_launcher_background;
 

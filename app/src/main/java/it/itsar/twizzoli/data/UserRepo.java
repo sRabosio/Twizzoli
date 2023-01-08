@@ -71,4 +71,14 @@ public class UserRepo extends Repo<User>{
         handler.failed(0, "Wrong password");
     }
 
+    public void follow(int userId, int toFollowId){
+        final User user = data.get(userId);
+        final User toFollow = data.get(toFollowId);
+        if(user == null || toFollow == null) return;
+        user.following.add(toFollowId);
+        toFollow.followers.add(userId);
+        write(user);
+        write(toFollow);
+    }
+
 }
