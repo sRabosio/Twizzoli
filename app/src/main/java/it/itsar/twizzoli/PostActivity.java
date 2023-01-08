@@ -14,6 +14,7 @@ import it.itsar.twizzoli.data.CommentRepo;
 import it.itsar.twizzoli.data.ResultHandler;
 import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.databinding.ActivityPostBinding;
+import it.itsar.twizzoli.fragments.NewCommentFragment;
 import it.itsar.twizzoli.fragments.PostFragment;
 import it.itsar.twizzoli.models.Comment;
 import it.itsar.twizzoli.models.Post;
@@ -34,10 +35,13 @@ public class PostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post);
         post = (Post) getIntent().getSerializableExtra("post");
         if(!checkPost()) return;
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_post);
 
         fetchCreator();
         fetchComments();
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_post);
+        Bundle newPostArgs = new Bundle();
+        newPostArgs.putSerializable("fatherId", post.id);
+        switchFragment(NewCommentFragment.class, R.id.newcomment, newPostArgs);
     }
 
     @Override
@@ -60,6 +64,7 @@ public class PostActivity extends AppCompatActivity {
 
     private void fetchComments(){
         comments = commentRepo.getContentChildren(post.id);
+        if(comments == null) return;
         binding.comments.setAdapter(
                 new AdapterCommentList(comments.toArray(new Comment[0])));
     }

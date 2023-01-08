@@ -1,5 +1,6 @@
 package it.itsar.twizzoli.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -49,5 +50,8 @@ public class CommentFragment extends Fragment {
         binding.textContent.setText(comment.text);
         binding.userIcon.setImageResource(creator.iconId);
         binding.username.setText(creator.nickname);
+        binding.infoContainer.setOnClickListener(v->{
+            //TODO: go to profile page
+        });
     }
 }

@@ -61,7 +61,7 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
 
         public ViewHolderCommentList(@NonNull View itemView) {
             super(itemView);
-            commentText = itemView.findViewById(R.id.comment_text);
+            commentText = itemView.findViewById(R.id.text_content);
             username = itemView.findViewById(R.id.username);
             userIcon = itemView.findViewById(R.id.user_icon);
         }
