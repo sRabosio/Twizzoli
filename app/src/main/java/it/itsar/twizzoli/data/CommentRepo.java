@@ -12,9 +12,9 @@ public class CommentRepo extends Repo<Comment>{
         super("table_comments");
     }
 //prova
-    public ArrayList<Comment> getContentChildren(Content content){
+    public ArrayList<Comment> getContentChildren(int contentId){
         ArrayList<Comment> comments = new ArrayList<>(data.values());
-        comments.removeIf(comment ->!comment.father.equals(content));
+        comments.removeIf(comment ->comment.father != contentId);
         return comments;
     }
 

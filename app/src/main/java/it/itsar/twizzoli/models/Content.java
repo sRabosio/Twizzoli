@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 public abstract class Content extends Model{
    @NotNull
    public String text;

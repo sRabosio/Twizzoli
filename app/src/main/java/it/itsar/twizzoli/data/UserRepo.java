@@ -6,7 +6,7 @@ import it.itsar.twizzoli.models.User;
 
 public class UserRepo extends Repo<User>{
     public UserRepo() {
-        super("table_comments");
+        super("table_user");
     }
 
 
@@ -81,4 +81,14 @@ public class UserRepo extends Repo<User>{
         write(toFollow);
     }
 
+    public void unfollow(int userId, int toUnfollowId){
+        final User user = data.get(userId);
+        final User toFollow = data.get(toUnfollowId);
+        if(user == null || toFollow == null) return;
+        //casting 4 remove based on objs instead of index
+        user.following.remove((Integer) toUnfollowId);
+        toFollow.followers.remove((Integer) userId);
+        write(user);
+        write(toFollow);
+    }
 }

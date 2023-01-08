@@ -63,7 +63,7 @@ public class AdapterUserList extends RecyclerView.Adapter<AdapterUserList.ViewHo
         public void bind(User user) {
             avatarIv.setImageResource(user.iconId);
             nNameTv.setText(user.nickname);
-            followers.setText(user.getFollowers().size());
+            followers.setText(user.followers.size());
 
             itemView.setOnClickListener(view ->
                     Toast.makeText(itemView.getContext(), user.nickname, Toast.LENGTH_SHORT).show());

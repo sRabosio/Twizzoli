@@ -26,7 +26,6 @@ import it.itsar.twizzoli.fragments.Profilo;
 import it.itsar.twizzoli.models.User;
 
 //TODO: implement new post fragment
-//TODO: implement bottom bar
 
 public class Homepage extends AppCompatActivity {
 

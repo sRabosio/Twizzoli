@@ -54,7 +54,6 @@ public class Registrazione extends AppCompatActivity {
 
     private void regButton(){
         binding.buttonReg.setOnClickListener(v -> {
-            //TODO: get params from form & create user
             User toRegister = new User(
                     binding.username.getText().toString(),
                     binding.email.getText().toString(),
