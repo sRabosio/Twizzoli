@@ -16,16 +16,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import it.itsar.twizzoli.R;
+import it.itsar.twizzoli.adapters.AdapterPostList;
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.data.PostRepo;
 import it.itsar.twizzoli.databinding.FragmentProfiloBinding;
+import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;
 
 public class Profilo extends Fragment {
     private FragmentProfiloBinding binding;
-    private PostRepo postRepo = new PostRepo();
-    private AppController controller = AppController.getInstance();
+    private final PostRepo postRepo = new PostRepo();
+    private final AppController controller = AppController.getInstance();
     private User loggedUser = null;
+    private User userProfile = null;
     private RecyclerView postList;
     private ImageView avatar;
     private TextView nomeprofilo, followerprofilo;
@@ -36,26 +39,37 @@ public class Profilo extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profilo,container,false);
+        binding = FragmentProfiloBinding.inflate(inflater, container, false);
         //auth database
         //binding con dati presi dal database
                 //chiamate database per ottenere dati
-        return view;
+
+        return binding.getRoot();
     }
-/*
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loggedUser = controller.getLoggedUser();
-        binding.putUserName.setText(loggedUser.nickname);
-          binding.putUserBio.setText(controller.getLoggedUser().bio);
-          binding.putUserLocation.setText(controller.getLoggedUser().location);
-        binding.FollowerCount.setText(String.valueOf(loggedUser.following.size()));
+        Bundle args = getArguments();
+        if(args == null) return;
+        userProfile = (User) args.getSerializable("user");
+        if(userProfile == null) return;
+
+        binding.nameprofile.setText(userProfile.nickname);
+        String followerText = userProfile.followers.size() + " followers";
+        binding.followerprofile.setText(followerText);
+        binding.postList.setAdapter(new AdapterPostList(
+            postRepo.searchByUser(userProfile.id).toArray(new Post[0])
+        ));
     }
 
     @Override
     public void onResume() {
         super.onResume();
         loggedUser = controller.getLoggedUser();
-    }*/
+        binding.postList.setAdapter(new AdapterPostList(
+                postRepo.searchByUser(userProfile.id).toArray(new Post[0])
+        ));
+    }
 }

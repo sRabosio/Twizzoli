@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F1EDED"
     tools:context="fragments.Profilo"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -39,7 +40,7 @@
                         android:id="@+id/nameprofile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Nome"
+                        tools:text="Nome"
                         android:textSize="25dp"
                         android:layout_marginTop="5dp"
                         android:textColor="@color/white"
@@ -50,7 +51,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
-                        android:text="Follower:15"
+                        tools:text="Follower:15"
                         android:textColor="@color/white"
                         android:textSize="20dp"/>
 
@@ -61,11 +62,10 @@
 
     </RelativeLayout>
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/post_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Profile"
-        android:textAlignment="center"
-        android:textSize="30sp" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/fragment_post" />
 </LinearLayout>

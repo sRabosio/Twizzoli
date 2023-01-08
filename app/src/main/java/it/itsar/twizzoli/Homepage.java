@@ -45,7 +45,7 @@ public class Homepage extends AppCompatActivity {
         bottomAppBar = binding.bottombar;
         newpostTranslationValue = binding.homepageNewpostCard.getTranslationY();
         switchNewPostFragment();
-        switchFragment(Feed.class);
+        switchFragment(Feed.class, null);
         containerMain();
         bottomAppBar();
     }
@@ -73,7 +73,7 @@ public class Homepage extends AppCompatActivity {
             final int user = R.id.item_profile;
             switch (item.getItemId()){
                 case home:
-                    switchFragment(Feed.class);
+                    switchFragment(Feed.class, null);
                     break;
 
                 case newpost:
@@ -81,7 +81,9 @@ public class Homepage extends AppCompatActivity {
                     break;
 
                 case user:
-                    switchFragment(Profilo.class);
+                    Bundle profileArgs = new Bundle();
+                    profileArgs.putSerializable("user", loggedUser);
+                    switchFragment(Profilo.class, profileArgs);
                     break;
                 default:
                     Log.d("ERROR IN BOTTOM NAV", "ITEM DOESN'T EXISTS");
@@ -108,9 +110,9 @@ public class Homepage extends AppCompatActivity {
                 .start();
     }
 
-    private <T extends Fragment> void switchFragment(Class<T> fragment){
+    private <T extends Fragment> void switchFragment(Class<T> fragment, Bundle args){
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment, null)
+                .replace(R.id.fragment_container, fragment, args)
                 .setReorderingAllowed(true)
                 .addToBackStack(fragment.getName())
                 .commit();
