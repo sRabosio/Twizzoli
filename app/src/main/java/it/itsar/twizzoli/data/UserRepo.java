@@ -2,6 +2,7 @@ package it.itsar.twizzoli.data;
 
 import java.util.ArrayList;
 
+import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.models.User;
 
 public class UserRepo extends Repo<User>{
@@ -9,6 +10,9 @@ public class UserRepo extends Repo<User>{
         super("table_user");
     }
 
+    public ArrayList<User> getAll(){
+        return new ArrayList<>(data.values());
+    }
 
     public ArrayList<User> searchByName(String searchKey){
         ArrayList<User> result = new ArrayList<>(data.values());

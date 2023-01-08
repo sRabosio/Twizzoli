@@ -27,7 +27,7 @@ import it.itsar.twizzoli.models.User;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private UserRepo userRepo = new UserRepo();
+    private final UserRepo userRepo = new UserRepo();
     private Button login;
     private Button registrati;
     private EditText usernameinput;
@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private String ps;
     private ActivityMainBinding binding;
     private User loggedUser = null;
-    private AppController appController = AppController.getInstance();
+    private final AppController appController = AppController.getInstance();
 
     //TODO: change text type of password
 
@@ -86,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(v -> {
             us = usernameinput.getText().toString();
             ps = passwordinput.getText().toString();
+
             userRepo.userLogin(usernameinput.getText().toString(), passwordinput.getText().toString(), new ResultHandler() {
                 @Override
                 public <T> void success(T result) {

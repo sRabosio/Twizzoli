@@ -31,7 +31,7 @@ public class Homepage extends AppCompatActivity {
 
     private AppController controller = AppController.getInstance();
     private ActivityHomepageBinding binding;
-    private PostRepo postRepo = new PostRepo();
+    private final PostRepo postRepo = new PostRepo();
     private User loggedUser = null;
     private BottomNavigationView bottomAppBar;
     private float newpostTranslationValue;
