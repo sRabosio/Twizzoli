@@ -30,7 +30,7 @@
                     android:layout_marginLeft="20dp"
                     android:background="@color/purple_200"
                     android:padding="5dp"
-                    android:src="@drawable/ic_action_name"></ImageView>
+                    android:src="@drawable/ic_action_name"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -43,8 +43,7 @@
                         android:textSize="25dp"
                         android:layout_marginTop="5dp"
                         android:textColor="@color/white"
-                        android:layout_marginStart="5dp">
-                    </TextView>
+                        android:layout_marginStart="5dp"/>
                     <TextView
                         android:id="@+id/followerprofile"
                         android:layout_width="167dp"
@@ -53,7 +52,7 @@
                         android:layout_marginTop="5dp"
                         android:text="Follower:15"
                         android:textColor="@color/white"
-                        android:textSize="20dp"></TextView>
+                        android:textSize="20dp"/>
 
                 </LinearLayout>
 

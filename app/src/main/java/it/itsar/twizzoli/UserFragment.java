@@ -3,10 +3,19 @@ package it.itsar.twizzoli;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import it.itsar.twizzoli.adapters.AdapterUsers;
+import it.itsar.twizzoli.models.User;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,7 +23,9 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class UserFragment extends Fragment {
-
+    RecyclerView recyclerView;
+    AdapterUsers adapterUsers;
+    List<User> usersList;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -58,7 +69,12 @@ public class UserFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user, container, false);
+        View view = inflater.inflate(R.layout.fragment_user, container, false);
+        recyclerView = view.findViewById(R.id.userrecycleview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        usersList=new ArrayList<>();
+        //get all users
+        return view;
     }
 }
