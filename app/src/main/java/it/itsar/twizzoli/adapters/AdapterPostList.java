@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,26 +19,26 @@ import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;
 
-public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostListViewHolder> {
+public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHolderPostList> {
 
     private final UserRepo userRepo = new UserRepo();
     private Post[] postList;
 
-    public PostListAdapter(Post[] postList) {
+    public AdapterPostList(Post[] postList) {
         this.postList = postList;
     }
 
     @NonNull
     @Override
-    public PostListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolderPostList onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_post, parent, false);
 
-        return new PostListViewHolder(view);
+        return new ViewHolderPostList(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolderPostList holder, int position) {
         Post post = postList[position];
 
         userRepo.getElementById(post.creator, new ResultHandler() {
@@ -72,7 +71,7 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
         this.postList = postList;
     }
 
-    static class PostListViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolderPostList extends RecyclerView.ViewHolder {
 
         private final TextView title;
         private final TextView username;
@@ -80,7 +79,7 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.PostLi
         private final TextView date;
         private final TextView textContent;
 
-        public PostListViewHolder(@NonNull View itemView) {
+        public ViewHolderPostList(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
             username = itemView.findViewById(R.id.username);
