@@ -22,8 +22,8 @@ import it.itsar.twizzoli.models.User;
 
 public class PostActivity extends AppCompatActivity {
 
-    private CommentRepo commentRepo = new CommentRepo();
-    private UserRepo userRepo = new UserRepo();
+    private final CommentRepo commentRepo = new CommentRepo();
+    private final UserRepo userRepo = new UserRepo();
     private ArrayList<Comment> comments;
     private Post post = null;
     private User creator = null;

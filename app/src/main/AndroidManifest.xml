@@ -14,9 +14,17 @@
         android:theme="@style/Theme.Twizzoli.Base"
         tools:targetApi="31">
         <activity
-            android:name=".PostActivity"
-            android:parentActivityName=".PostActivity"
+            android:name=".CommentActivity"
+            android:parentActivityName=".Homepage"
             android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".PostActivity"
+            android:exported="false"
+            android:parentActivityName=".PostActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

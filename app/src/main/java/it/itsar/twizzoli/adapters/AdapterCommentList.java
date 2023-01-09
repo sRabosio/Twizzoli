@@ -1,5 +1,7 @@
 package it.itsar.twizzoli.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import it.itsar.twizzoli.CommentActivity;
+import it.itsar.twizzoli.PostActivity;
 import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.data.ResultHandler;
 import it.itsar.twizzoli.data.UserRepo;
@@ -45,6 +50,14 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
             public void failed(int code, String message) {
                 Log.d("ERROR IN BIND VIEW HOLDER", "Creator not found");
             }
+        });
+
+        holder.itemView.setOnClickListener(view->{
+            Context context = view.getContext();
+            Intent intent = new Intent(context, CommentActivity.class);
+            intent. putExtra("comment", comment);
+            context.startActivity(intent
+            );
         });
     }
 
