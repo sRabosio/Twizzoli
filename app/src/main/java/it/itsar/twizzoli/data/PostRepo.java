@@ -26,7 +26,7 @@ public class PostRepo extends Repo<Post>{
     public ArrayList<Post> userFeed(User user){
         //TODO: sort by creation date
         ArrayList<Post> posts = new ArrayList<>(data.values());
-        posts.removeIf(post -> !user.following.contains(post.creator));
+        posts.removeIf(post -> !user.following.contains(post.creator) && post.creator != user.id);
         if(posts.size() > 50)
             posts = new ArrayList<>(posts.subList(0,50));
         return posts;

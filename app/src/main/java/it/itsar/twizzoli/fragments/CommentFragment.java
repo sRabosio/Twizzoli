@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import it.itsar.twizzoli.CommentActivity;
+import it.itsar.twizzoli.ProfileActivity;
 import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.databinding.FragmentCommentBinding;
 import it.itsar.twizzoli.models.Comment;
@@ -52,7 +53,9 @@ public class CommentFragment extends Fragment {
         binding.userIcon.setImageResource(creator.iconId);
         binding.username.setText(creator.nickname);
         binding.infoContainer.setOnClickListener(v->{
-            //TODO: go to profile page
+            Intent intent = new Intent(getContext(), ProfileActivity.class);
+            intent.putExtra("profileUser", creator);
+            startActivity(intent);
         });
         binding.commentContainer.setOnClickListener(v->{
             Intent intent = new Intent(getContext(), CommentActivity.class);

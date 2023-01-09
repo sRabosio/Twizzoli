@@ -1,6 +1,7 @@
 package it.itsar.twizzoli.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.itsar.twizzoli.ProfileActivity;
 import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.data.ResultHandler;
 import it.itsar.twizzoli.data.UserRepo;
@@ -67,6 +69,8 @@ public class AdapterUserList extends RecyclerView.Adapter<AdapterUserList.ViewHo
 
             itemView.setOnClickListener(view ->
                     Toast.makeText(itemView.getContext(), user.nickname, Toast.LENGTH_SHORT).show());
+
+
         }
     }
 }

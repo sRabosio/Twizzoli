@@ -1,5 +1,6 @@
 package it.itsar.twizzoli.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import it.itsar.twizzoli.ProfileActivity;
 import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.databinding.FragmentPostBinding;
 import it.itsar.twizzoli.models.Post;
@@ -48,5 +50,14 @@ public class PostFragment extends Fragment {
         binding.textContent.setText(post.text);
         binding.userIcon.setImageResource(creator.iconId);
         binding.username.setText(creator.nickname);
+        infoContainer();
+    }
+
+    private void infoContainer() {
+        binding.infoContainer.setOnClickListener(v->{
+            Intent intent = new Intent(getContext(), ProfileActivity.class);
+            intent.putExtra("profileUser", creator);
+            startActivity(intent);
+        });
     }
 }

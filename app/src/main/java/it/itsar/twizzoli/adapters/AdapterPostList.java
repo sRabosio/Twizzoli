@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import it.itsar.twizzoli.PostActivity;
+import it.itsar.twizzoli.ProfileActivity;
 import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.data.ResultHandler;
 import it.itsar.twizzoli.data.UserRepo;
@@ -78,6 +79,7 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
         private final ImageView userIcon;
         private final TextView date;
         private final TextView textContent;
+        private final View infoContainer;
 
         public ViewHolderPostList(@NonNull View itemView) {
             super(itemView);
@@ -86,7 +88,7 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
             userIcon = itemView.findViewById(R.id.user_icon);
             date = itemView.findViewById(R.id.date);
             textContent = itemView.findViewById(R.id.text_content);
-
+            infoContainer = itemView.findViewById(R.id.info_container);
         }
 
         public void bind(Post post, User creator) {
@@ -99,6 +101,12 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
                             post.text.substring(0, 50).concat("...") :
                             post.text
             );
+
+            infoContainer.setOnClickListener(v->{
+                Intent intent = new Intent(v.getContext(), ProfileActivity.class);
+                intent.putExtra("profileUser", creator);
+                v.getContext().startActivity(intent);
+            });
         }
 
 

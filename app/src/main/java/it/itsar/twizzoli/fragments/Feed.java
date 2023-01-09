@@ -61,7 +61,7 @@ public class Feed extends Fragment {
 
     public void refresh(){
         //TODO: use feed instead of sample
-        postList.setAdapter(new AdapterPostList(sample()));
+        postList.setAdapter(new AdapterPostList(getFeed()));
     }
 
     private Post[] sample(){

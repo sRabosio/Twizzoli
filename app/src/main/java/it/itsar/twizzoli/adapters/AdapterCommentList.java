@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import it.itsar.twizzoli.CommentActivity;
 import it.itsar.twizzoli.PostActivity;
+import it.itsar.twizzoli.ProfileActivity;
 import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.data.ResultHandler;
 import it.itsar.twizzoli.data.UserRepo;
@@ -59,6 +60,7 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
             context.startActivity(intent
             );
         });
+
     }
 
     @Override
@@ -71,18 +73,26 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
         private final TextView commentText;
         private final ImageView userIcon;
         private final TextView username;
+        private final View userInfo;
+
 
         public ViewHolderCommentList(@NonNull View itemView) {
             super(itemView);
             commentText = itemView.findViewById(R.id.text_content);
             username = itemView.findViewById(R.id.username);
             userIcon = itemView.findViewById(R.id.user_icon);
+            userInfo = itemView.findViewById(R.id.info_container);
         }
 
         public void bind(Comment comment, User creator){
             commentText.setText(comment.text);
             username.setText(creator.nickname);
             userIcon.setImageResource(creator.iconId);
+            userInfo.setOnClickListener(v->{
+                Intent intent = new Intent(v.getContext(), ProfileActivity.class);
+                intent.putExtra("profileUser", creator);
+                v.getContext().startActivity(intent);
+            });
         }
 
     }
