@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import it.itsar.twizzoli.R;
+import it.itsar.twizzoli.Ricerca;
 import it.itsar.twizzoli.databinding.FragmentSearchBarBinding;
 
 
@@ -43,7 +44,11 @@ public class SearchBarFragment extends Fragment {
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                if(query == null || query.isEmpty()) return false;
+                Intent intent = new Intent(getContext(), Ricerca.class);
+                intent.putExtra("ricerca", query);
+                startActivity(intent);
+                return true;
             }
 
             @Override

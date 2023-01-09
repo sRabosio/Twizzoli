@@ -1,6 +1,7 @@
 package it.itsar.twizzoli.data;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.models.User;
@@ -16,7 +17,8 @@ public class UserRepo extends Repo<User>{
 
     public ArrayList<User> searchByName(String searchKey){
         ArrayList<User> result = new ArrayList<>(data.values());
-        result.removeIf(e->!e.nickname.contains(searchKey));
+        final String lowerKey = searchKey.toLowerCase(Locale.ROOT);
+        result.removeIf(e->!e.nickname.toLowerCase(Locale.ROOT).contains(lowerKey));
         return result;
     }
 

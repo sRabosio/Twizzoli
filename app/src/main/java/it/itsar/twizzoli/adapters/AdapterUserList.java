@@ -24,18 +24,17 @@ import it.itsar.twizzoli.models.User;
 
 public class AdapterUserList extends RecyclerView.Adapter<AdapterUserList.ViewHolderUserList> {
 
-    Context context;
-    List<User> userList;
+    private final List<User> userList;
 
-    public AdapterUserList(Context context, List<User> userList) {
-        this.context = context;
+    public AdapterUserList(List<User> userList) {
         this.userList = userList;
     }
 
     @NonNull
     @Override
     public ViewHolderUserList onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.row_users, viewGroup);
+        View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.row_users, viewGroup, false);
         return new ViewHolderUserList(view);
     }
 
@@ -46,7 +45,7 @@ public class AdapterUserList extends RecyclerView.Adapter<AdapterUserList.ViewHo
 
     @Override
     public int getItemCount() {
-        return 0;
+        return userList.size();
     }
 
     static class ViewHolderUserList extends RecyclerView.ViewHolder {
@@ -58,14 +57,14 @@ public class AdapterUserList extends RecyclerView.Adapter<AdapterUserList.ViewHo
             super(itemView);
 
             avatarIv = itemView.findViewById(R.id.avatarIv);
-            nNameTv = itemView.findViewById(R.id.name);
+            nNameTv = itemView.findViewById(R.id.nomerow);
             followers = itemView.findViewById(R.id.followerrow);
         }
 
         public void bind(User user) {
             avatarIv.setImageResource(user.iconId);
             nNameTv.setText(user.nickname);
-            followers.setText(user.followers.size());
+            followers.setText(String.valueOf(user.followers.size()));
 
             itemView.setOnClickListener(view ->
                     Toast.makeText(itemView.getContext(), user.nickname, Toast.LENGTH_SHORT).show());
