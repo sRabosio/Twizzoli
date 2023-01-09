@@ -23,6 +23,7 @@ import it.itsar.twizzoli.databinding.ActivityHomepageBinding;
 import it.itsar.twizzoli.fragments.Feed;
 import it.itsar.twizzoli.fragments.NewPost;
 import it.itsar.twizzoli.fragments.Profilo;
+import it.itsar.twizzoli.fragments.SearchBarFragment;
 import it.itsar.twizzoli.models.User;
 
 //TODO: implement new post fragment
@@ -48,6 +49,14 @@ public class Homepage extends AppCompatActivity {
         switchFragment(Feed.class, null);
         containerMain();
         bottomAppBar();
+
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setReorderingAllowed(true)
+                .addToBackStack("appbar")
+                .replace(R.id.appbar, SearchBarFragment.class, null)
+                .commit();
     }
 
     private void containerMain(){

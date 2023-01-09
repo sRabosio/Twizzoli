@@ -12,10 +12,21 @@
 
 
         <androidx.fragment.app.FragmentContainerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="it.itsar.twizzoli.fragments.SearchBarFragment"
+            tools:layout="@layout/fragment_search_bar"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/appbar"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container"
             android:name="it.itsar.twizzoli.fragments.Feed"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/appbar"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/bottombar"
             android:layout_marginHorizontal="10dp"
             tools:layout="@layout/fragment_feed" />
 

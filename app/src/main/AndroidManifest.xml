@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Twizzoli.Base"
+        android:theme="@style/Theme.Twizzoli.NoBar"
         tools:targetApi="31">
         <activity
             android:name=".ProfileActivity"
@@ -47,7 +47,7 @@
         <activity
             android:name=".Homepage"
             android:exported="true"
-            android:theme="@style/Theme.Twizzoli.Base">
+            android:theme="@style/Theme.Twizzoli.NoBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
