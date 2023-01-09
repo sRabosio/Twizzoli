@@ -16,6 +16,7 @@ import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.databinding.ActivityPostBinding;
 import it.itsar.twizzoli.fragments.NewCommentFragment;
 import it.itsar.twizzoli.fragments.PostFragment;
+import it.itsar.twizzoli.fragments.SearchBarFragment;
 import it.itsar.twizzoli.models.Comment;
 import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;
@@ -42,6 +43,7 @@ public class PostActivity extends AppCompatActivity {
         Bundle newPostArgs = new Bundle();
         newPostArgs.putSerializable("fatherId", post.id);
         switchFragment(NewCommentFragment.class, R.id.newcomment, newPostArgs);
+        switchFragment(SearchBarFragment.class, R.id.appbar, null);
     }
 
     @Override

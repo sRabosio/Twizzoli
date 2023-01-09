@@ -9,10 +9,21 @@
         tools:context=".ProfileActivity">
 
         <androidx.fragment.app.FragmentContainerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="it.itsar.twizzoli.fragments.SearchBarFragment"
+            tools:layout="@layout/fragment_search_bar"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/appbar"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_profile"
             android:name="it.itsar.twizzoli.fragments.Profilo"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appbar"
             tools:layout="@layout/fragment_profilo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

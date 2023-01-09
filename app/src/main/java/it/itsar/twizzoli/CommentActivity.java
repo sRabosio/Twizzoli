@@ -17,6 +17,7 @@ import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.databinding.ActivityCommentBinding;
 import it.itsar.twizzoli.fragments.CommentFragment;
 import it.itsar.twizzoli.fragments.NewCommentFragment;
+import it.itsar.twizzoli.fragments.SearchBarFragment;
 import it.itsar.twizzoli.models.Comment;
 import it.itsar.twizzoli.models.User;
 
@@ -44,6 +45,7 @@ public class CommentActivity extends AppCompatActivity {
         mainComment();
         commentList();
         newcomment();
+        switchFragment(SearchBarFragment.class, R.id.appbar, null);
 
     }
 

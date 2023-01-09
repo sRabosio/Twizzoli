@@ -62,6 +62,7 @@ public class Profilo extends Fragment {
         binding.postList.setAdapter(new AdapterPostList(
             postRepo.searchByUser(userProfile.id).toArray(new Post[0])
         ));
+        binding.avatarIv.setImageResource(userProfile.iconId);
     }
 
     @Override

@@ -46,6 +46,7 @@
         </activity>
         <activity
             android:name=".Registrazione"
+            android:theme="@style/Theme.Twizzoli.Base"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -67,6 +68,7 @@
         </activity>
         <activity
             android:name=".LoginActivity"
+            android:theme="@style/Theme.Twizzoli.Base"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"

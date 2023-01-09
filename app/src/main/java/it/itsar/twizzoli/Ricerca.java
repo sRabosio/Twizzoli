@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import it.itsar.twizzoli.adapters.AdapterUserList;
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.data.UserRepo;
+import it.itsar.twizzoli.fragments.SearchBarFragment;
 import it.itsar.twizzoli.models.User;
 
 public class Ricerca extends AppCompatActivity {
@@ -30,6 +31,13 @@ public class Ricerca extends AppCompatActivity {
         //ricerca
         query = (String) getIntent().getSerializableExtra("ricerca");
         users = search.searchByName(query);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setReorderingAllowed(true)
+                .addToBackStack("appbar")
+                .replace(R.id.appbar, SearchBarFragment.class, null)
+                .commit();
 
         recyclerView = findViewById(R.id.userrecycleview);
         AdapterUserList useradapter = new AdapterUserList(users);

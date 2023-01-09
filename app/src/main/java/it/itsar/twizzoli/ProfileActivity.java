@@ -8,6 +8,7 @@ import android.os.Bundle;
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.databinding.ActivityProfile2Binding;
 import it.itsar.twizzoli.fragments.Profilo;
+import it.itsar.twizzoli.fragments.SearchBarFragment;
 import it.itsar.twizzoli.models.User;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -26,6 +27,13 @@ public class ProfileActivity extends AppCompatActivity {
         if(loggedUser == null) finish();
 
         profileUser = (User) getIntent().getSerializableExtra("profileUser");
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setReorderingAllowed(true)
+                .addToBackStack("appbar")
+                .replace(R.id.appbar, SearchBarFragment.class, null)
+                .commit();
 
         setFragment();
     }
