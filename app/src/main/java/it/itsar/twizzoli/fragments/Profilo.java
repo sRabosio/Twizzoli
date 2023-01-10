@@ -65,6 +65,7 @@ public class Profilo extends Fragment {
         binding.avatarIv.setImageResource(userProfile.iconId);
 
         followButton();
+        refreshButton();
     }
 
     private void followButton() {
@@ -74,22 +75,12 @@ public class Profilo extends Fragment {
             else
                 userRepo.follow(loggedUser.id, userProfile.id);
 
-            refreshButton();
+            getActivity().recreate();
         });
     }
 
     private boolean isFollowing(){
         return loggedUser.following.contains(userProfile.id);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        loggedUser = controller.getLoggedUser();
-        binding.postList.setAdapter(new AdapterPostList(
-                postRepo.searchByUser(userProfile.id).toArray(new Post[0])
-        ));
-        refreshButton();
     }
 
     private void refreshButton() {

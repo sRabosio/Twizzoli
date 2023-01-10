@@ -37,11 +37,6 @@ public class NewPost extends Fragment {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        loggedUser = controller.getLoggedUser();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,7 +59,9 @@ public class NewPost extends Fragment {
             binding.newpostContent.setText("");
             Snackbar.make(view, "Post creato con successo", 3000)
                     .show();
+            getActivity().recreate();
         });
+
     }
 
 

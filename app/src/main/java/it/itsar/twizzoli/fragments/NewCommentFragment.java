@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import it.itsar.twizzoli.CommentActivity;
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.data.CommentRepo;
 import it.itsar.twizzoli.databinding.FragmentNewCommentBinding;
@@ -88,6 +89,8 @@ public class NewCommentFragment extends Fragment {
             new CommentRepo().write(comment);
             binding.commentText.setText("");
             binding.commentText.clearFocus();
+            //by lin
+            getActivity().recreate();
         });
     }
 }
