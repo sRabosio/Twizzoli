@@ -66,8 +66,11 @@ public class AdapterUserList extends RecyclerView.Adapter<AdapterUserList.ViewHo
             nNameTv.setText(user.nickname);
             followers.setText(String.valueOf(user.followers.size()));
 
-            itemView.setOnClickListener(view ->
-                    Toast.makeText(itemView.getContext(), user.nickname, Toast.LENGTH_SHORT).show());
+            itemView.setOnClickListener(v->{
+                Intent intent = new Intent(itemView.getContext(), ProfileActivity.class);
+                intent.putExtra("profileUser", user);
+                itemView.getContext().startActivity(intent);
+            });
 
 
         }

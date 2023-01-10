@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import it.itsar.twizzoli.R;
+import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.models.User;
 
 public class UserRepo extends Repo<User>{
@@ -49,6 +50,16 @@ public class UserRepo extends Repo<User>{
             handler.failed(0, "registration failed");
     }
 
+
+    @Override
+    public boolean write(User toWrite) {
+        final AppController controller = AppController.getInstance();
+        boolean result = super.write(toWrite);
+        if(!result) return result;
+        if(toWrite.id.equals(controller.getLoggedUser().id))
+            controller.setLoggedUser(toWrite);
+        return result;
+    }
 
     //TODO: handle error codes
     //Validates user using email & password

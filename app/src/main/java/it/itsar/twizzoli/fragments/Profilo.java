@@ -4,21 +4,19 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.BindingAdapter;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.adapters.AdapterPostList;
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.data.PostRepo;
+import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.databinding.FragmentProfiloBinding;
 import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;
@@ -29,8 +27,10 @@ public class Profilo extends Fragment {
     private final AppController controller = AppController.getInstance();
     private User loggedUser = null;
     private User userProfile = null;
+    private final UserRepo userRepo = new UserRepo();
     private RecyclerView postList;
     private ImageView avatar;
+    private String buttonText = "follow";
     private TextView nomeprofilo, followerprofilo;
 
     public Profilo(){
@@ -63,6 +63,23 @@ public class Profilo extends Fragment {
             postRepo.searchByUser(userProfile.id).toArray(new Post[0])
         ));
         binding.avatarIv.setImageResource(userProfile.iconId);
+
+        followButton();
+    }
+
+    private void followButton() {
+        binding.buttonFollow.setOnClickListener(v->{
+            if(isFollowing())
+                userRepo.unfollow(loggedUser.id, userProfile.id);
+            else
+                userRepo.follow(loggedUser.id, userProfile.id);
+
+            refreshButton();
+        });
+    }
+
+    private boolean isFollowing(){
+        return loggedUser.following.contains(userProfile.id);
     }
 
     @Override
@@ -72,5 +89,17 @@ public class Profilo extends Fragment {
         binding.postList.setAdapter(new AdapterPostList(
                 postRepo.searchByUser(userProfile.id).toArray(new Post[0])
         ));
+        refreshButton();
+    }
+
+    private void refreshButton() {
+        loggedUser = controller.getLoggedUser();
+        if(isFollowing())
+            buttonText = "following";
+        else
+            buttonText = "follow";
+        if(userProfile.id.equals(loggedUser.id))
+            binding.buttonFollow.setVisibility(View.GONE);
+        binding.buttonFollow.setText(buttonText);
     }
 }
