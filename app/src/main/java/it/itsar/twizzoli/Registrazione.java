@@ -74,8 +74,8 @@ public class Registrazione extends AppCompatActivity {
             User toRegister = new User(
                     binding.username.getText().toString(),
                     binding.email.getText().toString(),
-                    binding.password.getText().toString(),
-                    binding.phone.getText().toString()
+                    password,
+                    phone
             );
 
 

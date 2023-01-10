@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         usernameinput = binding.usernameinput;
         passwordinput = binding.passwordinput;
 
+        binding.loginbutton.setEnabled(isValid());
         initLogin();
         initRegistration();
 
@@ -66,8 +67,17 @@ public class LoginActivity extends AppCompatActivity {
                 .show();
     }
 
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        binding.loginbutton.setEnabled(isValid());
+    }
 
-
+    private boolean isValid(){
+        String email = binding.usernameinput.getText().toString();
+        String password = binding.passwordinput.getText().toString();
+        return !email.isEmpty() && !password.isEmpty();
+    }
 
     //TODO: check 4 local logging data -> do auto-login
 
