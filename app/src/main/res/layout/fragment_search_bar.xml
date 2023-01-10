@@ -20,6 +20,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_goback"
+                    android:src="@drawable/arrow_left_fill"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -27,9 +37,10 @@
                     android:text="@string/app_name"
                     android:textColor="@color/white"
                     android:textSize="20sp"
+                    android:layout_marginLeft="20dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toEndOf="@+id/button_goback" />
 
                 <androidx.appcompat.widget.SearchView
                     android:layout_width="0dp"

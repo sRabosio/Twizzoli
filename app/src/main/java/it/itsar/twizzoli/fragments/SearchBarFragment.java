@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import it.itsar.twizzoli.Homepage;
 import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.Ricerca;
 import it.itsar.twizzoli.databinding.FragmentSearchBarBinding;
@@ -55,6 +56,19 @@ public class SearchBarFragment extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
+        });
+
+        backButton();
+    }
+
+    private void backButton() {
+        if(getActivity().getClass().equals(Homepage.class)){
+            binding.buttonGoback.setVisibility(View.GONE);
+            return;
+        }
+        binding.buttonGoback.setOnClickListener(v->{
+            Intent intent = new Intent(getContext(), Homepage.class);
+            startActivity(intent);
         });
     }
 }
