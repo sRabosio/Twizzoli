@@ -4,9 +4,12 @@ import org.jetbrains.annotations.NotNull;
 
 
 public class Comment extends Content{
-    @NotNull
-    public int father;
-    public Comment(@NotNull String text, @NotNull int creator, @NotNull int father) {
+    public Integer postfather;
+
+    public Integer commentFather;
+    public Comment(@NotNull String text, @NotNull int creator, Integer postfather, Integer commentFather) {
         super(text, creator);
+        this.postfather = postfather;
+        this.commentFather = commentFather;
     }
 }

@@ -13,20 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.data.CommentRepo;
 import it.itsar.twizzoli.databinding.FragmentNewCommentBinding;
 import it.itsar.twizzoli.models.Comment;
-import it.itsar.twizzoli.models.Content;
-import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;
 
 public class NewCommentFragment extends Fragment {
 
     private FragmentNewCommentBinding binding;
     private User loggedUser = null;
-    private Integer fatherContentId = null;
+    private Integer fatherPost = null;
+    private Integer fatherComment = null;
 
     public NewCommentFragment() {
         // Required empty public constructor
@@ -53,8 +51,9 @@ public class NewCommentFragment extends Fragment {
 
         Bundle args = getArguments();
         if(args == null) return;
-        fatherContentId = (Integer) args.getSerializable("fatherId");
-        if(fatherContentId == null) return;
+        fatherPost = (Integer) args.getSerializable("fatherPost");
+        fatherComment = (Integer) args.getSerializable("fatherComment");
+        if(fatherPost == null && fatherComment == null) return;
 
         Button sendButton = binding.buttonSend;
 
@@ -84,7 +83,8 @@ public class NewCommentFragment extends Fragment {
         sendButton.setOnClickListener(v ->{
             if(loggedUser == null) return;
             String commentText = binding.commentText.getText().toString();
-            Comment comment = new Comment(commentText, loggedUser.id, fatherContentId);
+
+            Comment comment = new Comment(commentText, loggedUser.id, fatherPost, fatherComment);
             new CommentRepo().write(comment);
             binding.commentText.setText("");
             binding.commentText.clearFocus();

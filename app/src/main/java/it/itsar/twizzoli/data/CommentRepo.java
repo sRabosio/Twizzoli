@@ -3,8 +3,6 @@ package it.itsar.twizzoli.data;
 import java.util.ArrayList;
 
 import it.itsar.twizzoli.models.Comment;
-import it.itsar.twizzoli.models.Content;
-import it.itsar.twizzoli.models.User;
 
 public class CommentRepo extends Repo<Comment>{
 
@@ -12,9 +10,17 @@ public class CommentRepo extends Repo<Comment>{
         super("table_comments");
     }
 //prova
-    public ArrayList<Comment> getContentChildren(int contentId){
+    public ArrayList<Comment> getCommentChildren(Integer contentId){
+        if(contentId == null) return new ArrayList<>();
         ArrayList<Comment> comments = new ArrayList<>(data.values());
-        comments.removeIf(comment ->comment.father != contentId);
+        comments.removeIf(comment -> comment.commentFather == null || !comment.commentFather.equals(contentId));
+        return comments;
+    }
+
+    public ArrayList<Comment> getPostChildren(Integer contentId){
+        if(contentId == null) return new ArrayList<>();
+        ArrayList<Comment> comments = new ArrayList<>(data.values());
+        comments.removeIf(comment -> comment.postfather == null || !comment.postfather.equals(contentId));
         return comments;
     }
 

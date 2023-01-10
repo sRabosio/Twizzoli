@@ -41,7 +41,7 @@ public class PostActivity extends AppCompatActivity {
         fetchCreator();
         fetchComments();
         Bundle newPostArgs = new Bundle();
-        newPostArgs.putSerializable("fatherId", post.id);
+        newPostArgs.putSerializable("fatherPost", post.id);
         switchFragment(NewCommentFragment.class, R.id.newcomment, newPostArgs);
         switchFragment(SearchBarFragment.class, R.id.appbar, null);
     }
@@ -65,7 +65,7 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void fetchComments(){
-        comments = commentRepo.getContentChildren(post.id);
+        comments = commentRepo.getPostChildren(post.id);
         if(comments == null) return;
         binding.comments.setAdapter(
                 new AdapterCommentList(comments.toArray(new Comment[0])));
