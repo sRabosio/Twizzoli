@@ -54,6 +54,23 @@ public class Registrazione extends AppCompatActivity {
 
     private void regButton(){
         binding.buttonReg.setOnClickListener(v -> {
+            String password = binding.password.getText().toString();
+            String phone = binding.phone.getText().toString();
+
+            if(password.length() < 5) {
+                Snackbar.make(v, "password must be at least 5 characthers long", 2000)
+                        .show();
+                return;
+            }
+
+            if(phone.length() < 9) {
+                Snackbar.make(v, "invalid phone number", 2000)
+                        .show();
+                return;
+            }
+
+
+
             User toRegister = new User(
                     binding.username.getText().toString(),
                     binding.email.getText().toString(),
