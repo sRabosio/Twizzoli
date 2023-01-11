@@ -29,6 +29,7 @@ public class PostActivity extends AppCompatActivity {
     private Post post = null;
     private User creator = null;
     private ActivityPostBinding binding;
+    private final AdapterCommentList adapterCommentList = new AdapterCommentList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +43,11 @@ public class PostActivity extends AppCompatActivity {
         fetchComments();
         Bundle newPostArgs = new Bundle();
         newPostArgs.putSerializable("fatherPost", post.id);
+        newPostArgs.putSerializable("adapter", adapterCommentList);
         switchFragment(NewCommentFragment.class, R.id.newcomment, newPostArgs);
         switchFragment(SearchBarFragment.class, R.id.appbar, null);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(!checkPost()) return;
-        fetchCreator();
-        fetchComments();
-    }
 
     private boolean checkPost(){
         if(post == null || post.id == null)
@@ -67,8 +62,8 @@ public class PostActivity extends AppCompatActivity {
     private void fetchComments(){
         comments = commentRepo.getPostChildren(post.id);
         if(comments == null) return;
-        binding.comments.setAdapter(
-                new AdapterCommentList(comments.toArray(new Comment[0])));
+        adapterCommentList.getComments().addAll(comments);
+        binding.comments.setAdapter(adapterCommentList);
     }
 
     private void fetchCreator(){

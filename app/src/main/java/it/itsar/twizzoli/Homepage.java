@@ -17,6 +17,7 @@ import android.view.animation.LinearInterpolator;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import it.itsar.twizzoli.adapters.AdapterPostList;
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.data.PostRepo;
 import it.itsar.twizzoli.databinding.ActivityHomepageBinding;
@@ -30,12 +31,14 @@ import it.itsar.twizzoli.models.User;
 
 public class Homepage extends AppCompatActivity {
 
-    private AppController controller = AppController.getInstance();
+    private final AppController controller = AppController.getInstance();
     private ActivityHomepageBinding binding;
     private final PostRepo postRepo = new PostRepo();
     private User loggedUser = null;
     private BottomNavigationView bottomAppBar;
     private float newpostTranslationValue;
+    private final AdapterPostList adapterPostList = new AdapterPostList();
+    private final Bundle adapterArgs = new Bundle();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +49,8 @@ public class Homepage extends AppCompatActivity {
         bottomAppBar = binding.bottombar;
         newpostTranslationValue = binding.homepageNewpostCard.getTranslationY();
         switchNewPostFragment();
-        switchFragment(Feed.class, null);
+        adapterArgs.putSerializable("adapter", adapterPostList);
+        switchFragment(Feed.class, adapterArgs);
         containerMain();
         bottomAppBar();
 
@@ -68,8 +72,11 @@ public class Homepage extends AppCompatActivity {
     }
 
     private void switchNewPostFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("adapter", adapterPostList);
+
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.homepage_newpost, NewPost.class, null)
+                .replace(R.id.homepage_newpost, NewPost.class, bundle)
                 .setReorderingAllowed(true)
                 .addToBackStack("new post")
                 .commit();
@@ -82,7 +89,7 @@ public class Homepage extends AppCompatActivity {
             final int user = R.id.item_profile;
             switch (item.getItemId()){
                 case home:
-                    switchFragment(Feed.class, null);
+                    switchFragment(Feed.class, adapterArgs);
                     break;
 
                 case newpost:
@@ -92,6 +99,7 @@ public class Homepage extends AppCompatActivity {
                 case user:
                     Bundle profileArgs = new Bundle();
                     profileArgs.putSerializable("user", loggedUser);
+                    profileArgs.putSerializable("adapter", adapterPostList);
                     switchFragment(Profilo.class, profileArgs);
                     break;
                 default:

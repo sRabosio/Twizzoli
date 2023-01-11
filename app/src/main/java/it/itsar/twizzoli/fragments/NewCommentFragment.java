@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import it.itsar.twizzoli.CommentActivity;
+import it.itsar.twizzoli.adapters.AdapterCommentList;
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.data.CommentRepo;
 import it.itsar.twizzoli.databinding.FragmentNewCommentBinding;
@@ -26,6 +27,7 @@ public class NewCommentFragment extends Fragment {
     private User loggedUser = null;
     private Integer fatherPost = null;
     private Integer fatherComment = null;
+    private AdapterCommentList commentAdapter = null;
 
     public NewCommentFragment() {
         // Required empty public constructor
@@ -54,6 +56,7 @@ public class NewCommentFragment extends Fragment {
         if(args == null) return;
         fatherPost = (Integer) args.getSerializable("fatherPost");
         fatherComment = (Integer) args.getSerializable("fatherComment");
+        commentAdapter = (AdapterCommentList) args.getSerializable("adapter");
         if(fatherPost == null && fatherComment == null) return;
 
         Button sendButton = binding.buttonSend;
@@ -89,8 +92,8 @@ public class NewCommentFragment extends Fragment {
             new CommentRepo().write(comment);
             binding.commentText.setText("");
             binding.commentText.clearFocus();
-            //by lin
-            getActivity().recreate();
+            commentAdapter.getComments().add(comment);
+            commentAdapter.notifyDataSetChanged();
         });
     }
 }

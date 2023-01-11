@@ -12,6 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import it.itsar.twizzoli.PostActivity;
 import it.itsar.twizzoli.ProfileActivity;
 import it.itsar.twizzoli.R;
@@ -20,13 +24,16 @@ import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;
 
-public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHolderPostList> {
+public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHolderPostList> implements Serializable {
 
     private final UserRepo userRepo = new UserRepo();
-    private Post[] postList;
+    private final ArrayList<Post> postList = new ArrayList<>();
 
-    public AdapterPostList(Post[] postList) {
-        this.postList = postList;
+    public AdapterPostList(List<Post> postList) {
+        this.postList.addAll(postList);
+    }
+
+    public AdapterPostList() {
     }
 
     @NonNull
@@ -40,7 +47,7 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderPostList holder, int position) {
-        Post post = postList[position];
+        Post post = postList.get(position);
 
         userRepo.getElementById(post.creator, new ResultHandler() {
             @Override
@@ -58,18 +65,18 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
         holder.itemView.setOnClickListener(view->{
             Context context = view.getContext();
             Intent intent = new Intent(context, PostActivity.class);
-            intent. putExtra("post", post);
+            intent.putExtra("post", post);
             context.startActivity(intent);
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return postList.length;
+    public ArrayList<Post> getPostList() {
+        return postList;
     }
 
-    public void setPostList(Post[] postList) {
-        this.postList = postList;
+    @Override
+    public int getItemCount() {
+        return postList.size();
     }
 
     static class ViewHolderPostList extends RecyclerView.ViewHolder {

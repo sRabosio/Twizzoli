@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.ObservableInt;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,9 +30,7 @@ public class Profilo extends Fragment {
     private User userProfile = null;
     private final UserRepo userRepo = new UserRepo();
     private RecyclerView postList;
-    private ImageView avatar;
-    private String buttonText = "follow";
-    private TextView nomeprofilo, followerprofilo;
+    private ObservableInt followerCount = null;
 
     public Profilo(){
 
@@ -54,14 +53,14 @@ public class Profilo extends Fragment {
         Bundle args = getArguments();
         if(args == null) return;
         userProfile = (User) args.getSerializable("user");
+        AdapterPostList adapterPostList = (AdapterPostList) args.getSerializable("adapter");
         if(userProfile == null) return;
-
-        binding.nameprofile.setText(userProfile.nickname);
-        String followerText = userProfile.followers.size() + " followers";
-        binding.followerprofile.setText(followerText);
-        binding.postList.setAdapter(new AdapterPostList(
-            postRepo.searchByUser(userProfile.id).toArray(new Post[0])
-        ));
+        followerCount = new ObservableInt(userProfile.getFollowers().size());
+        binding.setProfileUser(userProfile);
+        binding.setFollowerCount(followerCount);
+        adapterPostList.getPostList().clear();
+        adapterPostList.getPostList().addAll(postRepo.searchByUser(userProfile.id));
+        binding.postList.setAdapter(adapterPostList);
         binding.avatarIv.setImageResource(userProfile.iconId);
 
         followButton();
@@ -69,22 +68,27 @@ public class Profilo extends Fragment {
     }
 
     private void followButton() {
-        binding.buttonFollow.setOnClickListener(v->{
-            if(isFollowing())
-                userRepo.unfollow(loggedUser.id, userProfile.id);
-            else
-                userRepo.follow(loggedUser.id, userProfile.id);
 
-            getActivity().recreate();
+        binding.buttonFollow.setOnClickListener(v->{
+            if(isFollowing()){
+                userRepo.unfollow(loggedUser.id, userProfile.id);
+                followerCount.set(followerCount.get()-1);
+            }
+            else {
+                userRepo.follow(loggedUser.id, userProfile.id);
+                followerCount.set(followerCount.get()+1);
+            }
+            refreshButton();
         });
     }
 
     private boolean isFollowing(){
-        return loggedUser.following.contains(userProfile.id);
+        return loggedUser.getFollowing().contains(userProfile.id);
     }
 
     private void refreshButton() {
         loggedUser = controller.getLoggedUser();
+        String buttonText;
         if(isFollowing())
             buttonText = "following";
         else

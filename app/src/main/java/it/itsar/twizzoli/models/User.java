@@ -1,22 +1,27 @@
 package it.itsar.twizzoli.models;
 
+
+import androidx.databinding.Bindable;
+import androidx.databinding.ObservableArrayList;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import it.itsar.twizzoli.BR;
 import it.itsar.twizzoli.R;
 
-public class User extends Model implements Serializable {
+public class User extends Model implements Serializable{
     public String nickname;
     public String email;
     public String password;
     public String phone;
     @NotNull
-    public ArrayList<Integer> followers = new ArrayList<>();
+    private final ArrayList<Integer> followers = new ArrayList<>();
     @NotNull
-    public ArrayList<Integer> following = new ArrayList<>();
+    private final ArrayList<Integer> following = new ArrayList<>();
     public int iconId = R.drawable.ic_launcher_background;
 
     public User(String nickname, String email, String password, String phone) {
@@ -24,6 +29,19 @@ public class User extends Model implements Serializable {
         this.email = email;
         this.password = password;
         this.phone = phone;
+    }
+
+
+    @NotNull
+    @Bindable
+    public ArrayList<Integer> getFollowers() {
+        return followers;
+    }
+
+    @NotNull
+    @Bindable
+    public ArrayList<Integer> getFollowing() {
+        return following;
     }
 
     @Override

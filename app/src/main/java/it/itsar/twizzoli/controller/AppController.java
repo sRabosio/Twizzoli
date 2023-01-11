@@ -8,10 +8,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import it.itsar.twizzoli.models.User;
 
-public class AppController extends Application {
+public class AppController extends Application implements Serializable {
     private static AppController instance;
     private User loggedUser = null;
     private String session_file = "table_session";

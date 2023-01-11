@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.adapters.AdapterPostList;
 import it.itsar.twizzoli.controller.AppController;
@@ -21,10 +23,11 @@ import it.itsar.twizzoli.models.User;
 
 public class Feed extends Fragment {
 
-    private PostRepo postRepo = new PostRepo();
-    private AppController controller = AppController.getInstance();
+    private final PostRepo postRepo = new PostRepo();
+    private final AppController controller = AppController.getInstance();
     private User loggedUser = null;
     private RecyclerView postList;
+    private AdapterPostList adapterPostList = null;
 
     public Feed() {
         // Required empty public constructor
@@ -37,12 +40,22 @@ public class Feed extends Fragment {
 
     }
 
+
+    private void arguments(){
+        if(getArguments() == null) return;
+        adapterPostList = (AdapterPostList) getArguments().getSerializable("adapter");
+        if(adapterPostList == null) return;
+        adapterPostList.getPostList().clear();
+        adapterPostList.getPostList().addAll(getFeed());
+        postList.setAdapter(adapterPostList);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(loggedUser == null) return;
         postList = view.findViewById(R.id.post_list);
-        refresh();
+        arguments();
     }
 
     @Override
@@ -52,30 +65,9 @@ public class Feed extends Fragment {
         return inflater.inflate(R.layout.fragment_feed, container, false);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(loggedUser == null) return;
-        refresh();
-    }
 
-    public void refresh(){
-        //TODO: use feed instead of sample
-        postList.setAdapter(new AdapterPostList(getFeed()));
-    }
-
-    private Post[] sample(){
-        return new Post[]{
-            new Post("title", "contenuto", 0),
-                new Post("title", "contenuto", 0),
-                new Post("title", "contenuto", 0),
-                new Post("title", "contenuto", 0),
-        };
-    }
-
-    //TODO: use this
-    private it.itsar.twizzoli.models.Post[] getFeed() {
-        if(loggedUser == null) return null;
-        return postRepo.userFeed(controller.getLoggedUser()).toArray(new Post[0]);
+    private ArrayList<Post> getFeed() {
+        if(loggedUser == null) return new ArrayList<>();
+        return postRepo.userFeed(controller.getLoggedUser());
     }
 }

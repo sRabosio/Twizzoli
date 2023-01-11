@@ -2,12 +2,13 @@ package it.itsar.twizzoli.data;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.models.Model;
 
-public abstract class Repo<T extends Model>{
+public abstract class Repo<T extends Model> implements Serializable {
     protected String fileName;
     protected final HashMap<Integer, T> data = new HashMap<>();
     protected final AppController controller = AppController.getInstance();

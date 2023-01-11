@@ -31,6 +31,8 @@ public class CommentActivity extends AppCompatActivity {
     private ArrayList<Comment> subComments;
     private final CommentRepo commentRepo = new CommentRepo();
     private final UserRepo userRepo = new UserRepo();
+    private final AdapterCommentList adapterCommentList = new AdapterCommentList();
+
 
 
     @Override
@@ -53,6 +55,7 @@ public class CommentActivity extends AppCompatActivity {
         if(mainComment == null) finish();
         Bundle args = new Bundle();
         args.putSerializable("fatherComment", mainComment.id);
+        args.putSerializable("adapter", adapterCommentList);
         switchFragment(NewCommentFragment.class, R.id.newcomment, args);
 
 
@@ -75,8 +78,9 @@ public class CommentActivity extends AppCompatActivity {
 
     private void commentList(){
         subComments = commentRepo.getCommentChildren(mainComment.id);
+        adapterCommentList.getComments().addAll(subComments);
         binding.subcomments.setAdapter(
-                new AdapterCommentList(subComments.toArray(new Comment[0]))
+                adapterCommentList
         );
     }
 

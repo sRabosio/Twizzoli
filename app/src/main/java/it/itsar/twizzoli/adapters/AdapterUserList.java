@@ -64,7 +64,7 @@ public class AdapterUserList extends RecyclerView.Adapter<AdapterUserList.ViewHo
         public void bind(User user) {
             avatarIv.setImageResource(user.iconId);
             nNameTv.setText(user.nickname);
-            followers.setText(String.valueOf(user.followers.size()));
+            followers.setText(String.valueOf(user.getFollowers().size()));
 
             itemView.setOnClickListener(v->{
                 Intent intent = new Intent(itemView.getContext(), ProfileActivity.class);

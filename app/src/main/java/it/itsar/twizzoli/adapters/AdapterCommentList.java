@@ -11,6 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import it.itsar.twizzoli.CommentActivity;
 import it.itsar.twizzoli.PostActivity;
 import it.itsar.twizzoli.ProfileActivity;
@@ -20,12 +24,15 @@ import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.models.Comment;
 import it.itsar.twizzoli.models.User;
 
-public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.ViewHolderCommentList> {
+public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.ViewHolderCommentList> implements Serializable{
 
-    private final Comment[] comments;
+    private final ArrayList<Comment> comments = new ArrayList<>();
 
-    public AdapterCommentList(Comment[] comments) {
-        this.comments = comments;
+    public AdapterCommentList(List<Comment> comments) {
+        this.comments.addAll(comments);
+    }
+
+    public AdapterCommentList() {
     }
 
     @NonNull
@@ -37,9 +44,13 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
         return new ViewHolderCommentList(view);
     }
 
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolderCommentList holder, int position) {
-        final Comment comment = comments[position];
+        final Comment comment = comments.get(position);
         new UserRepo().getElementById(comment.creator, new ResultHandler() {
             @Override
             public <T> void success(T result) {
@@ -65,7 +76,7 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
 
     @Override
     public int getItemCount() {
-        return comments.length;
+        return comments.size();
     }
 
     static class ViewHolderCommentList extends RecyclerView.ViewHolder {

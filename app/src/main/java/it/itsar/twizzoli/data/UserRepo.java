@@ -93,8 +93,8 @@ public class UserRepo extends Repo<User>{
         final User user = data.get(userId);
         final User toFollow = data.get(toFollowId);
         if(user == null || toFollow == null) return;
-        user.following.add(toFollowId);
-        toFollow.followers.add(userId);
+        user.getFollowing().add(toFollowId);
+        toFollow.getFollowers().add(userId);
         write(user);
         write(toFollow);
     }
@@ -104,8 +104,8 @@ public class UserRepo extends Repo<User>{
         final User toFollow = data.get(toUnfollowId);
         if(user == null || toFollow == null) return;
         //casting 4 remove based on objs instead of index
-        user.following.remove((Integer) toUnfollowId);
-        toFollow.followers.remove((Integer) userId);
+        user.getFollowing().remove((Integer) toUnfollowId);
+        toFollow.getFollowers().remove((Integer) userId);
         write(user);
         write(toFollow);
     }

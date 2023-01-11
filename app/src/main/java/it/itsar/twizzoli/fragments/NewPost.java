@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.google.android.material.snackbar.Snackbar;
 
 import it.itsar.twizzoli.Homepage;
+import it.itsar.twizzoli.adapters.AdapterPostList;
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.data.PostRepo;
 import it.itsar.twizzoli.databinding.FragmentNewPostBinding;
@@ -25,6 +26,7 @@ public class NewPost extends Fragment {
     private final AppController controller = AppController.getInstance();
     private FragmentNewPostBinding binding;
     private final PostRepo postRepo = new PostRepo();
+    private AdapterPostList adapterPostList = null;
 
     public NewPost() {
         // Required empty public constructor
@@ -60,11 +62,18 @@ public class NewPost extends Fragment {
             binding.newpostContent.setText("");
             Snackbar.make(view, "Post creato con successo", 3000)
                     .show();
-            getActivity().recreate();
+            adapterPostList.getPostList().add(post);
+            adapterPostList.notifyDataSetChanged();
         });
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(getArguments() == null) return;
+        adapterPostList = (AdapterPostList) getArguments().getSerializable("adapter");
+    }
 
     @Override
     public void onDestroy() {
@@ -77,6 +86,7 @@ public class NewPost extends Fragment {
         String content = binding.newpostContent.getText().toString();
         return title.isEmpty() || content.isEmpty();
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
