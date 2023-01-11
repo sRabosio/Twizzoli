@@ -12,4 +12,7 @@ public class Comment extends Content{
         this.postfather = postfather;
         this.commentFather = commentFather;
     }
+
+    public Comment() {
+    }
 }

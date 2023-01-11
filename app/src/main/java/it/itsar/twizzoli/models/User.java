@@ -31,6 +31,8 @@ public class User extends Model implements Serializable{
         this.phone = phone;
     }
 
+    public User() {
+    }
 
     @NotNull
     @Bindable

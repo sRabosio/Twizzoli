@@ -15,6 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
@@ -35,7 +38,8 @@ public class LoginActivity extends AppCompatActivity {
     private String us;
     private String ps;
     private ActivityMainBinding binding;
-    private User loggedUser = null;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference users = db.collection("users");
     private final AppController appController = AppController.getInstance();
 
     //TODO: change text type of password
@@ -59,12 +63,11 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void snackbar(){
+    private void snackbar() {
         String snackMessage = getIntent().getStringExtra("snackMessage");
-        if(snackMessage == null || snackMessage.isEmpty()) return;
+        if (snackMessage == null || snackMessage.isEmpty()) return;
         View view = getView();
-        Snackbar.make(view, snackMessage, 2000)
-                .show();
+        Snackbar.make(view, snackMessage, 2000).show();
     }
 
     @Override
@@ -73,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.loginbutton.setEnabled(isValid());
     }
 
-    private boolean isValid(){
+    private boolean isValid() {
         String email = binding.usernameinput.getText().toString();
         String password = binding.passwordinput.getText().toString();
         return !email.isEmpty() && !password.isEmpty();
@@ -85,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
     private void initRegistration() {
         registrati.setOnClickListener(v -> {
 
-            Intent intent = new Intent(LoginActivity.this,Registrazione.class);
+            Intent intent = new Intent(LoginActivity.this, Registrazione.class);
             startActivity(intent);
 
         });
@@ -97,25 +100,25 @@ public class LoginActivity extends AppCompatActivity {
             us = usernameinput.getText().toString();
             ps = passwordinput.getText().toString();
 
-            userRepo.userLogin(usernameinput.getText().toString(), passwordinput.getText().toString(), new ResultHandler() {
-                @Override
-                public <T> void success(T result) {
-                    User user = (User) result;
-                    Log.d("LOGIN SUCCESS", "LOGGATOOOOOOOOOOOOOOOO");
+            users
+                .whereEqualTo("email", us)
+                    .whereEqualTo("password", ps)
+                .get()
+                .addOnCompleteListener(task->{
+                    if(!task.isSuccessful()){
+                        Snackbar.make(getView(), "incorrect credentials", 1000).show();
+                        return;
+                    }
+                    User user = task.getResult().toObjects(User.class).get(0);
                     appController.setLoggedUser(user);
                     Intent intent = new Intent(LoginActivity.this, Homepage.class);
                     startActivity(intent);
-                }
 
-                @Override
-                public void failed(int code, String message) {
-                    Snackbar.make(getView(), message, 1000).show();
-                }
-            });
+                });
         });
     }
 
-    private View getView(){
+    private View getView() {
         return getWindow().getDecorView().findViewById(android.R.id.content);
     }
 

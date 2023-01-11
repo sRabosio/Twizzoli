@@ -14,6 +14,10 @@ public class Post extends Content{
         this.title = title;
     }
 
+    public Post() {
+        super();
+    }
+
     @NonNull
     public String getTitle() {
         return title;

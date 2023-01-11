@@ -17,5 +17,8 @@ public abstract class Content extends Model{
       this.creator = creator;
    }
 
+   public Content() {
+   }
+
    //TODO: mention field
 }
