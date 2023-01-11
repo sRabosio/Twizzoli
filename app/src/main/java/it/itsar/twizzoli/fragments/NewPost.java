@@ -51,6 +51,7 @@ public class NewPost extends Fragment {
             String title = binding.newpostTitle.getText().toString();
             String content = binding.newpostContent.getText().toString();
             if (isValid()) return;
+            loggedUser = controller.getLoggedUser();
 
             Post post = new Post(title, content, loggedUser.id);
             postRepo.write(post);
@@ -80,6 +81,7 @@ public class NewPost extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         submit();
     }
 }

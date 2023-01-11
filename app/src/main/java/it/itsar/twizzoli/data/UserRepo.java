@@ -56,7 +56,8 @@ public class UserRepo extends Repo<User>{
         final AppController controller = AppController.getInstance();
         boolean result = super.write(toWrite);
         if(!result) return result;
-        if(toWrite.id.equals(controller.getLoggedUser().id))
+
+        if(controller.getLoggedUser() != null && toWrite.id.equals(controller.getLoggedUser().id))
             controller.setLoggedUser(toWrite);
         return result;
     }
