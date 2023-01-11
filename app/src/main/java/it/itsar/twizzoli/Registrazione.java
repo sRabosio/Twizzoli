@@ -13,7 +13,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import it.itsar.twizzoli.data.ResultHandler;
 import it.itsar.twizzoli.data.UserRepo;
@@ -22,8 +32,9 @@ import it.itsar.twizzoli.models.User;
 
 public class Registrazione extends AppCompatActivity {
 
-    private UserRepo userRepo = new UserRepo();
     private ActivityRegistrazioneBinding binding;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference userRef = db.collection("users");
 
 
     @Override
@@ -39,8 +50,8 @@ public class Registrazione extends AppCompatActivity {
         logButton();
     }
 
-    private void logButton(){
-        binding.loginbutton.setOnClickListener(v->{
+    private void logButton() {
+        binding.loginbutton.setOnClickListener(v -> {
             Intent intent = new Intent(Registrazione.this, LoginActivity.class);
             startActivity(intent);
         });
@@ -52,53 +63,45 @@ public class Registrazione extends AppCompatActivity {
         binding.buttonReg.setEnabled(isInputOk());
     }
 
-    private void regButton(){
+    private void regButton() {
         binding.buttonReg.setOnClickListener(v -> {
             String password = binding.password.getText().toString();
             String phone = binding.phone.getText().toString();
+            String username = binding.username.getText().toString();
+            String email = binding.email.getText().toString();
 
-            if(password.length() < 5) {
+            if (password.length() < 5) {
                 Snackbar.make(v, "password must be at least 5 characthers long", 2000)
                         .show();
                 return;
             }
 
-            if(phone.length() < 9) {
+            if (phone.length() < 9) {
                 Snackbar.make(v, "invalid phone number", 2000)
                         .show();
                 return;
             }
 
+            Map<String, Object> toRegister = new HashMap<>();
+            toRegister.put("username", username);
+            toRegister.put("email", email);
+            toRegister.put("password", password);
+            toRegister.put("phone", phone);
+            toRegister.put("follower", new ArrayList<>());
+            toRegister.put("following", new ArrayList<>());
 
-
-            User toRegister = new User(
-                    binding.username.getText().toString(),
-                    binding.email.getText().toString(),
-                    password,
-                    phone
-            );
-
-
-            userRepo.userRegistration(toRegister, new ResultHandler() {
-                @Override
-                public <T> void success(T result) {
-
-                    Intent intent = new Intent(Registrazione.this, LoginActivity.class);
-                    intent.putExtra("snackMessage", "registration completed");
-                    startActivity(intent);
-
-                }
-
-                @Override
-                public void failed(int code, String message) {
-                    Snackbar.make(v, message, 3000).show();
-                }
-            });
+            userRef.add(toRegister)
+                    .addOnSuccessListener(documentReference -> {
+                        Intent intent = new Intent(Registrazione.this, LoginActivity.class);
+                        intent.putExtra("snackMessage", "registration completed");
+                        startActivity(intent);
+                    })
+                    .addOnFailureListener(e -> Snackbar.make(v, "" + e.getMessage(), 3000).show());
         });
     }
 
 
-    private void passwordCheck(){
+    private void passwordCheck() {
         binding.passwordConf.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -113,7 +116,7 @@ public class Registrazione extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 String passConfText = binding.passwordConf.toString();
 
-                if(passConfText.isEmpty() || isPasswordOK()){
+                if (passConfText.isEmpty() || isPasswordOK()) {
                     binding.passwordConfLabel.setTextColor(getColor(android.R.color.black));
                     return;
                 }
@@ -122,17 +125,17 @@ public class Registrazione extends AppCompatActivity {
         });
     }
 
-    private boolean isPasswordOK(){
+    private boolean isPasswordOK() {
         String passwordText = binding.password.getText().toString();
         String passConfText = binding.passwordConf.getText().toString();
         return passConfText.equals(passwordText) && !(passConfText.isEmpty() || passwordText.isEmpty());
     }
 
-    private boolean isInputOk(){
+    private boolean isInputOk() {
         return isPasswordOK() && !isInputEmpty();
     }
 
-    private boolean isInputEmpty(){
+    private boolean isInputEmpty() {
         String email = binding.email.getText().toString();
         String passwordConf = binding.passwordConf.getText().toString();
         String password = binding.password.getText().toString();

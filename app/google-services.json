@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1077449231241",
+    "project_id": "twizzoli",
+    "storage_bucket": "twizzoli.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1077449231241:android:7addcdeb59d28e68d26f58",
+        "android_client_info": {
+          "package_name": "it.itsar.twizzoli"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1077449231241-s9pr1hj629vkntl1uufms8o0vnf84qdt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC483fyu75uk-71vdnSyYXuG-Ykn2gtmLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1077449231241-s9pr1hj629vkntl1uufms8o0vnf84qdt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
