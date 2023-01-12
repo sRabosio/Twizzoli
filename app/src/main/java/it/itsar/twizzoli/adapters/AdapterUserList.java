@@ -1,25 +1,20 @@
 package it.itsar.twizzoli.adapters;
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.itsar.twizzoli.ProfileActivity;
 import it.itsar.twizzoli.R;
-import it.itsar.twizzoli.data.ResultHandler;
-import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.models.User;
 
 public class AdapterUserList extends RecyclerView.Adapter<AdapterUserList.ViewHolderUserList> {
@@ -63,7 +58,7 @@ public class AdapterUserList extends RecyclerView.Adapter<AdapterUserList.ViewHo
 
         public void bind(User user) {
             avatarIv.setImageResource(user.iconId);
-            nNameTv.setText(user.nickname);
+            nNameTv.setText(user.username);
             followers.setText(String.valueOf(user.getFollowers().size()));
 
             itemView.setOnClickListener(v->{

@@ -42,7 +42,7 @@ public class PostActivity extends AppCompatActivity {
         fetchCreator();
         fetchComments();
         Bundle newPostArgs = new Bundle();
-        newPostArgs.putSerializable("fatherPost", post.id);
+        newPostArgs.putSerializable("fatherPost", 0);
         newPostArgs.putSerializable("adapter", adapterCommentList);
         switchFragment(NewCommentFragment.class, R.id.newcomment, newPostArgs);
         switchFragment(SearchBarFragment.class, R.id.appbar, null);
@@ -50,7 +50,7 @@ public class PostActivity extends AppCompatActivity {
 
 
     private boolean checkPost(){
-        if(post == null || post.id == null)
+        if(post == null)
         {
             Log.d("ERROR IN POST ACTIVITY", "NO POST FOUND");
             finish();
@@ -60,17 +60,17 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void fetchComments(){
-        comments = commentRepo.getPostChildren(post.id);
+        comments = commentRepo.getPostChildren(0);
         if(comments == null) return;
         adapterCommentList.getComments().addAll(comments);
         binding.comments.setAdapter(adapterCommentList);
     }
 
     private void fetchCreator(){
-        userRepo.getElementById(post.creator, new ResultHandler() {
+       /* userRepo.getElementById(post.creatorPath, new ResultHandler() {
             @Override
             public <T> void success(T result) {
-                creator = (User) result;
+                creatorPath = (User) result;
                 bindPost();
             }
 
@@ -79,13 +79,13 @@ public class PostActivity extends AppCompatActivity {
                 Log.d("ERROR IN POST ACTVITY", "NO CREATOR FOUND");
                 finish();
             }
-        });
+        });*/
     }
 
     private void bindPost() {
         Bundle bundle = new Bundle();
         bundle.putSerializable("post", post);
-        bundle.putSerializable("creator", creator);
+        bundle.putSerializable("creatorPath", creator);
         switchFragment(PostFragment.class, R.id.post, bundle);
     }
 

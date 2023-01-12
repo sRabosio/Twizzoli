@@ -1,21 +1,22 @@
 package it.itsar.twizzoli.models;
 
-import androidx.annotation.NonNull;
-
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.Date;
 
 public abstract class Content extends Model{
-   @NotNull
    public String text;
-   @NotNull
-   public int creator;
+   public String father;
+   public String creatorPath;
+   public String username;
+   public Date creationDate;
 
-   public Content(@NotNull String text, @NotNull int creator) {
+
+   public Content(@NotNull String text) {
       this.text = text;
-      this.creator = creator;
    }
+
+
 
    public Content() {
    }

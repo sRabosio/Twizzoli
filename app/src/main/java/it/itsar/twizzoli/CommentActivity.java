@@ -54,7 +54,7 @@ public class CommentActivity extends AppCompatActivity {
     private void newcomment(){
         if(mainComment == null) finish();
         Bundle args = new Bundle();
-        args.putSerializable("fatherComment", mainComment.id);
+        args.putSerializable("fatherComment", mainComment);
         args.putSerializable("adapter", adapterCommentList);
         switchFragment(NewCommentFragment.class, R.id.newcomment, args);
 
@@ -62,22 +62,22 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     private void fetchUser(){
-        userRepo.getElementById(mainComment.creator, new ResultHandler() {
+        /*userRepo.getElementById(mainComment.creatorPath, new ResultHandler() {
             @Override
             public <T> void success(T result) {
-                creator = (User) result;
+                creatorPath = (User) result;
             }
 
             @Override
             public void failed(int code, String message) {
-                Log.d("ERROR IN COMMENT ACTIVITY", "No creator found!");
+                Log.d("ERROR IN COMMENT ACTIVITY", "No creatorPath found!");
                 finish();
             }
-        });
+        });*/
     }
 
     private void commentList(){
-        subComments = commentRepo.getCommentChildren(mainComment.id);
+        subComments = commentRepo.getCommentChildren(0);
         adapterCommentList.getComments().addAll(subComments);
         binding.subcomments.setAdapter(
                 adapterCommentList
@@ -87,7 +87,7 @@ public class CommentActivity extends AppCompatActivity {
     private void mainComment(){
         Bundle args = new Bundle();
         args.putSerializable("comment", mainComment);
-        args.putSerializable("creator", creator);
+        args.putSerializable("creatorPath", creator);
         switchFragment(CommentFragment.class, R.id.main_comment, args);
     }
 

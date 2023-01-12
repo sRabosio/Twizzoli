@@ -13,20 +13,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Date;
+
 import it.itsar.twizzoli.CommentActivity;
 import it.itsar.twizzoli.adapters.AdapterCommentList;
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.data.CommentRepo;
 import it.itsar.twizzoli.databinding.FragmentNewCommentBinding;
 import it.itsar.twizzoli.models.Comment;
+import it.itsar.twizzoli.models.Content;
+import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;
 
 public class NewCommentFragment extends Fragment {
 
     private FragmentNewCommentBinding binding;
     private User loggedUser = null;
-    private Integer fatherPost = null;
-    private Integer fatherComment = null;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference comments = db.collection("commenti");
+    private Content parentContent = new Post();
     private AdapterCommentList commentAdapter = null;
 
     public NewCommentFragment() {
@@ -54,10 +62,7 @@ public class NewCommentFragment extends Fragment {
 
         Bundle args = getArguments();
         if(args == null) return;
-        fatherPost = (Integer) args.getSerializable("fatherPost");
-        fatherComment = (Integer) args.getSerializable("fatherComment");
         commentAdapter = (AdapterCommentList) args.getSerializable("adapter");
-        if(fatherPost == null && fatherComment == null) return;
 
         Button sendButton = binding.buttonSend;
 
@@ -88,8 +93,10 @@ public class NewCommentFragment extends Fragment {
             if(loggedUser == null) return;
             String commentText = binding.commentText.getText().toString();
 
-            Comment comment = new Comment(commentText, loggedUser.id, fatherPost, fatherComment);
-            new CommentRepo().write(comment);
+            Comment comment = new Comment(commentText, loggedUser.path);
+            comment.father = parentContent.path;
+            comment.creationDate = new Date();
+            comments.add(comment);
             binding.commentText.setText("");
             binding.commentText.clearFocus();
             commentAdapter.getComments().add(comment);

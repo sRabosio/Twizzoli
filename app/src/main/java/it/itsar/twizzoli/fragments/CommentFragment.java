@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import it.itsar.twizzoli.CommentActivity;
 import it.itsar.twizzoli.ProfileActivity;
-import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.databinding.FragmentCommentBinding;
 import it.itsar.twizzoli.models.Comment;
 import it.itsar.twizzoli.models.User;
@@ -48,10 +47,10 @@ public class CommentFragment extends Fragment {
         if(args == null) return;
 
         comment = (Comment) args.getSerializable("comment");
-        creator = (User) args.getSerializable("creator");
+        creator = (User) args.getSerializable("creatorPath");
         binding.textContent.setText(comment.text);
         binding.userIcon.setImageResource(creator.iconId);
-        binding.username.setText(creator.nickname);
+        binding.username.setText(creator.username);
         binding.infoContainer.setOnClickListener(v->{
             Intent intent = new Intent(getContext(), ProfileActivity.class);
             intent.putExtra("profileUser", creator);

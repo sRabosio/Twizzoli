@@ -2,30 +2,30 @@ package it.itsar.twizzoli.models;
 
 
 import androidx.databinding.Bindable;
-import androidx.databinding.ObservableArrayList;
+
+import com.google.firebase.firestore.DocumentReference;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Objects;
 
-import it.itsar.twizzoli.BR;
 import it.itsar.twizzoli.R;
 
 public class User extends Model implements Serializable{
-    public String nickname;
+    public String username;
     public String email;
     public String password;
     public String phone;
+
     @NotNull
-    private final ArrayList<Integer> followers = new ArrayList<>();
+    private final ArrayList<String> followers = new ArrayList<>();
     @NotNull
-    private final ArrayList<Integer> following = new ArrayList<>();
+    private final ArrayList<String> following = new ArrayList<>();
     public int iconId = R.drawable.ic_launcher_background;
 
-    public User(String nickname, String email, String password, String phone) {
-        this.nickname = nickname;
+    public User(String username, String email, String password, String phone) {
+        this.username = username;
         this.email = email;
         this.password = password;
         this.phone = phone;
@@ -36,13 +36,13 @@ public class User extends Model implements Serializable{
 
     @NotNull
     @Bindable
-    public ArrayList<Integer> getFollowers() {
+    public ArrayList<String> getFollowers() {
         return followers;
     }
 
     @NotNull
     @Bindable
-    public ArrayList<Integer> getFollowing() {
+    public ArrayList<String> getFollowing() {
         return following;
     }
 
@@ -51,6 +51,6 @@ public class User extends Model implements Serializable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return nickname.equals(user.nickname) && email.equals(user.email) && phone.equals(user.phone);
+        return username.equals(user.username) && email.equals(user.email) && phone.equals(user.phone);
     }
 }

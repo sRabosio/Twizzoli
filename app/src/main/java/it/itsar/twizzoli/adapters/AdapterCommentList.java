@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.itsar.twizzoli.CommentActivity;
-import it.itsar.twizzoli.PostActivity;
 import it.itsar.twizzoli.ProfileActivity;
 import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.data.ResultHandler;
@@ -51,18 +50,18 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
     @Override
     public void onBindViewHolder(@NonNull ViewHolderCommentList holder, int position) {
         final Comment comment = comments.get(position);
-        new UserRepo().getElementById(comment.creator, new ResultHandler() {
+       /* new UserRepo().getElementById(comment.creatorPath, new ResultHandler() {
             @Override
             public <T> void success(T result) {
-                User creator = (User) result;
-                holder.bind(comment, creator);
+                User creatorPath = (User) result;
+                holder.bind(comment, creatorPath);
             }
 
             @Override
             public void failed(int code, String message) {
                 Log.d("ERROR IN BIND VIEW HOLDER", "Creator not found");
             }
-        });
+        });*/
 
         holder.itemView.setOnClickListener(view->{
             Context context = view.getContext();
@@ -97,7 +96,7 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
 
         public void bind(Comment comment, User creator){
             commentText.setText(comment.text);
-            username.setText(creator.nickname);
+            username.setText(creator.username);
             userIcon.setImageResource(creator.iconId);
             userInfo.setOnClickListener(v->{
                 Intent intent = new Intent(v.getContext(), ProfileActivity.class);

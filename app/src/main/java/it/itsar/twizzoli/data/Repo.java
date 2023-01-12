@@ -19,22 +19,7 @@ public abstract class Repo<T extends Model> implements Serializable {
     }
 
     public boolean write(T toWrite){
-        fetch();
-        if(data.containsKey(toWrite.id)) {
-            data.replace(toWrite.id, toWrite);
-        }else{
-            //Assign id in absence of db
-            toWrite.id = data.size();
-            data.put(toWrite.id, toWrite);
-        }
-        try{
-            controller.write(data, fileName);
-
-            return true;
-        }catch (Exception exception){
-            logException("WRITING ERROR", exception);
-            return false;
-        }
+        return true;
     }
 
     protected void logException(String message, Exception e){

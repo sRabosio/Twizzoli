@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,6 @@ import it.itsar.twizzoli.models.User;
 
 public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHolderPostList> implements Serializable {
 
-    private final UserRepo userRepo = new UserRepo();
     private final ArrayList<Post> postList = new ArrayList<>();
 
     public AdapterPostList(List<Post> postList) {
@@ -49,17 +50,7 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
     public void onBindViewHolder(@NonNull ViewHolderPostList holder, int position) {
         Post post = postList.get(position);
 
-        userRepo.getElementById(post.creator, new ResultHandler() {
-            @Override
-            public <T> void success(T result) {
-                holder.bind(post, (User) result);
-            }
-
-            @Override
-            public void failed(int code, String message) {
-                Log.d(String.valueOf(code), message);
-            }
-        });
+        holder.bind(post);
 
         //Listener 4 item, goes to post activity
         holder.itemView.setOnClickListener(view->{
@@ -98,10 +89,10 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
             infoContainer = itemView.findViewById(R.id.info_container);
         }
 
-        public void bind(Post post, User creator) {
+        public void bind(Post post) {
             title.setText(post.title);
-            username.setText(creator.nickname);
-
+            username.setText(post.username);
+            date.setText(post.creationDate.toString());
 
             textContent.setText(
                     post.text.length() > 50 ?
@@ -111,8 +102,12 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
 
             infoContainer.setOnClickListener(v->{
                 Intent intent = new Intent(v.getContext(), ProfileActivity.class);
-                intent.putExtra("profileUser", creator);
-                v.getContext().startActivity(intent);
+                FirebaseFirestore.getInstance().document(post.creatorPath).get().addOnCompleteListener(task->{
+                    if(!task.isSuccessful()) return;
+                    User creator = task.getResult().toObject(User.class);
+                    intent.putExtra("profileUser", creator);
+                    v.getContext().startActivity(intent);
+                });
             });
         }
 

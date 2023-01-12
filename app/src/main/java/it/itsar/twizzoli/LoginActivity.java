@@ -110,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                         return;
                     }
                     User user = task.getResult().toObjects(User.class).get(0);
+                    user.path = task.getResult().getDocuments().get(0).getReference().getPath();
                     appController.setLoggedUser(user);
                     Intent intent = new Intent(LoginActivity.this, Homepage.class);
                     startActivity(intent);

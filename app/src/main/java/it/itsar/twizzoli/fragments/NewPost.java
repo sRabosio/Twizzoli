@@ -11,6 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Date;
 
 import it.itsar.twizzoli.Homepage;
 import it.itsar.twizzoli.adapters.AdapterPostList;
@@ -25,7 +29,8 @@ public class NewPost extends Fragment {
     private User loggedUser = null;
     private final AppController controller = AppController.getInstance();
     private FragmentNewPostBinding binding;
-    private final PostRepo postRepo = new PostRepo();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference posts = db.collection("post");
     private AdapterPostList adapterPostList = null;
 
     public NewPost() {
@@ -55,13 +60,21 @@ public class NewPost extends Fragment {
             if (isValid()) return;
             loggedUser = controller.getLoggedUser();
 
-            Post post = new Post(title, content, loggedUser.id);
-            postRepo.write(post);
+            Post post = new Post(title, content, loggedUser.path);
+            post.creationDate = new Date();
+            post.username = loggedUser.username;
+            posts.add(post)
+                    .addOnSuccessListener(succ->{
+                        Snackbar.make(view, "Post created succesfully", 3000)
+                                .show();
+                    })
+                    .addOnFailureListener(e->{
+                        Snackbar.make(view, "Error during post creation", 3000)
+                                .show();
+                    });
 
             binding.newpostTitle.setText("");
             binding.newpostContent.setText("");
-            Snackbar.make(view, "Post creato con successo", 3000)
-                    .show();
             adapterPostList.getPostList().add(post);
             adapterPostList.notifyDataSetChanged();
         });

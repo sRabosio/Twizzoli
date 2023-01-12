@@ -8,11 +8,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import it.itsar.twizzoli.ProfileActivity;
-import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.databinding.FragmentPostBinding;
 import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;
@@ -45,11 +43,11 @@ public class PostFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         if(getArguments() == null) return;
         post = (Post) getArguments().getSerializable("post");
-        creator = (User) getArguments().getSerializable("creator");
+        creator = (User) getArguments().getSerializable("creatorPath");
         binding.title.setText(post.title);
         binding.textContent.setText(post.text);
         binding.userIcon.setImageResource(creator.iconId);
-        binding.username.setText(creator.nickname);
+        binding.username.setText(creator.username);
         infoContainer();
     }
 

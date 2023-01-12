@@ -3,7 +3,6 @@ package it.itsar.twizzoli.data;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.models.User;
 
@@ -19,7 +18,7 @@ public class UserRepo extends Repo<User>{
     public ArrayList<User> searchByName(String searchKey){
         ArrayList<User> result = new ArrayList<>(data.values());
         final String lowerKey = searchKey.toLowerCase(Locale.ROOT);
-        result.removeIf(e->!e.nickname.toLowerCase(Locale.ROOT).contains(lowerKey));
+        result.removeIf(e->!e.username.toLowerCase(Locale.ROOT).contains(lowerKey));
         return result;
     }
 
@@ -38,8 +37,8 @@ public class UserRepo extends Repo<User>{
                 handler.failed(0, "phone number already in use");
                 return;
             }
-            if (user.nickname.equals(toRegister.nickname)) {
-                handler.failed(0, "nickname already in use");
+            if (user.username.equals(toRegister.username)) {
+                handler.failed(0, "username already in use");
                 return;
             }
         }
@@ -53,13 +52,7 @@ public class UserRepo extends Repo<User>{
 
     @Override
     public boolean write(User toWrite) {
-        final AppController controller = AppController.getInstance();
-        boolean result = super.write(toWrite);
-        if(!result) return result;
-
-        if(controller.getLoggedUser() != null && toWrite.id.equals(controller.getLoggedUser().id))
-            controller.setLoggedUser(toWrite);
-        return result;
+        return true;
     }
 
     //TODO: handle error codes
@@ -89,24 +82,4 @@ public class UserRepo extends Repo<User>{
         handler.failed(0, "Wrong password");
     }
 
-    public void follow(int userId, int toFollowId){
-        final User user = data.get(userId);
-        final User toFollow = data.get(toFollowId);
-        if(user == null || toFollow == null) return;
-        user.getFollowing().add(toFollowId);
-        toFollow.getFollowers().add(userId);
-        write(user);
-        write(toFollow);
-    }
-
-    public void unfollow(int userId, int toUnfollowId){
-        final User user = data.get(userId);
-        final User toFollow = data.get(toUnfollowId);
-        if(user == null || toFollow == null) return;
-        //casting 4 remove based on objs instead of index
-        user.getFollowing().remove((Integer) toUnfollowId);
-        toFollow.getFollowers().remove((Integer) userId);
-        write(user);
-        write(toFollow);
-    }
 }
