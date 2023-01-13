@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -76,11 +77,13 @@ public class Feed extends Fragment {
         feedQueryParam.add(loggedUser.username);
         posts
                 .whereIn("creator", feedQueryParam)
+                .whereEqualTo("parent", false)
                 //TODO: .orderBy("creation_date", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) return;
-                    List<Post> result = task.getResult().toObjects(Post.class);
+                    task.getResult().getDocuments().get(0).getId();
+                    List<DocumentSnapshot> result = task.getResult().getDocuments();
                     adapterPostList.getPostList().clear();
                     adapterPostList.getPostList().addAll(result);
                     adapterPostList.notifyDataSetChanged();

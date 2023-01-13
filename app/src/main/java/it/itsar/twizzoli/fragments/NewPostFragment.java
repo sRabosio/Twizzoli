@@ -67,6 +67,7 @@ public class NewPostFragment extends Fragment {
                             .addOnSuccessListener(snap->{
                                 Toast.makeText(getContext(), "You already have a post with this title", Toast.LENGTH_SHORT)
                                         .show();
+                                adapterPostList.getPostList().add(snap);
                             });
 
             posts.document(post.getId())
@@ -82,7 +83,7 @@ public class NewPostFragment extends Fragment {
 
             binding.newpostTitle.setText("");
             binding.newpostContent.setText("");
-            adapterPostList.getPostList().add(post);
+
             adapterPostList.notifyDataSetChanged();
         });
 

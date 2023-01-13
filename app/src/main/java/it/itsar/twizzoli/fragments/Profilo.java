@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -79,7 +80,7 @@ public class Profilo extends Fragment {
                 .whereEqualTo("creator", userProfile.username)
                 .whereEqualTo("parent", false)
                 .get().addOnSuccessListener(snap->{
-                    List<Post> result = snap.toObjects(Post.class);
+                    List<DocumentSnapshot> result = snap.getDocuments();
                     adapterPostList.getPostList().clear();
                     adapterPostList.getPostList().addAll(result);
                     adapterPostList.notifyDataSetChanged();

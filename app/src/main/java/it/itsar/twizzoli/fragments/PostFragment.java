@@ -10,6 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import it.itsar.twizzoli.ProfileActivity;
 import it.itsar.twizzoli.databinding.FragmentPostBinding;
 import it.itsar.twizzoli.models.Post;
@@ -20,6 +24,8 @@ public class PostFragment extends Fragment {
     private FragmentPostBinding binding;
     private Post post = null;
     private User creator = null;
+    private String postId;
+    private final CollectionReference postsRef = FirebaseFirestore.getInstance().collection("post");
 
     public PostFragment() {
         // Required empty public constructor
@@ -42,12 +48,19 @@ public class PostFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(getArguments() == null) return;
-        post = (Post) getArguments().getSerializable("post");
+        postId = getArguments().getString("postId");
         creator = (User) getArguments().getSerializable("creator");
-        binding.title.setText(post.title);
-        binding.textContent.setText(post.text);
-        binding.userIcon.setImageResource(creator.iconId);
-        binding.username.setText(creator.username);
+        if(creator == null || postId == null) return;
+        binding.setUser(creator);
+        binding.setPost(post);
+
+
+        postsRef.document(postId).get().addOnSuccessListener(snap->{
+            Post result = snap.toObject(Post.class);
+            if(result == null) return;
+            post = result;
+        });
+
         infoContainer();
     }
 
