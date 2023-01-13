@@ -1,31 +1,23 @@
 package it.itsar.twizzoli;
 
-import static android.content.ContentValues.TAG;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Objects;
+import java.util.List;
 
 import it.itsar.twizzoli.controller.AppController;
-import it.itsar.twizzoli.data.ResultHandler;
 import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.databinding.ActivityMainBinding;
-import it.itsar.twizzoli.models.Model;
 import it.itsar.twizzoli.models.User;
 
 public class LoginActivity extends AppCompatActivity {
@@ -105,12 +97,12 @@ public class LoginActivity extends AppCompatActivity {
                     .whereEqualTo("password", ps)
                 .get()
                 .addOnCompleteListener(task->{
-                    if(!task.isSuccessful()){
+                    List<User> found = task.getResult().toObjects(User.class);
+                    if(!task.isSuccessful() || found.size() < 1){
                         Snackbar.make(getView(), "incorrect credentials", 1000).show();
                         return;
                     }
-                    User user = task.getResult().toObjects(User.class).get(0);
-                    user.path = task.getResult().getDocuments().get(0).getReference().getPath();
+                    User user = found.get(0);
                     appController.setLoggedUser(user);
                     Intent intent = new Intent(LoginActivity.this, Homepage.class);
                     startActivity(intent);

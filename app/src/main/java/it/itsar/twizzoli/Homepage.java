@@ -4,25 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewPropertyAnimator;
-import android.view.animation.LinearInterpolator;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import it.itsar.twizzoli.adapters.AdapterPostList;
 import it.itsar.twizzoli.controller.AppController;
-import it.itsar.twizzoli.data.PostRepo;
 import it.itsar.twizzoli.databinding.ActivityHomepageBinding;
 import it.itsar.twizzoli.fragments.Feed;
-import it.itsar.twizzoli.fragments.NewPost;
+import it.itsar.twizzoli.fragments.NewPostFragment;
 import it.itsar.twizzoli.fragments.Profilo;
 import it.itsar.twizzoli.fragments.SearchBarFragment;
 import it.itsar.twizzoli.models.User;
@@ -75,7 +70,7 @@ public class Homepage extends AppCompatActivity {
         bundle.putSerializable("adapter", adapterPostList);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.homepage_newpost, NewPost.class, bundle)
+                .replace(R.id.homepage_newpost, NewPostFragment.class, bundle)
                 .setReorderingAllowed(true)
                 .addToBackStack("new post")
                 .commit();

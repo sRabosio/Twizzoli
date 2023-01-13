@@ -6,9 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
@@ -16,15 +18,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
 
-import it.itsar.twizzoli.Homepage;
 import it.itsar.twizzoli.adapters.AdapterPostList;
 import it.itsar.twizzoli.controller.AppController;
-import it.itsar.twizzoli.data.PostRepo;
 import it.itsar.twizzoli.databinding.FragmentNewPostBinding;
 import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;
 
-public class NewPost extends Fragment {
+public class NewPostFragment extends Fragment {
 
     private User loggedUser = null;
     private final AppController controller = AppController.getInstance();
@@ -33,7 +33,7 @@ public class NewPost extends Fragment {
     private final CollectionReference posts = db.collection("post");
     private AdapterPostList adapterPostList = null;
 
-    public NewPost() {
+    public NewPostFragment() {
         // Required empty public constructor
     }
 
@@ -60,16 +60,15 @@ public class NewPost extends Fragment {
             if (isValid()) return;
             loggedUser = controller.getLoggedUser();
 
-            Post post = new Post(title, content, loggedUser.path);
+            Post post = new Post(title, content, loggedUser.username);
             post.creationDate = new Date();
-            post.username = loggedUser.username;
             posts.add(post)
                     .addOnSuccessListener(succ->{
-                        Snackbar.make(view, "Post created succesfully", 3000)
+                        Toast.makeText(getContext(), "Post created succesfully", Toast.LENGTH_SHORT)
                                 .show();
                     })
                     .addOnFailureListener(e->{
-                        Snackbar.make(view, "Error during post creation", 3000)
+                        Toast.makeText(getContext(), "Error during post creation", Toast.LENGTH_SHORT)
                                 .show();
                     });
 

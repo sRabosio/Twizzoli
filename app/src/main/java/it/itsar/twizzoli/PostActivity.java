@@ -60,7 +60,6 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void fetchComments(){
-        comments = commentRepo.getPostChildren(0);
         if(comments == null) return;
         adapterCommentList.getComments().addAll(comments);
         binding.comments.setAdapter(adapterCommentList);

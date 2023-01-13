@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.List;
+
 import it.itsar.twizzoli.adapters.AdapterPostList;
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.data.PostRepo;
@@ -29,11 +31,12 @@ public class Profilo extends Fragment {
     private FragmentProfiloBinding binding;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference users = db.collection("users");
+    private final CollectionReference postRef = db.collection("post");
     private final AppController controller = AppController.getInstance();
     private User loggedUser = null;
     private User userProfile = null;
-    private RecyclerView postList;
     private ObservableInt followerCount = null;
+    private AdapterPostList adapterPostList = null;
 
     public Profilo() {
 
@@ -43,9 +46,6 @@ public class Profilo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProfiloBinding.inflate(inflater, container, false);
-        //auth database
-        //binding con dati presi dal database
-        //chiamate database per ottenere dati
 
         return binding.getRoot();
     }
@@ -57,13 +57,16 @@ public class Profilo extends Fragment {
         Bundle args = getArguments();
         if (args == null) return;
         userProfile = (User) args.getSerializable("user");
-        AdapterPostList adapterPostList = (AdapterPostList) args.getSerializable("adapter");
+        adapterPostList = (AdapterPostList) args.getSerializable("adapter");
         if (userProfile == null) return;
+        if (adapterPostList == null) adapterPostList = new AdapterPostList();
 
         followerCount = new ObservableInt(userProfile.getFollowers().size());
         binding.setProfileUser(userProfile);
         binding.setFollowerCount(followerCount);
-        adapterPostList.getPostList().clear();
+
+
+        setAdapterData();
         binding.postList.setAdapter(adapterPostList);
         binding.avatarIv.setImageResource(userProfile.iconId);
 
@@ -71,26 +74,36 @@ public class Profilo extends Fragment {
         refreshButton();
     }
 
+    private void setAdapterData() {
+        postRef.whereEqualTo("creator", userProfile.username)
+                .get().addOnSuccessListener(snap->{
+                    List<Post> result = snap.toObjects(Post.class);
+                    adapterPostList.getPostList().clear();
+                    adapterPostList.getPostList().addAll(result);
+                    adapterPostList.notifyDataSetChanged();
+                });
+    }
+
     private void followButton() {
 
         binding.buttonFollow.setOnClickListener(v -> {
             if (isFollowing()) {
-                loggedUser.getFollowing().remove(userProfile.path);
-                userProfile.getFollowers().remove(loggedUser.path);
+                loggedUser.getFollowing().remove(userProfile.username);
+                userProfile.getFollowers().remove(loggedUser.username);
                 followerCount.set(followerCount.get() - 1);
             } else {
-                loggedUser.getFollowing().add(userProfile.path);
-                userProfile.getFollowers().add(loggedUser.path);
+                loggedUser.getFollowing().add(userProfile.username);
+                userProfile.getFollowers().add(loggedUser.username);
                 followerCount.set(followerCount.get() + 1);
             }
-            users.document(loggedUser.path).set(loggedUser);
-            users.document(userProfile.path).set(userProfile);
+            users.document(loggedUser.username).set(loggedUser);
+            users.document(userProfile.username).set(userProfile);
             refreshButton();
         });
     }
 
     private boolean isFollowing() {
-        return loggedUser.getFollowing().contains(userProfile.path);
+        return loggedUser.getFollowing().contains(userProfile.username);
     }
 
     private void refreshButton() {
@@ -100,7 +113,7 @@ public class Profilo extends Fragment {
             buttonText = "following";
         else
             buttonText = "follow";
-        if (userProfile.path.equals(loggedUser.path))
+        if (userProfile.username.equals(loggedUser.username))
             binding.buttonFollow.setVisibility(View.GONE);
         binding.buttonFollow.setText(buttonText);
     }

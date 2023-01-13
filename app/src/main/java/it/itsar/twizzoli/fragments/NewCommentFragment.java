@@ -93,8 +93,8 @@ public class NewCommentFragment extends Fragment {
             if(loggedUser == null) return;
             String commentText = binding.commentText.getText().toString();
 
-            Comment comment = new Comment(commentText, loggedUser.path);
-            comment.father = parentContent.path;
+            Comment comment = new Comment(commentText, loggedUser.username);
+            //TODO:comment.father = parentContent.;
             comment.creationDate = new Date();
             comments.add(comment);
             binding.commentText.setText("");

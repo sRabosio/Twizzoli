@@ -77,7 +77,6 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     private void commentList(){
-        subComments = commentRepo.getCommentChildren(0);
         adapterCommentList.getComments().addAll(subComments);
         binding.subcomments.setAdapter(
                 adapterCommentList

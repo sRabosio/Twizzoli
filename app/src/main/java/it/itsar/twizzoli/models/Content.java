@@ -6,9 +6,7 @@ import java.util.Date;
 
 public abstract class Content extends Model{
    public String text;
-   public String father;
-   public String creatorPath;
-   public String username;
+   public String creator;
    public Date creationDate;
 
 

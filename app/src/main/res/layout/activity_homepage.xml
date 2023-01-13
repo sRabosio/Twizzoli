@@ -44,7 +44,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/homepage_newpost"
-                android:name="it.itsar.twizzoli.fragments.NewPost"
+                android:name="it.itsar.twizzoli.fragments.NewPostFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout="@layout/fragment_new_post"

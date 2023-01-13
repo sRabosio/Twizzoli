@@ -8,8 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,9 +25,10 @@ import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.data.ResultHandler;
 import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.models.Comment;
+import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;
 
-public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.ViewHolderCommentList> implements Serializable{
+public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.ViewHolderCommentList> implements Serializable {
 
     private final ArrayList<Comment> comments = new ArrayList<>();
 
@@ -50,28 +55,19 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
     @Override
     public void onBindViewHolder(@NonNull ViewHolderCommentList holder, int position) {
         final Comment comment = comments.get(position);
-       /* new UserRepo().getElementById(comment.creatorPath, new ResultHandler() {
-            @Override
-            public <T> void success(T result) {
-                User creatorPath = (User) result;
-                holder.bind(comment, creatorPath);
-            }
 
-            @Override
-            public void failed(int code, String message) {
-                Log.d("ERROR IN BIND VIEW HOLDER", "Creator not found");
-            }
-        });*/
+        holder.bind(comment);
 
-        holder.itemView.setOnClickListener(view->{
+        holder.itemView.setOnClickListener(view -> {
             Context context = view.getContext();
             Intent intent = new Intent(context, CommentActivity.class);
-            intent. putExtra("comment", comment);
+            intent.putExtra("comment", comment);
             context.startActivity(intent
             );
         });
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -84,6 +80,9 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
         private final ImageView userIcon;
         private final TextView username;
         private final View userInfo;
+        private final CollectionReference userRef = FirebaseFirestore
+                .getInstance()
+                .collection("users");
 
 
         public ViewHolderCommentList(@NonNull View itemView) {
@@ -94,15 +93,25 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
             userInfo = itemView.findViewById(R.id.info_container);
         }
 
-        public void bind(Comment comment, User creator){
+        public void bind(Comment comment) {
             commentText.setText(comment.text);
-            username.setText(creator.username);
-            userIcon.setImageResource(creator.iconId);
-            userInfo.setOnClickListener(v->{
-                Intent intent = new Intent(v.getContext(), ProfileActivity.class);
-                intent.putExtra("profileUser", creator);
-                v.getContext().startActivity(intent);
-            });
+            setCreatorData(comment.creator);
+        }
+
+        private void setCreatorData(String username) {
+            userRef.document(username)
+                    .get()
+                    .addOnSuccessListener(snap -> {
+                        User creator = snap.toObject(User.class);
+                        if (creator == null) return;
+                        this.username.setText(creator.username);
+                        userIcon.setImageResource(creator.iconId);
+                        userInfo.setOnClickListener(v -> {
+                            Intent intent = new Intent(v.getContext(), ProfileActivity.class);
+                            intent.putExtra("profileUser", creator);
+                            v.getContext().startActivity(intent);
+                        });
+                    });
         }
 
     }

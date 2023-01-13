@@ -73,16 +73,17 @@ public class Feed extends Fragment {
 
     private void getFeed() {
         List<String> feedQueryParam = loggedUser.getFollowing();
-        feedQueryParam.add(loggedUser.path);
+        feedQueryParam.add(loggedUser.username);
         posts
-                .whereIn("creatorPath", feedQueryParam)
-                //.orderBy("creationDate", Query.Direction.DESCENDING)
+                .whereIn("creator", feedQueryParam)
+                //TODO: .orderBy("creation_date", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) return;
                     List<Post> result = task.getResult().toObjects(Post.class);
                     adapterPostList.getPostList().clear();
                     adapterPostList.getPostList().addAll(result);
+                    adapterPostList.notifyDataSetChanged();
                 });
     }
 }

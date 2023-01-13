@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
@@ -53,7 +54,7 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
         holder.bind(post);
 
         //Listener 4 item, goes to post activity
-        holder.itemView.setOnClickListener(view->{
+        holder.itemView.setOnClickListener(view -> {
             Context context = view.getContext();
             Intent intent = new Intent(context, PostActivity.class);
             intent.putExtra("post", post);
@@ -78,6 +79,7 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
         private final TextView date;
         private final TextView textContent;
         private final View infoContainer;
+        private final CollectionReference userRef = FirebaseFirestore.getInstance().collection("users");
 
         public ViewHolderPostList(@NonNull View itemView) {
             super(itemView);
@@ -91,8 +93,9 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
 
         public void bind(Post post) {
             title.setText(post.title);
-            username.setText(post.username);
-            date.setText(post.creationDate.toString());
+            username.setText(post.creator);
+            if (post.creationDate != null)
+                date.setText(post.creationDate.toString());
 
             textContent.setText(
                     post.text.length() > 50 ?
@@ -100,17 +103,21 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
                             post.text
             );
 
-            infoContainer.setOnClickListener(v->{
-                Intent intent = new Intent(v.getContext(), ProfileActivity.class);
-                FirebaseFirestore.getInstance().document(post.creatorPath).get().addOnCompleteListener(task->{
-                    if(!task.isSuccessful()) return;
-                    User creator = task.getResult().toObject(User.class);
-                    intent.putExtra("profileUser", creator);
-                    v.getContext().startActivity(intent);
-                });
-            });
+            setUserData(post.creator);
         }
 
-
+        private void setUserData(String creator) {
+            userRef.document(creator).get()
+                    .addOnSuccessListener(snap -> {
+                        User user = snap.toObject(User.class);
+                        if (user == null) return;
+                        infoContainer.setOnClickListener(v -> {
+                            Intent intent = new Intent(v.getContext(), ProfileActivity.class);
+                            intent.putExtra("profileUser", user);
+                            v.getContext().startActivity(intent);
+                        });
+                    });
+        }
     }
 }
+

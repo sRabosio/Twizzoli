@@ -11,7 +11,7 @@ public class Post extends Content{
 
     public Post(@NotNull String title, @NotNull String text, @NotNull String creator) {
         super(text);
-        this.creatorPath = creator;
+        this.creator = creator;
         this.title = title;
     }
 

@@ -66,7 +66,6 @@ public class Registrazione extends AppCompatActivity {
     private void regButton() {
         binding.buttonReg.setOnClickListener(v -> {
             String password = binding.password.getText().toString();
-            String phone = binding.phone.getText().toString();
             String username = binding.username.getText().toString();
             String email = binding.email.getText().toString();
 
@@ -76,21 +75,16 @@ public class Registrazione extends AppCompatActivity {
                 return;
             }
 
-            if (phone.length() < 9) {
-                Snackbar.make(v, "invalid phone number", 2000)
-                        .show();
-                return;
-            }
-
             Map<String, Object> toRegister = new HashMap<>();
             toRegister.put("username", username);
             toRegister.put("email", email);
             toRegister.put("password", password);
-            toRegister.put("phone", phone);
             toRegister.put("follower", new ArrayList<>());
             toRegister.put("following", new ArrayList<>());
 
-            userRef.add(toRegister)
+            userRef
+                    .document(username)
+                    .set(toRegister)
                     .addOnSuccessListener(documentReference -> {
                         Intent intent = new Intent(Registrazione.this, LoginActivity.class);
                         intent.putExtra("snackMessage", "registration completed");
@@ -139,10 +133,9 @@ public class Registrazione extends AppCompatActivity {
         String email = binding.email.getText().toString();
         String passwordConf = binding.passwordConf.getText().toString();
         String password = binding.password.getText().toString();
-        String phone = binding.phone.getText().toString();
         String username = binding.username.getText().toString();
 
-        return email.isEmpty() || passwordConf.isEmpty() || password.isEmpty() || phone.isEmpty() || username.isEmpty();
+        return email.isEmpty() || passwordConf.isEmpty() || password.isEmpty() || username.isEmpty();
     }
 
 

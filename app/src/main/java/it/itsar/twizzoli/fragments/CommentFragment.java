@@ -47,7 +47,6 @@ public class CommentFragment extends Fragment {
         if(args == null) return;
 
         comment = (Comment) args.getSerializable("comment");
-        creator = (User) args.getSerializable("creatorPath");
         binding.textContent.setText(comment.text);
         binding.userIcon.setImageResource(creator.iconId);
         binding.username.setText(creator.username);
