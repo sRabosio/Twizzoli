@@ -5,10 +5,12 @@ import androidx.databinding.Bindable;
 
 import com.google.firebase.firestore.DocumentReference;
 
+import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import it.itsar.twizzoli.R;
 
@@ -46,8 +48,8 @@ public class User extends Model implements Serializable{
         return following;
     }
 
-    public void setFollowers(@NotNull ArrayList<String> followers) {
-        this.followers = followers;
+    public void setFollowers(@NotNull List<String> followers) {
+        this.followers = new ArrayList<>(followers);
     }
 
     public void setFollowing(@NotNull ArrayList<String> following) {

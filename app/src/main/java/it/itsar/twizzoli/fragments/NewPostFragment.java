@@ -67,7 +67,7 @@ public class NewPostFragment extends Fragment {
                             .addOnSuccessListener(snap->{
                                 Toast.makeText(getContext(), "You already have a post with this title", Toast.LENGTH_SHORT)
                                         .show();
-                                adapterPostList.getPostList().add(snap);
+                                adapterPostList.getPostList().add(snap.getId());
                             });
 
             posts.document(post.getId())

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.ObservableArrayList;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.CollectionReference;
@@ -34,9 +35,9 @@ import it.itsar.twizzoli.models.User;
 
 public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHolderPostList> implements Serializable {
 
-    private final ArrayList<DocumentSnapshot> postList = new ArrayList<>();
+    private final ArrayList<String> postList = new ArrayList<>();
 
-    public AdapterPostList(List<DocumentSnapshot> postList) {
+    public AdapterPostList(List<String> postList) {
         this.postList.addAll(postList);
     }
 
@@ -47,7 +48,6 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
     @NonNull
     @Override
     public ViewHolderPostList onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         FragmentPostBinding binding = FragmentPostBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent, false);
         return new ViewHolderPostList(binding);
@@ -55,11 +55,10 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderPostList holder, int position) {
-        DocumentSnapshot post = postList.get(position);
-        holder.bind(post);
+        holder.bind(postList.get(position));
     }
 
-    public ArrayList<DocumentSnapshot> getPostList() {
+    public ArrayList<String> getPostList() {
         return postList;
     }
 
@@ -71,20 +70,24 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
     static class ViewHolderPostList extends RecyclerView.ViewHolder {
 
         private final CollectionReference userRef = FirebaseFirestore.getInstance().collection("users");
+        private final CollectionReference postRef = FirebaseFirestore.getInstance().collection("post");
         private final FragmentPostBinding binding;
 
         public ViewHolderPostList(@NotNull FragmentPostBinding binding) {
-            super(binding.getRoot() );
+            super(binding.getRoot());
             this.binding = binding;
         }
 
-        public void bind(DocumentSnapshot postSnap) {
-            Post post = postSnap.toObject(Post.class);
-            if(post == null) return;
-            binding.textContent.setMaxLines(3);
-            binding.setPost(post);
+        public void bind(String postId) {
+            postRef.document(postId).get().addOnSuccessListener(snap -> {
+                Post post = snap.toObject(Post.class);
+                if(post == null) return;
+                binding.textContent.setMaxLines(3);
+                binding.setPost(post);
 
-            setUserData(post, postSnap.getId());
+                setUserData(post, postId);
+            });
+
         }
 
         private void setUserData(Post post, String id) {
@@ -98,7 +101,7 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
                             v.getContext().startActivity(intent);
                         });
 
-                        itemView.setOnClickListener(view -> {
+                        binding.containerPost.setOnClickListener(view -> {
                             Context context = view.getContext();
                             Intent intent = new Intent(context, PostActivity.class);
                             intent.putExtra("postId", id);

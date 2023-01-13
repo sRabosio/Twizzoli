@@ -82,7 +82,7 @@ public class Profilo extends Fragment {
                 .get().addOnSuccessListener(snap->{
                     List<DocumentSnapshot> result = snap.getDocuments();
                     adapterPostList.getPostList().clear();
-                    adapterPostList.getPostList().addAll(result);
+                    result.forEach(e->adapterPostList.getPostList().add(e.getId()));
                     adapterPostList.notifyDataSetChanged();
                 });
     }

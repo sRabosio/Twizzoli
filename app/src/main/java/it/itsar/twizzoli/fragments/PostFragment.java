@@ -22,9 +22,8 @@ import it.itsar.twizzoli.models.User;
 public class PostFragment extends Fragment {
 
     private FragmentPostBinding binding;
-    private Post post = null;
     private User creator = null;
-    private String postId;
+    private String postId = null;
     private final CollectionReference postsRef = FirebaseFirestore.getInstance().collection("post");
 
     public PostFragment() {
@@ -52,13 +51,14 @@ public class PostFragment extends Fragment {
         creator = (User) getArguments().getSerializable("creator");
         if(creator == null || postId == null) return;
         binding.setUser(creator);
-        binding.setPost(post);
+
 
 
         postsRef.document(postId).get().addOnSuccessListener(snap->{
+
             Post result = snap.toObject(Post.class);
             if(result == null) return;
-            post = result;
+            binding.setPost(result);
         });
 
         infoContainer();

@@ -85,7 +85,7 @@ public class Feed extends Fragment {
                     task.getResult().getDocuments().get(0).getId();
                     List<DocumentSnapshot> result = task.getResult().getDocuments();
                     adapterPostList.getPostList().clear();
-                    adapterPostList.getPostList().addAll(result);
+                    result.forEach(e->adapterPostList.getPostList().add(e.getId()));
                     adapterPostList.notifyDataSetChanged();
                 });
     }

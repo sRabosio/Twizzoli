@@ -36,7 +36,7 @@ public class PostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-        postId = getIntent().getStringExtra("postRef");
+        postId = getIntent().getStringExtra("postId");
         creator = (User) getIntent().getSerializableExtra("creator");
         if(!checkPost()) return;
         binding = DataBindingUtil.setContentView(this, R.layout.activity_post);
@@ -54,7 +54,7 @@ public class PostActivity extends AppCompatActivity {
 
 
     private boolean checkPost(){
-        if(post == null || creator == null)
+        if(postId == null || creator == null)
         {
             Log.d("ERROR IN POST ACTIVITY", "NO POST FOUND");
             finish();
