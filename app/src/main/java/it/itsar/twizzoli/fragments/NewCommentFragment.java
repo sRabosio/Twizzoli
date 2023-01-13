@@ -33,8 +33,8 @@ public class NewCommentFragment extends Fragment {
     private FragmentNewCommentBinding binding;
     private User loggedUser = null;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private final CollectionReference comments = db.collection("commenti");
-    private Content parentContent = new Post();
+    private final CollectionReference comments = db.collection("post");
+    private String parentId = null;
     private AdapterCommentList commentAdapter = null;
 
     public NewCommentFragment() {
@@ -61,8 +61,9 @@ public class NewCommentFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Bundle args = getArguments();
-        if(args == null) return;
+        if (args == null) return;
         commentAdapter = (AdapterCommentList) args.getSerializable("adapter");
+        parentId = args.getString("parentId");
 
         Button sendButton = binding.buttonSend;
 
@@ -89,12 +90,12 @@ public class NewCommentFragment extends Fragment {
             }
         });
 
-        sendButton.setOnClickListener(v ->{
-            if(loggedUser == null) return;
+        sendButton.setOnClickListener(v -> {
+            if (loggedUser == null) return;
             String commentText = binding.commentText.getText().toString();
 
             Comment comment = new Comment(commentText, loggedUser.username);
-            //TODO:comment.father = parentContent.;
+            comment.parent = parentId;
             comment.creationDate = new Date();
             comments.add(comment);
             binding.commentText.setText("");

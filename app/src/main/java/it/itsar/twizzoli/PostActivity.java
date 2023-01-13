@@ -7,7 +7,11 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import it.itsar.twizzoli.adapters.AdapterCommentList;
 import it.itsar.twizzoli.data.CommentRepo;
@@ -23,9 +27,8 @@ import it.itsar.twizzoli.models.User;
 
 public class PostActivity extends AppCompatActivity {
 
-    private final CommentRepo commentRepo = new CommentRepo();
-    private final UserRepo userRepo = new UserRepo();
-    private ArrayList<Comment> comments;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference postRef = db.collection("post");
     private Post post = null;
     private User creator = null;
     private ActivityPostBinding binding;
@@ -36,21 +39,24 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
         post = (Post) getIntent().getSerializableExtra("post");
+        creator = (User) getIntent().getSerializableExtra("creator");
         if(!checkPost()) return;
         binding = DataBindingUtil.setContentView(this, R.layout.activity_post);
 
-        fetchCreator();
+
+        binding.comments.setAdapter(adapterCommentList);
         fetchComments();
         Bundle newPostArgs = new Bundle();
-        newPostArgs.putSerializable("fatherPost", 0);
+        newPostArgs.putString("parentId", post.getId());
         newPostArgs.putSerializable("adapter", adapterCommentList);
         switchFragment(NewCommentFragment.class, R.id.newcomment, newPostArgs);
         switchFragment(SearchBarFragment.class, R.id.appbar, null);
+        bindPost();
     }
 
 
     private boolean checkPost(){
-        if(post == null)
+        if(post == null || creator == null)
         {
             Log.d("ERROR IN POST ACTIVITY", "NO POST FOUND");
             finish();
@@ -60,31 +66,19 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void fetchComments(){
-        if(comments == null) return;
-        adapterCommentList.getComments().addAll(comments);
-        binding.comments.setAdapter(adapterCommentList);
-    }
-
-    private void fetchCreator(){
-       /* userRepo.getElementById(post.creatorPath, new ResultHandler() {
-            @Override
-            public <T> void success(T result) {
-                creatorPath = (User) result;
-                bindPost();
-            }
-
-            @Override
-            public void failed(int code, String message) {
-                Log.d("ERROR IN POST ACTVITY", "NO CREATOR FOUND");
-                finish();
-            }
-        });*/
+        postRef.whereEqualTo("parent", post.getId())
+                        .get().addOnSuccessListener(snap->{
+                    List<Comment> comments = snap.toObjects(Comment.class);
+                    adapterCommentList.getComments().clear();
+                    adapterCommentList.getComments().addAll(comments);
+                    adapterCommentList.notifyDataSetChanged();
+                });
     }
 
     private void bindPost() {
         Bundle bundle = new Bundle();
         bundle.putSerializable("post", post);
-        bundle.putSerializable("creatorPath", creator);
+        bundle.putSerializable("creator", creator);
         switchFragment(PostFragment.class, R.id.post, bundle);
     }
 

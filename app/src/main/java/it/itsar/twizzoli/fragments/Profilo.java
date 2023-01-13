@@ -75,7 +75,9 @@ public class Profilo extends Fragment {
     }
 
     private void setAdapterData() {
-        postRef.whereEqualTo("creator", userProfile.username)
+        postRef
+                .whereEqualTo("creator", userProfile.username)
+                .whereEqualTo("parent", false)
                 .get().addOnSuccessListener(snap->{
                     List<Post> result = snap.toObjects(Post.class);
                     adapterPostList.getPostList().clear();

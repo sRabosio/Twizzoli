@@ -52,14 +52,6 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
         Post post = postList.get(position);
 
         holder.bind(post);
-
-        //Listener 4 item, goes to post activity
-        holder.itemView.setOnClickListener(view -> {
-            Context context = view.getContext();
-            Intent intent = new Intent(context, PostActivity.class);
-            intent.putExtra("post", post);
-            context.startActivity(intent);
-        });
     }
 
     public ArrayList<Post> getPostList() {
@@ -103,11 +95,11 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
                             post.text
             );
 
-            setUserData(post.creator);
+            setUserData(post);
         }
 
-        private void setUserData(String creator) {
-            userRef.document(creator).get()
+        private void setUserData(Post post) {
+            userRef.document(post.creator).get()
                     .addOnSuccessListener(snap -> {
                         User user = snap.toObject(User.class);
                         if (user == null) return;
@@ -115,6 +107,14 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
                             Intent intent = new Intent(v.getContext(), ProfileActivity.class);
                             intent.putExtra("profileUser", user);
                             v.getContext().startActivity(intent);
+                        });
+
+                        itemView.setOnClickListener(view -> {
+                            Context context = view.getContext();
+                            Intent intent = new Intent(context, PostActivity.class);
+                            intent.putExtra("post", post);
+                            intent.putExtra("creator", user);
+                            context.startActivity(intent);
                         });
                     });
         }

@@ -17,6 +17,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
+import java.util.Locale;
 
 import it.itsar.twizzoli.adapters.AdapterPostList;
 import it.itsar.twizzoli.controller.AppController;
@@ -62,8 +63,15 @@ public class NewPostFragment extends Fragment {
 
             Post post = new Post(title, content, loggedUser.username);
             post.creationDate = new Date();
-            posts.add(post)
-                    .addOnSuccessListener(succ->{
+            posts.document(post.getId()).get()
+                            .addOnSuccessListener(snap->{
+                                Toast.makeText(getContext(), "You already have a post with this title", Toast.LENGTH_SHORT)
+                                        .show();
+                            });
+
+            posts.document(post.getId())
+                    .set(post)
+                    .addOnSuccessListener(snap->{
                         Toast.makeText(getContext(), "Post created succesfully", Toast.LENGTH_SHORT)
                                 .show();
                     })

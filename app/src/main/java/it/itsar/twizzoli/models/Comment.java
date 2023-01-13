@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 
 public class Comment extends Content{
-    public String father;
+    public String parent;
 
     public Comment(@NotNull String text, @NotNull String creator) {
         super(text);

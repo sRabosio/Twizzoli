@@ -43,7 +43,7 @@ public class PostFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         if(getArguments() == null) return;
         post = (Post) getArguments().getSerializable("post");
-        creator = (User) getArguments().getSerializable("creatorPath");
+        creator = (User) getArguments().getSerializable("creator");
         binding.title.setText(post.title);
         binding.textContent.setText(post.text);
         binding.userIcon.setImageResource(creator.iconId);

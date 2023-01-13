@@ -19,9 +19,9 @@ public class User extends Model implements Serializable{
     public String phone;
 
     @NotNull
-    private final ArrayList<String> followers = new ArrayList<>();
+    private ArrayList<String> followers = new ArrayList<>();
     @NotNull
-    private final ArrayList<String> following = new ArrayList<>();
+    private ArrayList<String> following = new ArrayList<>();
     public int iconId = R.drawable.ic_launcher_background;
 
     public User(String username, String email, String password, String phone) {
@@ -44,6 +44,14 @@ public class User extends Model implements Serializable{
     @Bindable
     public ArrayList<String> getFollowing() {
         return following;
+    }
+
+    public void setFollowers(@NotNull ArrayList<String> followers) {
+        this.followers = followers;
+    }
+
+    public void setFollowing(@NotNull ArrayList<String> following) {
+        this.following = following;
     }
 
     @Override

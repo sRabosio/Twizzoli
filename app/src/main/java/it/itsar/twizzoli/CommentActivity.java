@@ -29,8 +29,6 @@ public class CommentActivity extends AppCompatActivity {
     private Comment mainComment = null;
     private User creator;
     private ArrayList<Comment> subComments;
-    private final CommentRepo commentRepo = new CommentRepo();
-    private final UserRepo userRepo = new UserRepo();
     private final AdapterCommentList adapterCommentList = new AdapterCommentList();
 
 
