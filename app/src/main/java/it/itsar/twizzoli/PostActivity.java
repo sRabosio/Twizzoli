@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
@@ -66,9 +67,9 @@ public class PostActivity extends AppCompatActivity {
     private void fetchComments(){
         postCollectionRef.whereEqualTo("parent", postId)
                         .get().addOnSuccessListener(snap->{
-                    List<Comment> comments = snap.toObjects(Comment.class);
+                    List<DocumentSnapshot> comments = snap.getDocuments();
                     adapterCommentList.getComments().clear();
-                    adapterCommentList.getComments().addAll(comments);
+                    comments.forEach(e->adapterCommentList.getComments().add(e.getId()));
                     adapterCommentList.notifyDataSetChanged();
                 });
     }

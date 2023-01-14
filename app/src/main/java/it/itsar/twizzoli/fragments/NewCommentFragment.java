@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
@@ -97,11 +98,13 @@ public class NewCommentFragment extends Fragment {
             Comment comment = new Comment(commentText, loggedUser.username);
             comment.parent = parentId;
             comment.creationDate = new Date();
-            comments.add(comment);
             binding.commentText.setText("");
             binding.commentText.clearFocus();
-            commentAdapter.getComments().add(comment);
-            commentAdapter.notifyDataSetChanged();
+            comments.add(comment).addOnSuccessListener(snap->{
+                commentAdapter.getComments().add(snap.getId());
+                commentAdapter.notifyDataSetChanged();
+            });
+
         });
     }
 }

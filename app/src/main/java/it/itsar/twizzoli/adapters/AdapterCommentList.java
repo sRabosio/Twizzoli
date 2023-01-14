@@ -2,12 +2,8 @@ package it.itsar.twizzoli.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,18 +17,15 @@ import java.util.List;
 
 import it.itsar.twizzoli.CommentActivity;
 import it.itsar.twizzoli.ProfileActivity;
-import it.itsar.twizzoli.R;
-import it.itsar.twizzoli.data.ResultHandler;
-import it.itsar.twizzoli.data.UserRepo;
+import it.itsar.twizzoli.databinding.FragmentCommentBinding;
 import it.itsar.twizzoli.models.Comment;
-import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;
 
 public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.ViewHolderCommentList> implements Serializable {
 
-    private final ArrayList<Comment> comments = new ArrayList<>();
+    private final ArrayList<String> comments = new ArrayList<>();
 
-    public AdapterCommentList(List<Comment> comments) {
+    public AdapterCommentList(List<String> comments) {
         this.comments.addAll(comments);
     }
 
@@ -42,29 +35,20 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
     @NonNull
     @Override
     public ViewHolderCommentList onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_post, parent, false);
 
-        return new ViewHolderCommentList(view);
+        FragmentCommentBinding binding = FragmentCommentBinding.inflate(
+                LayoutInflater.from(parent.getContext()), parent, false);
+        return new ViewHolderCommentList(binding);
     }
 
-    public ArrayList<Comment> getComments() {
+    public ArrayList<String> getComments() {
         return comments;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderCommentList holder, int position) {
-        final Comment comment = comments.get(position);
+        holder.bind(comments.get(position));
 
-        holder.bind(comment);
-
-        holder.itemView.setOnClickListener(view -> {
-            Context context = view.getContext();
-            Intent intent = new Intent(context, CommentActivity.class);
-            intent.putExtra("comment", comment);
-            context.startActivity(intent
-            );
-        });
 
     }
 
@@ -76,43 +60,58 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
 
     static class ViewHolderCommentList extends RecyclerView.ViewHolder {
 
-        private final TextView commentText;
-        private final ImageView userIcon;
-        private final TextView username;
-        private final View userInfo;
+        private final FragmentCommentBinding binding;
         private final CollectionReference userRef = FirebaseFirestore
                 .getInstance()
                 .collection("users");
+        private final CollectionReference comRef = FirebaseFirestore.getInstance().collection("post");
 
 
-        public ViewHolderCommentList(@NonNull View itemView) {
-            super(itemView);
-            commentText = itemView.findViewById(R.id.text_content);
-            username = itemView.findViewById(R.id.username);
-            userIcon = itemView.findViewById(R.id.user_icon);
-            userInfo = itemView.findViewById(R.id.info_container);
+        public ViewHolderCommentList(@NonNull FragmentCommentBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
-        public void bind(Comment comment) {
-            commentText.setText(comment.text);
-            setCreatorData(comment.creator);
+        public void bind(String commentId) {
+            comRef.document(commentId)
+                    .get().addOnSuccessListener(snap -> {
+                Comment comment = snap.toObject(Comment.class);
+                if (comment == null) return;
+                binding.setComment(comment);
+
+                setData(comment, snap.getId());
+
+
+            });
+
         }
 
-        private void setCreatorData(String username) {
-            userRef.document(username)
+        private void setData(Comment comment, String commentId) {
+            userRef.document(comment.creator)
                     .get()
                     .addOnSuccessListener(snap -> {
                         User creator = snap.toObject(User.class);
                         if (creator == null) return;
-                        this.username.setText(creator.username);
-                        userIcon.setImageResource(creator.iconId);
-                        userInfo.setOnClickListener(v -> {
+                        binding.setUser(creator);
+                        binding.infoContainer.setOnClickListener(v -> {
                             Intent intent = new Intent(v.getContext(), ProfileActivity.class);
                             intent.putExtra("profileUser", creator);
                             v.getContext().startActivity(intent);
                         });
-                    });
-        }
 
+
+                        binding.getRoot().setOnClickListener(view -> {
+                            Context context = view.getContext();
+                            Intent intent = new Intent(context, CommentActivity.class);
+                            intent.putExtra("commentId", commentId);
+                            intent.putExtra("creator", creator);
+                            context.startActivity(intent);
+                        });
+                    });
+
+
+        };
     }
+
 }
+

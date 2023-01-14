@@ -3,6 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="comment"
+            type="it.itsar.twizzoli.models.Comment" />
+        <variable
+            name="user"
+            type="it.itsar.twizzoli.models.User" />
+    </data>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,6 +45,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="2dp"
                         android:textSize="10dp"
+                        android:text="@{user.username}"
                         app:layout_constraintStart_toEndOf="@+id/user_icon_container"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -65,6 +75,7 @@
                 android:id="@+id/text_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@{comment.text}"
                 tools:text="contenuto" />
 
                     <TextView
@@ -72,6 +83,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
+                        android:text="@{comment.creationDate.toString()}"
                         android:layout_margin="5dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"

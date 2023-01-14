@@ -47,17 +47,13 @@ public class CommentFragment extends Fragment {
         if(args == null) return;
 
         comment = (Comment) args.getSerializable("comment");
-        binding.textContent.setText(comment.text);
-        binding.userIcon.setImageResource(creator.iconId);
-        binding.username.setText(creator.username);
+        creator = (User) args.getSerializable("creator");
+        if(comment == null || creator == null) return;
+        binding.setComment(comment);
+        binding.setUser(creator);
         binding.infoContainer.setOnClickListener(v->{
             Intent intent = new Intent(getContext(), ProfileActivity.class);
             intent.putExtra("profileUser", creator);
-            startActivity(intent);
-        });
-        binding.commentContainer.setOnClickListener(v->{
-            Intent intent = new Intent(getContext(), CommentActivity.class);
-            intent.putExtra("comment", comment);
             startActivity(intent);
         });
     }
