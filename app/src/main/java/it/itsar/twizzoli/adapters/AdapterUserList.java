@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.itsar.twizzoli.ProfileActivity;
@@ -19,10 +20,13 @@ import it.itsar.twizzoli.models.User;
 
 public class AdapterUserList extends RecyclerView.Adapter<AdapterUserList.ViewHolderUserList> {
 
-    private final List<User> userList;
+    private final List<User> userList = new ArrayList<>();
 
-    public AdapterUserList(List<User> userList) {
-        this.userList = userList;
+    public AdapterUserList() {
+    }
+
+    public List<User> getUserList() {
+        return userList;
     }
 
     @NonNull
