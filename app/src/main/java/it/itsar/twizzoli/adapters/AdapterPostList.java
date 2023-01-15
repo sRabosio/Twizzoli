@@ -95,6 +95,7 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
                     .addOnSuccessListener(snap -> {
                         User user = snap.toObject(User.class);
                         if (user == null) return;
+                        binding.setUser(user);
                         binding.infoContainer.setOnClickListener(v -> {
                             Intent intent = new Intent(v.getContext(), ProfileActivity.class);
                             intent.putExtra("profileUser", user);

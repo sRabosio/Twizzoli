@@ -73,12 +73,13 @@ public class Feed extends Fragment {
 
 
     private void getFeed() {
-        List<String> feedQueryParam = loggedUser.getFollowing();
+        List<String> feedQueryParam = new ArrayList<>(loggedUser.getFollowing());
         feedQueryParam.add(loggedUser.username);
         posts
                 .whereIn("creator", feedQueryParam)
                 .whereEqualTo("parent", false)
                 //TODO: .orderBy("creation_date", Query.Direction.DESCENDING)
+                .limit(50)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) return;

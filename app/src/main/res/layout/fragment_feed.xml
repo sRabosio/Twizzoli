@@ -4,14 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/neutral_light"
     tools:context=".fragments.Feed">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/post_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/fragment_post"/>
+            tools:listitem="@layout/fragment_post" />
 
 
 </FrameLayout>

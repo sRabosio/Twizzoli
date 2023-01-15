@@ -11,7 +11,6 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:id="@+id/appbar_layout"
-            android:backgroundTint="@color/design_default_color_primary"
             android:paddingHorizontal="10dp"
             android:paddingVertical="5dp"
             android:layout_height="50dp">

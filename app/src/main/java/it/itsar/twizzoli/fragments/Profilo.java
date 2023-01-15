@@ -1,9 +1,13 @@
 package it.itsar.twizzoli.fragments;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.ObservableInt;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
+import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.adapters.AdapterPostList;
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.data.PostRepo;
@@ -110,12 +115,16 @@ public class Profilo extends Fragment {
     }
 
     private void refreshButton() {
+        if(getContext() == null) return;
         loggedUser = controller.getLoggedUser();
         String buttonText;
-        if (isFollowing())
+        if (isFollowing()) {
             buttonText = "following";
-        else
+            binding.buttonFollow.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.neutral_light));
+        } else {
+            binding.buttonFollow.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.red_dark));
             buttonText = "follow";
+        }
         if (userProfile.username.equals(loggedUser.username))
             binding.buttonFollow.setVisibility(View.GONE);
         binding.buttonFollow.setText(buttonText);
