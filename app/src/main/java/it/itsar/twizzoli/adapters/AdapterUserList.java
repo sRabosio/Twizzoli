@@ -16,6 +16,7 @@ import java.util.List;
 
 import it.itsar.twizzoli.ProfileActivity;
 import it.itsar.twizzoli.R;
+import it.itsar.twizzoli.databinding.RowUsersBinding;
 import it.itsar.twizzoli.models.User;
 
 public class AdapterUserList extends RecyclerView.Adapter<AdapterUserList.ViewHolderUserList> {
@@ -32,9 +33,8 @@ public class AdapterUserList extends RecyclerView.Adapter<AdapterUserList.ViewHo
     @NonNull
     @Override
     public ViewHolderUserList onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.row_users, viewGroup, false);
-        return new ViewHolderUserList(view);
+        RowUsersBinding binding = RowUsersBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false);
+        return new ViewHolderUserList(binding);
     }
 
     @Override
@@ -48,22 +48,15 @@ public class AdapterUserList extends RecyclerView.Adapter<AdapterUserList.ViewHo
     }
 
     static class ViewHolderUserList extends RecyclerView.ViewHolder {
-        private final ImageView avatarIv;
-        private final TextView nNameTv;
-        private final TextView followers;
+        private final RowUsersBinding binding;
 
-        public ViewHolderUserList(@NonNull View itemView) {
-            super(itemView);
-
-            avatarIv = itemView.findViewById(R.id.avatarIv);
-            nNameTv = itemView.findViewById(R.id.nomerow);
-            followers = itemView.findViewById(R.id.followerrow);
+        public ViewHolderUserList(@NonNull RowUsersBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         public void bind(User user) {
-            avatarIv.setImageResource(user.iconId);
-            nNameTv.setText(user.username);
-            followers.setText(String.valueOf(user.getFollowers().size()));
+            binding.setUser(user);
 
             itemView.setOnClickListener(v->{
                 Intent intent = new Intent(itemView.getContext(), ProfileActivity.class);

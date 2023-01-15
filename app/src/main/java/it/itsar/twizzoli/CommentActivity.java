@@ -57,7 +57,7 @@ public class CommentActivity extends AppCompatActivity {
     private void newcomment() {
         if (commentId == null) finish();
         Bundle args = new Bundle();
-        args.putString("parent", commentId);
+        args.putString("parentId", commentId);
         args.putSerializable("adapter", adapterCommentList);
         switchFragment(NewCommentFragment.class, R.id.newcomment, args);
 

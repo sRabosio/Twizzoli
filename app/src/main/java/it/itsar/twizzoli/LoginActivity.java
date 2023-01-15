@@ -16,13 +16,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.List;
 
 import it.itsar.twizzoli.controller.AppController;
-import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.databinding.ActivityMainBinding;
 import it.itsar.twizzoli.models.User;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private final UserRepo userRepo = new UserRepo();
     private Button login;
     private Button registrati;
     private EditText usernameinput;

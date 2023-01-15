@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +21,6 @@ import java.util.List;
 import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.adapters.AdapterPostList;
 import it.itsar.twizzoli.controller.AppController;
-import it.itsar.twizzoli.data.PostRepo;
-import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;
 
 

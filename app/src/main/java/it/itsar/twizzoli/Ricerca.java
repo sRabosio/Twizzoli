@@ -13,7 +13,6 @@ import java.util.Locale;
 
 import it.itsar.twizzoli.adapters.AdapterUserList;
 import it.itsar.twizzoli.controller.AppController;
-import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.fragments.SearchBarFragment;
 import it.itsar.twizzoli.models.User;
 
@@ -21,7 +20,6 @@ public class Ricerca extends AppCompatActivity {
     private final AppController controller = AppController.getInstance();
     private User loggedUser = null;
     private String query = null;
-    private final UserRepo search = new UserRepo();
     private final CollectionReference userRef = FirebaseFirestore.getInstance().collection("users");
     private RecyclerView recyclerView;
     private final AdapterUserList adapterUserList = new AdapterUserList();

@@ -2,20 +2,13 @@ package it.itsar.twizzoli.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.ObservableArrayList;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.jetbrains.annotations.NotNull;
@@ -26,9 +19,6 @@ import java.util.List;
 
 import it.itsar.twizzoli.PostActivity;
 import it.itsar.twizzoli.ProfileActivity;
-import it.itsar.twizzoli.R;
-import it.itsar.twizzoli.data.ResultHandler;
-import it.itsar.twizzoli.data.UserRepo;
 import it.itsar.twizzoli.databinding.FragmentPostBinding;
 import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;

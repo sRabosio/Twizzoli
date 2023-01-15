@@ -14,19 +14,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
 
-import it.itsar.twizzoli.CommentActivity;
 import it.itsar.twizzoli.adapters.AdapterCommentList;
 import it.itsar.twizzoli.controller.AppController;
-import it.itsar.twizzoli.data.CommentRepo;
 import it.itsar.twizzoli.databinding.FragmentNewCommentBinding;
 import it.itsar.twizzoli.models.Comment;
-import it.itsar.twizzoli.models.Content;
-import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;
 
 public class NewCommentFragment extends Fragment {
@@ -65,7 +60,7 @@ public class NewCommentFragment extends Fragment {
         if (args == null) return;
         commentAdapter = (AdapterCommentList) args.getSerializable("adapter");
         parentId = args.getString("parentId");
-
+        if(parentId == null) return;
         Button sendButton = binding.buttonSend;
 
         binding.commentText.setOnFocusChangeListener((v, hasFocus) -> {
