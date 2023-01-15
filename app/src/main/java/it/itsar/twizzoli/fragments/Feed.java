@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.List;
 import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.adapters.AdapterPostList;
 import it.itsar.twizzoli.controller.AppController;
+import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;
 
 
@@ -32,6 +34,8 @@ public class Feed extends Fragment {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference posts = db.collection("post");
     private AdapterPostList adapterPostList = null;
+
+
 
     public Feed() {
         // Required empty public constructor
@@ -75,13 +79,21 @@ public class Feed extends Fragment {
         posts
                 .whereIn("creator", feedQueryParam)
                 .whereEqualTo("parent", false)
-                //TODO: .orderBy("creation_date", Query.Direction.DESCENDING)
                 .limit(50)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) return;
                     task.getResult().getDocuments().get(0).getId();
                     List<DocumentSnapshot> result = task.getResult().getDocuments();
+                    result.sort((e1, e2)->{
+                        Post d1 = e1.toObject(Post.class);
+                        Post d2 = e2.toObject(Post.class);
+                        if(d1 == null || d2 == null) return 0;
+
+                        return (int) (d1.creationDate.getTime() - d2.creationDate.getTime())*-1;
+                    });
+                    if(result.size() > 50)
+                        result = result.subList(0, 50);
                     adapterPostList.getPostList().clear();
                     result.forEach(e->adapterPostList.getPostList().add(e.getId()));
                     adapterPostList.notifyDataSetChanged();
