@@ -72,6 +72,11 @@ public class Feed extends Fragment {
         return inflater.inflate(R.layout.fragment_feed, container, false);
     }
 
+    /*@Override
+    public void onResume() {
+        super.onResume();
+        getFeed();
+    }*/
 
     private void getFeed() {
         List<String> feedQueryParam = new ArrayList<>(loggedUser.getFollowing());
@@ -83,7 +88,6 @@ public class Feed extends Fragment {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) return;
-                    task.getResult().getDocuments().get(0).getId();
                     List<DocumentSnapshot> result = task.getResult().getDocuments();
                     result.sort((e1, e2)->{
                         Post d1 = e1.toObject(Post.class);
