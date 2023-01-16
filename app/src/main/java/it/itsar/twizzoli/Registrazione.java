@@ -100,7 +100,7 @@ public class Registrazione extends AppCompatActivity {
                         intent.putExtra("snackMessage", "registration completed");
                         startActivity(intent);
                     })
-                    .addOnFailureListener(e -> Snackbar.make(v, "" + e.getMessage(), 3000).show());
+                    .addOnFailureListener(e -> Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show());
         }
 
 

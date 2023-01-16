@@ -61,6 +61,6 @@ public class User extends Model implements Serializable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return username.equals(user.username) && email.equals(user.email);
+        return username.equals(user.username) || email.equals(user.email);
     }
 }
