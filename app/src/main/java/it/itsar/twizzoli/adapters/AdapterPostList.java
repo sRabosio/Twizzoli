@@ -69,6 +69,7 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
         }
 
         public void bind(String postId) {
+            binding.title.setMaxLines(2);
             postRef.document(postId).get().addOnSuccessListener(snap -> {
                 Post post = snap.toObject(Post.class);
                 if(post == null) return;

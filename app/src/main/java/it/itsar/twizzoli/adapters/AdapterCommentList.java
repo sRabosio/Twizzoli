@@ -73,6 +73,7 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
         }
 
         public void bind(String commentId) {
+            binding.textContent.setMaxLines(4);
             comRef.document(commentId)
                     .get().addOnSuccessListener(snap -> {
                 Comment comment = snap.toObject(Comment.class);
