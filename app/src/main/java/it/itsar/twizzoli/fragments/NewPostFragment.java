@@ -63,12 +63,6 @@ public class NewPostFragment extends Fragment {
 
             Post post = new Post(title, content, loggedUser.username);
             post.creationDate = new Date();
-            posts.document(post.getId()).get()
-                            .addOnSuccessListener(snap->{
-                                Toast.makeText(getContext(), "You already have a post with this title", Toast.LENGTH_SHORT)
-                                        .show();
-                                adapterPostList.getPostList().add(snap.getId());
-                            });
 
             posts.document(post.getId())
                     .set(post)

@@ -129,6 +129,11 @@ public class Homepage extends AppCompatActivity {
                 .commit();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loggedUserChecks();
+    }
 
     private boolean loggedUserChecks(){
         loggedUser = controller.getLoggedUser();

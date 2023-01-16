@@ -7,14 +7,20 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +40,8 @@ public class Feed extends Fragment {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference posts = db.collection("post");
     private AdapterPostList adapterPostList = null;
-
+    private Snackbar postsSnack;
+    private ListenerRegistration postReg;
 
 
     public Feed() {
@@ -46,13 +53,14 @@ public class Feed extends Fragment {
         super.onCreate(savedInstanceState);
         loggedUser = controller.getLoggedUser();
 
+
     }
 
 
-    private void arguments(){
-        if(getArguments() == null) return;
+    private void arguments() {
+        if (getArguments() == null) return;
         adapterPostList = (AdapterPostList) getArguments().getSerializable("adapter");
-        if(adapterPostList == null) return;
+        if (adapterPostList == null) return;
         getFeed();
         postList.setAdapter(adapterPostList);
     }
@@ -60,7 +68,7 @@ public class Feed extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(loggedUser == null) return;
+        if (loggedUser == null) return;
         postList = view.findViewById(R.id.post_list);
         arguments();
     }
@@ -72,35 +80,36 @@ public class Feed extends Fragment {
         return inflater.inflate(R.layout.fragment_feed, container, false);
     }
 
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        getFeed();
-    }*/
-
     private void getFeed() {
         List<String> feedQueryParam = new ArrayList<>(loggedUser.getFollowing());
         feedQueryParam.add(loggedUser.username);
-        posts
+        postReg = posts
                 .whereIn("creator", feedQueryParam)
                 .whereEqualTo("parent", false)
-                .limit(50)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) return;
-                    List<DocumentSnapshot> result = task.getResult().getDocuments();
-                    result.sort((e1, e2)->{
+                .addSnapshotListener((value, error) -> {
+                    if(value == null) return;
+                    List<DocumentSnapshot> result = value.getDocuments();
+                    result.sort((e1, e2) -> {
                         Post d1 = e1.toObject(Post.class);
                         Post d2 = e2.toObject(Post.class);
-                        if(d1 == null || d2 == null) return 0;
+                        if (d1 == null || d2 == null) return 0;
 
-                        return (int) (d1.creationDate.getTime() - d2.creationDate.getTime())*-1;
+                        return (int) (d1.creationDate.getTime() - d2.creationDate.getTime()) * -1;
                     });
-                    if(result.size() > 50)
+                    if (result.size() > 50)
                         result = result.subList(0, 50);
                     adapterPostList.getPostList().clear();
-                    result.forEach(e->adapterPostList.getPostList().add(e.getId()));
+                    result.forEach(e -> adapterPostList.getPostList().add(e.getId()));
                     adapterPostList.notifyDataSetChanged();
                 });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(postsSnack != null)
+            postsSnack.dismiss();
+        if(postReg != null)
+            postReg.remove();
     }
 }

@@ -8,13 +8,18 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.ObservableInt;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
@@ -34,6 +39,7 @@ public class Profilo extends Fragment {
     private User userProfile = null;
     private ObservableInt followerCount = null;
     private AdapterPostList adapterPostList = null;
+
 
     public Profilo() {
 
@@ -103,6 +109,13 @@ public class Profilo extends Fragment {
 
     private boolean isFollowing() {
         return loggedUser.getFollowing().contains(userProfile.username);
+    }
+
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     private void refreshButton() {
