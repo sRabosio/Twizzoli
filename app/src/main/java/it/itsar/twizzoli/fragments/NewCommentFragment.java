@@ -96,7 +96,8 @@ public class NewCommentFragment extends Fragment {
             binding.commentText.setText("");
             binding.commentText.clearFocus();
             comments.add(comment).addOnSuccessListener(snap->{
-                commentAdapter.getComments().add(snap.getId());
+                comment.id = snap.getId();
+                commentAdapter.getComments().add(comment);
                 commentAdapter.notifyDataSetChanged();
             });
 

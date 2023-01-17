@@ -7,11 +7,9 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.itsar.twizzoli.adapters.AdapterCommentList;
@@ -28,7 +26,7 @@ public class CommentActivity extends AppCompatActivity {
     private final AppController controller = AppController.getInstance();
     private User loggedUser = null;
     private ActivityCommentBinding binding;
-    private String commentId = null;
+    private Comment comment = null;
     private User creator;
     private final CollectionReference commRef = FirebaseFirestore.getInstance().collection("post");
     private final AdapterCommentList adapterCommentList = new AdapterCommentList();
@@ -42,11 +40,11 @@ public class CommentActivity extends AppCompatActivity {
         loggedUser = controller.getLoggedUser();
         if (loggedUser == null) finish();
 
-        commentId = getIntent().getStringExtra("commentId");
+        comment = (Comment) getIntent().getSerializableExtra("comment");
         creator = (User) getIntent().getSerializableExtra("creator");
         binding.subcomments.setAdapter(adapterCommentList);
 
-        if (creator == null || commentId == null) return;
+        if (creator == null || comment == null) return;
         mainComment();
         commentList();
         newcomment();
@@ -55,34 +53,32 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     private void newcomment() {
-        if (commentId == null) finish();
+        if (comment == null) finish();
         Bundle args = new Bundle();
-        args.putString("parentId", commentId);
+        args.putString("parentId", comment.id);
         args.putSerializable("adapter", adapterCommentList);
         switchFragment(NewCommentFragment.class, R.id.newcomment, args);
 
 
     }
 
+    //TODO: sort by date
     private void commentList() {
-        commRef.whereEqualTo("parent", commentId)
+        commRef.whereEqualTo("parent", comment.id)
                 .get().addOnSuccessListener(snap -> {
-                    List<DocumentSnapshot> comments = snap.getDocuments();
-                    comments.forEach(e -> adapterCommentList.getComments().add(e.getId()));
+                    adapterCommentList.getComments().clear();
+                    List<Comment> comments = snap.toObjects(Comment.class);
+                    adapterCommentList.getComments().addAll(comments);
                     adapterCommentList.notifyDataSetChanged();
                 });
     }
 
     private void mainComment() {
-        commRef.document(commentId).get()
-                .addOnSuccessListener(snap->{
-                    Comment comment = snap.toObject(Comment.class);
-                    if(comment == null) return;
-                    Bundle args = new Bundle();
-                    args.putSerializable("comment", comment);
-                    args.putSerializable("creator", creator);
-                    switchFragment(CommentFragment.class, R.id.main_comment, args);
-                });
+        if (comment == null || creator == null) return;
+        Bundle args = new Bundle();
+        args.putSerializable("comment", comment);
+        args.putSerializable("creator", creator);
+        switchFragment(CommentFragment.class, R.id.main_comment, args);
     }
 
     private <T extends Fragment> void switchFragment(Class<T> fragClass, int fragLayout, Bundle fragArgs) {

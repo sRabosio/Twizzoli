@@ -88,18 +88,18 @@ public class Feed extends Fragment {
                 .whereEqualTo("parent", false)
                 .addSnapshotListener((value, error) -> {
                     if(value == null) return;
-                    List<DocumentSnapshot> result = value.getDocuments();
-                    result.sort((e1, e2) -> {
-                        Post d1 = e1.toObject(Post.class);
-                        Post d2 = e2.toObject(Post.class);
-                        if (d1 == null || d2 == null) return 0;
+                    List<Post> result = value.toObjects(Post.class);
+                    if(result.isEmpty()) return;
 
-                        return (int) (d1.creationDate.getTime() - d2.creationDate.getTime()) * -1;
+                    result.sort((e1, e2) -> {
+                        if (e1 == null || e2 == null) return 0;
+
+                        return (int) (e1.creationDate.getTime() - e2.creationDate.getTime()) * -1;
                     });
                     if (result.size() > 50)
                         result = result.subList(0, 50);
                     adapterPostList.getPostList().clear();
-                    result.forEach(e -> adapterPostList.getPostList().add(e.getId()));
+                    adapterPostList.getPostList().addAll(result);
                     adapterPostList.notifyDataSetChanged();
                 });
     }

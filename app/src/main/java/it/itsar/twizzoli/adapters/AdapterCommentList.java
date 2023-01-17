@@ -23,9 +23,9 @@ import it.itsar.twizzoli.models.User;
 
 public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.ViewHolderCommentList> implements Serializable {
 
-    private final ArrayList<String> comments = new ArrayList<>();
+    private final ArrayList<Comment> comments = new ArrayList<>();
 
-    public AdapterCommentList(List<String> comments) {
+    public AdapterCommentList(List<Comment> comments) {
         this.comments.addAll(comments);
     }
 
@@ -41,7 +41,7 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
         return new ViewHolderCommentList(binding);
     }
 
-    public ArrayList<String> getComments() {
+    public ArrayList<Comment> getComments() {
         return comments;
     }
 
@@ -72,22 +72,14 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
             this.binding = binding;
         }
 
-        public void bind(String commentId) {
+        public void bind(Comment comment) {
             binding.textContent.setMaxLines(4);
-            comRef.document(commentId)
-                    .get().addOnSuccessListener(snap -> {
-                Comment comment = snap.toObject(Comment.class);
-                if (comment == null) return;
                 binding.setComment(comment);
-
-                setData(comment, snap.getId());
-
-
-            });
+                setData(comment);
 
         }
 
-        private void setData(Comment comment, String commentId) {
+        private void setData(Comment comment) {
             userRef.document(comment.creator)
                     .get()
                     .addOnSuccessListener(snap -> {
@@ -104,7 +96,7 @@ public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.
                         binding.getRoot().setOnClickListener(view -> {
                             Context context = view.getContext();
                             Intent intent = new Intent(context, CommentActivity.class);
-                            intent.putExtra("commentId", commentId);
+                            intent.putExtra("comment", comment);
                             intent.putExtra("creator", creator);
                             context.startActivity(intent);
                         });

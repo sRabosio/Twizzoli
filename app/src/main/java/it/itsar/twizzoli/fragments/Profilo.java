@@ -27,6 +27,7 @@ import it.itsar.twizzoli.R;
 import it.itsar.twizzoli.adapters.AdapterPostList;
 import it.itsar.twizzoli.controller.AppController;
 import it.itsar.twizzoli.databinding.FragmentProfiloBinding;
+import it.itsar.twizzoli.models.Post;
 import it.itsar.twizzoli.models.User;
 
 public class Profilo extends Fragment {
@@ -82,9 +83,9 @@ public class Profilo extends Fragment {
                 .whereEqualTo("creator", userProfile.username)
                 .whereEqualTo("parent", false)
                 .get().addOnSuccessListener(snap->{
-                    List<DocumentSnapshot> result = snap.getDocuments();
+                    List<Post> result = snap.toObjects(Post.class);
                     adapterPostList.getPostList().clear();
-                    result.forEach(e->adapterPostList.getPostList().add(e.getId()));
+                    adapterPostList.getPostList().addAll(result);
                     adapterPostList.notifyDataSetChanged();
                 });
     }

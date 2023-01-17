@@ -28,7 +28,6 @@ public class PostActivity extends AppCompatActivity {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference postCollectionRef = db.collection("post");
     private Post post = null;
-    private String postId;
     private User creator = null;
     private ActivityPostBinding binding;
     private final AdapterCommentList adapterCommentList = new AdapterCommentList();
@@ -37,7 +36,7 @@ public class PostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-        postId = getIntent().getStringExtra("postId");
+        post = (Post) getIntent().getSerializableExtra("post");
         creator = (User) getIntent().getSerializableExtra("creator");
         if(!checkPost()) return;
         binding = DataBindingUtil.setContentView(this, R.layout.activity_post);
@@ -46,7 +45,7 @@ public class PostActivity extends AppCompatActivity {
         binding.comments.setAdapter(adapterCommentList);
         fetchComments();
         Bundle newPostArgs = new Bundle();
-        newPostArgs.putString("parentId", postId);
+        newPostArgs.putString("parentId", post.id);
         newPostArgs.putSerializable("adapter", adapterCommentList);
         switchFragment(NewCommentFragment.class, R.id.newcomment, newPostArgs);
         switchFragment(SearchBarFragment.class, R.id.appbar, null);
@@ -55,7 +54,7 @@ public class PostActivity extends AppCompatActivity {
 
 
     private boolean checkPost(){
-        if(postId == null || creator == null)
+        if(post == null || creator == null)
         {
             Log.d("ERROR IN POST ACTIVITY", "NO POST FOUND");
             finish();
@@ -65,18 +64,18 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void fetchComments(){
-        postCollectionRef.whereEqualTo("parent", postId)
+        postCollectionRef.whereEqualTo("parent", post.id)
                         .get().addOnSuccessListener(snap->{
-                    List<DocumentSnapshot> comments = snap.getDocuments();
+                    List<Comment> comments = snap.toObjects(Comment.class);
                     adapterCommentList.getComments().clear();
-                    comments.forEach(e->adapterCommentList.getComments().add(e.getId()));
+                    adapterCommentList.getComments().addAll(comments);
                     adapterCommentList.notifyDataSetChanged();
                 });
     }
 
     private void bindPost() {
         Bundle bundle = new Bundle();
-        bundle.putString("postId", postId);
+        bundle.putSerializable("post", post);
         bundle.putSerializable("creator", creator);
         switchFragment(PostFragment.class, R.id.post, bundle);
     }

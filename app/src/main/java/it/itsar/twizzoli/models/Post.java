@@ -30,8 +30,4 @@ public class Post extends Content{
     public void setTitle(@NonNull String title) {
         this.title = title;
     }
-
-    public String getId(){
-        return creator+">"+title.replace(" ", "_").toLowerCase(Locale.ROOT);
-    }
 }

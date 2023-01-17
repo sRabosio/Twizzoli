@@ -25,9 +25,9 @@ import it.itsar.twizzoli.models.User;
 
 public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHolderPostList> implements Serializable {
 
-    private final ArrayList<String> postList = new ArrayList<>();
+    private final ArrayList<Post> postList = new ArrayList<>();
 
-    public AdapterPostList(List<String> postList) {
+    public AdapterPostList(List<Post> postList) {
         this.postList.addAll(postList);
     }
 
@@ -48,7 +48,7 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
         holder.bind(postList.get(position));
     }
 
-    public ArrayList<String> getPostList() {
+    public ArrayList<Post> getPostList() {
         return postList;
     }
 
@@ -68,20 +68,15 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
             this.binding = binding;
         }
 
-        public void bind(String postId) {
+        public void bind(Post post) {
             binding.title.setMaxLines(2);
-            postRef.document(postId).get().addOnSuccessListener(snap -> {
-                Post post = snap.toObject(Post.class);
-                if(post == null) return;
-                binding.textContent.setMaxLines(3);
-                binding.setPost(post);
-
-                setUserData(post, postId);
-            });
+            binding.setPost(post);
+            setUserData(post);
+            binding.textContent.setMaxLines(3);
 
         }
 
-        private void setUserData(Post post, String id) {
+        private void setUserData(Post post) {
             userRef.document(post.creator).get()
                     .addOnSuccessListener(snap -> {
                         User user = snap.toObject(User.class);
@@ -96,7 +91,7 @@ public class AdapterPostList extends RecyclerView.Adapter<AdapterPostList.ViewHo
                         binding.containerPost.setOnClickListener(view -> {
                             Context context = view.getContext();
                             Intent intent = new Intent(context, PostActivity.class);
-                            intent.putExtra("postId", id);
+                            intent.putExtra("post", post);
                             intent.putExtra("creator", user);
                             context.startActivity(intent);
                         });

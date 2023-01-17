@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import it.itsar.twizzoli.ProfileActivity;
@@ -23,7 +22,7 @@ public class PostFragment extends Fragment {
 
     private FragmentPostBinding binding;
     private User creator = null;
-    private String postId = null;
+    private Post post = null;
     private final CollectionReference postsRef = FirebaseFirestore.getInstance().collection("post");
 
     public PostFragment() {
@@ -47,19 +46,11 @@ public class PostFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(getArguments() == null) return;
-        postId = getArguments().getString("postId");
+        post = (Post) getArguments().getSerializable("post");
         creator = (User) getArguments().getSerializable("creator");
-        if(creator == null || postId == null) return;
+        if(creator == null || post == null) return;
         binding.setUser(creator);
-
-
-
-        postsRef.document(postId).get().addOnSuccessListener(snap->{
-
-            Post result = snap.toObject(Post.class);
-            if(result == null) return;
-            binding.setPost(result);
-        });
+        binding.setPost(post);
 
         infoContainer();
     }

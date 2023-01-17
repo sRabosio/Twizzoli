@@ -64,8 +64,7 @@ public class NewPostFragment extends Fragment {
             Post post = new Post(title, content, loggedUser.username);
             post.creationDate = new Date();
 
-            posts.document(post.getId())
-                    .set(post)
+            posts.add(post)
                     .addOnSuccessListener(snap->{
                         Toast.makeText(getContext(), "Post created succesfully", Toast.LENGTH_SHORT)
                                 .show();
