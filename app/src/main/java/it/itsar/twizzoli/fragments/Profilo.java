@@ -19,6 +19,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
@@ -82,6 +83,8 @@ public class Profilo extends Fragment {
         postRef
                 .whereEqualTo("creator", userProfile.username)
                 .whereEqualTo("parent", false)
+                .orderBy("creationDate", Query.Direction.DESCENDING)
+                .limit(50)
                 .get().addOnSuccessListener(snap->{
                     List<Post> result = snap.toObjects(Post.class);
                     adapterPostList.getPostList().clear();

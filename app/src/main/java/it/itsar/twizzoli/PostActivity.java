@@ -11,6 +11,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class PostActivity extends AppCompatActivity {
     private final CollectionReference postCollectionRef = db.collection("post");
     private Post post = null;
     private User creator = null;
+    private ListenerRegistration commListener;
     private ActivityPostBinding binding;
     private final AdapterCommentList adapterCommentList = new AdapterCommentList();
 
@@ -64,13 +67,23 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void fetchComments(){
-        postCollectionRef.whereEqualTo("parent", post.id)
-                        .get().addOnSuccessListener(snap->{
+        commListener = postCollectionRef.whereEqualTo("parent", post.id)
+                .orderBy("creationDate", Query.Direction.DESCENDING)
+                .limit(50)
+                .addSnapshotListener((snap, err)->{
+                    if(err != null || snap == null) return;
                     List<Comment> comments = snap.toObjects(Comment.class);
                     adapterCommentList.getComments().clear();
                     adapterCommentList.getComments().addAll(comments);
                     adapterCommentList.notifyDataSetChanged();
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(commListener != null)
+            commListener.remove();
     }
 
     private void bindPost() {

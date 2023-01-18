@@ -86,18 +86,12 @@ public class Feed extends Fragment {
         postReg = posts
                 .whereIn("creator", feedQueryParam)
                 .whereEqualTo("parent", false)
+                .orderBy("creationDate", Query.Direction.DESCENDING)
+                .limit(50)
                 .addSnapshotListener((value, error) -> {
                     if(value == null) return;
                     List<Post> result = value.toObjects(Post.class);
                     if(result.isEmpty()) return;
-
-                    result.sort((e1, e2) -> {
-                        if (e1 == null || e2 == null) return 0;
-
-                        return (int) (e1.creationDate.getTime() - e2.creationDate.getTime()) * -1;
-                    });
-                    if (result.size() > 50)
-                        result = result.subList(0, 50);
                     adapterPostList.getPostList().clear();
                     adapterPostList.getPostList().addAll(result);
                     adapterPostList.notifyDataSetChanged();

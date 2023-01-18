@@ -9,6 +9,8 @@ import android.os.Bundle;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 
 import java.util.List;
 
@@ -28,6 +30,7 @@ public class CommentActivity extends AppCompatActivity {
     private ActivityCommentBinding binding;
     private Comment comment = null;
     private User creator;
+    private ListenerRegistration commListener;
     private final CollectionReference commRef = FirebaseFirestore.getInstance().collection("post");
     private final AdapterCommentList adapterCommentList = new AdapterCommentList();
 
@@ -64,13 +67,23 @@ public class CommentActivity extends AppCompatActivity {
 
     //TODO: sort by date
     private void commentList() {
-        commRef.whereEqualTo("parent", comment.id)
-                .get().addOnSuccessListener(snap -> {
+        commListener = commRef.whereEqualTo("parent", comment.id)
+                .orderBy("creationDate", Query.Direction.DESCENDING)
+                .limit(50)
+                .addSnapshotListener((snap, err) -> {
+                    if(err != null || snap == null) return;
                     adapterCommentList.getComments().clear();
                     List<Comment> comments = snap.toObjects(Comment.class);
                     adapterCommentList.getComments().addAll(comments);
                     adapterCommentList.notifyDataSetChanged();
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(commListener != null)
+            commListener.remove();
     }
 
     private void mainComment() {
