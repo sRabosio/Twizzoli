@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Locale;
 
 public class Post extends Content{
-    @NotNull
     public String title;
     public int[] images;
     public boolean parent = false;

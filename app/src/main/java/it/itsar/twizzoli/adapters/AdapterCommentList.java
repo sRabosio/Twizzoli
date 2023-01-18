@@ -21,7 +21,7 @@ import it.itsar.twizzoli.databinding.FragmentCommentBinding;
 import it.itsar.twizzoli.models.Comment;
 import it.itsar.twizzoli.models.User;
 
-//TODO: rifare gli adapter!!!!
+
 
 public class AdapterCommentList extends RecyclerView.Adapter<AdapterCommentList.ViewHolderCommentList> implements Serializable {
 
